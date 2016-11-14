@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-teaching-and-programming" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/13/teaching-and-programming/" class="article-date">
+  <time datetime="2016-11-13T18:51:14.455Z" itemprop="datePublished">2016-11-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Opposing-Forces"><a href="#Opposing-Forces" class="headerlink" title="Opposing Forces"></a>Opposing Forces</h2><p>I’ve been thinking a bit about the teaching of programming. Like any technically intense subject, there’s a necessary balance between two (somewhat) opposing forces. These are:</p>
+<ul>
+<li>Dumping<sup>1</sup> as much information as possible on the students, so that they can successfully navigate the labyrinthe that is whatever topic you’re trying to teach them.</li>
+<li>Actually effectively teaching them anything.</li>
+</ul>
+<p>The important point here is that, while you can get a bunch of students to memorize a bunch code snippets, the difference between <code>call()</code> and <code>apply()</code> and <code>bind()</code>, or all of the standard methods on the <code>String</code> prototype<sup>2</sup>, this does NOT constitute teaching. In this post, I’m gonna examine the ways in which we can first ineffectively and then (hopefully!) effectively hit both marks.</p>
+<h2 id="How-Not-To-Do-It"><a href="#How-Not-To-Do-It" class="headerlink" title="How Not To Do It"></a>How Not To Do It</h2><h3 id="A-K-A-the-Look-At-What-I-Can-Do-method"><a href="#A-K-A-the-Look-At-What-I-Can-Do-method" class="headerlink" title="A.K.A., the Look At What I Can Do method"></a>A.K.A., the <em>Look At What I Can Do</em> method</h3><p>There’s an old, famous adage in teaching: <em>Show, don’t tell</em>. Basically, teachers shouldn’t just tell students that an idea is true, but rather demonstrate it. Obviously, there are limits to this. For example, all of euclidean geometry is based off of the unprovable assumption that, simply put, a point is a point, a line is a line, and a plane is a plane<sup>3</sup>. </p>
+<p>Unfortunately, a lot of ineffective teaching stems from the assumption that because you tell students something, they’ll learn it. I could go into a completely separate tangent about Howard Gardener’s multiple intelligences, and how verbal learning is only one of at least seven separate styles, but suffice it to say that this is almost never an effective pedagogical method.</p>
+<p>What’s worse, this lack of absorption is often compounded by severe information overload. Here’s an example: </p>
+<ol>
+<li>You’re teaching JavaScript, and you have a class of completely beginner programmers. They know how2computer, but they’ve never touched code in their lives.</li>
+<li>You show them the following script:<br><pre><br>var myName = ‘Dave’;<br>myName = prompt(‘Enter a name please.’);<br>function sayHi(n){<br>alert(‘Hello ‘+n+’!’);<br>}<br>sayHi(myName);<br></pre><br><small>Fig 1: A “simple” code example</small></li>
+</ol>
+<p>Simple, right? It just asks for their name and then says hello! Great way to introduce a simple bit of JavaScript, right?</p>
+<p><em>Wrong!</em> Remember, you’re (most likely) looking at this from the perspective of a relatively seasoned programmer. You know what we mean when we have a word followed by parentheses (i.e., <code>myFunction(thing)</code>). You know what variables are. So you look at this example and automatically know what it does. But imagine someone who’s never seen a programming function, or worse, has yet to go through high-school algebra (i.e., does not know what a variable is). For that person, the concept of changing variables<sup>4</sup> may be still foreign to them. </p>
+<p>This is an example (albeit a comparatively simple one) of a case of telling and not showing. In this case, our hypothetical teacher (you) assumes that because you already have the knowledge, it’ll be easy for your students to learn. The teacher fails to make the cognitive prediction between amount of knowledge that the students need to gain before they’re competent and the cognitive “leaps” that they can effectively take to get to that knowledge</p>
+<p>Worse still, the student may not realized that they haven’t learned the material effectively until too late (i.e., the exam, or when they need to use this knowledge in a real-world scenario). This stems from the copy-and-paste programming education that this “tell” style of teaching lends itself to. Imagine that you’re a student in the above class. You’re told to copy and paste the above code, but you can (for now) change whatever’s between the quotes. You write: </p>
+<p><pre><br>var myName = ‘Bob’;<br>myName = prompt(‘Who are you?!’);<br>function sayHi(n){<br>    alert(‘Greetings, ‘+n+’!’);<br>}<br>sayHi(myName);<br></pre><br><small>Fig 2: The student writes some code</small></p>
+<p>So you run your code, and hey, it works! It says something different now, so that must mean you know what you’re doing. Right? </p>
+<p>Well, no. It means you’ve copied some code directly. While this is fine later on (hello, <a href="stackoverflow.com">Stack Overflow</a>), this doesn’t teach you anything except how to type. Your teacher introduced at least 7 different concepts here<sup>5</sup>. Because these are relatively fundamental concepts, your teacher assumed that they’d be basal enough that anyone would either know them, or immediately “get” them.</p>
+<p>Instead, we need to ask what the most fundamental pieces of these scripts are, and how we can break them down into (still functioning!) pieces that teach only a few concepts at a time.</p>
+<h2 id="The-Pillars-of-Programming"><a href="#The-Pillars-of-Programming" class="headerlink" title="The Pillars of Programming"></a>The Pillars of Programming</h2><h3 id="A-K-A-What’s-Actually-Important"><a href="#A-K-A-What’s-Actually-Important" class="headerlink" title="A.K.A., What’s Actually Important"></a>A.K.A., What’s Actually Important</h3><p>So what are these fundamental pieces? Well, to answer that, perhaps we’d better start by asking what’s common to all (or at least, most) languages<sup>6</sup>. This’ll help us see what particular pieces we may wrongly assume everyone already knows. Here’s my list (feel free to skip this section if you want):</p>
+<h4 id="Variables-var-myVar-39-chocolate-39"><a href="#Variables-var-myVar-39-chocolate-39" class="headerlink" title="Variables: var myVar = &#39;chocolate&#39;"></a>Variables: <code>var myVar = &#39;chocolate&#39;</code></h4><p>In order to store information, your program needs little boxes in which to store that stuff. Just like you might label a box in your closet “shoes”, or a drawer “silverware”, we might label a ‘box’ in our code as <code>myVar</code>. We could then store in this box your favorite flavor of ice cream. In some languages, different variables can store different kinds of information. Your cardboard shoebox can store shoes, but you’d probably not wanna store last night’s chicken stew in there. </p>
+<h4 id="Arrays-Lists-var-simpsons-39-Lisa-39-39-Bart-39-39-Maggie-39-39-Marge-39-39-Homer-39"><a href="#Arrays-Lists-var-simpsons-39-Lisa-39-39-Bart-39-39-Maggie-39-39-Marge-39-39-Homer-39" class="headerlink" title="Arrays/Lists: var simpsons = [&#39;Lisa&#39;,&#39;Bart&#39;,&#39;Maggie&#39;,&#39;Marge&#39;,&#39;Homer&#39;]"></a>Arrays/Lists: <code>var simpsons = [&#39;Lisa&#39;,&#39;Bart&#39;,&#39;Maggie&#39;,&#39;Marge&#39;,&#39;Homer&#39;]</code></h4><p>Remember how we said different variables can store different stuff? Well, some variables are designed to hold multiple bits of information. In the example above, the variable <code>simpsons</code> stores all of the (human) members of the Simpsons’ family. Just a useful way of organizing information!</p>
+<h4 id="Conditionals-if-condition-then-actionIfTrue-else-actionIfFalse"><a href="#Conditionals-if-condition-then-actionIfTrue-else-actionIfFalse" class="headerlink" title="Conditionals: if(condition) then actionIfTrue else actionIfFalse"></a>Conditionals: <code>if(condition) then actionIfTrue else actionIfFalse</code></h4><p>Programs are famous for making complex decisions. It was, generally, why the first programs are written. <em>Conditionals</em> allow a program to interpret different input and change depending on what that input says. For example, let’s say you write code for a robot to sort your house out. It inspects each container in your house and then puts the appropriate item in there. You might have something like the following</p>
+<p><pre><br>if (box_for_shoes==true) then<br>    Put_Shoes_In<br>else if (box_for_tupperware==true) then<br>    Put_Stew_In<br>else<br>    Yell “I don’t know what to do!”<br>end<br></pre><br><small>Fig 3: Example of a conditional</small><sup>7</sup></p>
+<p>Your robot inspects the box, and first asks “Is it a shoebox?”. If yes, it sticks shoes in there. If no, it then asks if the container is tupperware. If so, it sticks stew in there. Finally, if neither of these is true, it screams at you in frustration. </p>
+<h4 id="Loops-while-thing-is-true-then-do-something"><a href="#Loops-while-thing-is-true-then-do-something" class="headerlink" title="Loops: while (thing is true) then do something"></a>Loops: <code>while (thing is true) then do something</code></h4><p>Imagine your house-sorting robot needs to sort 1000 boxes (you really need to do something about your boxes, dude). You <em>could</em> write the above conditional 1000 times. Or, you could not drive yourself completely insane, and use a loop! Note that, for the example below, we’re pretending that “<code>sort_a_box</code>“ just tells the robot to, well, sort that box.</p>
+<p><pre><br>var num_boxes = 1000<br>while (num_boxes&gt;0) do<br>    sort_a_box<br>    num_boxes = num_boxes - 1<br>end<br></pre><br><small>Fig 4: Example of a <code>while()</code> loop</small></p>
+<p>So we start out with 1000 boxes. Then we have a loop, where each time it asks “Is the number of boxes greater than zero?” If so, it continues. Otherwise, it stops. Finally, we subtract 1 from the number of boxes, so that our robot essentially ticks one box off as being ‘done’ each time. Note that there’s no “false” condition for this loop: there’s no <code>while (thing is true) then do_something otherwise do_other_thing</code></p>
+<p>Another incredibly useful type of loop is the <code>for</code> loop. This loop basically runs a set number of times. So if you wanted to say “Hi!” 10 times, you could do:</p>
+<p><pre><br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br></pre><br><small>Fig 5: Code repetition</small></p>
+<p>Pretty repetitive, right? Alternatively, you could do the following:</p>
+<p><pre><br> var i = 0;<br> for(i,i<10,i+=1) do="" say="" "hi!"="" end="" <="" pre=""><br><small>Fig 6: <code>for()</code> Loop</small></10,i+=1)></pre></p>
+<p>So much more compact! This loop tells us to start by making a variable named <code>i</code>, and setting it to zero. We then start our loop. During each iteration of the loop, we look at <code>i</code> and ask whether it’s still less than 10. If it is, we increment <code>i</code> by one and do another iteration. Otherwise, we stop.</p>
+<h4 id="Functions-Methods-function-myFunc-name-do-say-quot-Hello-quot-name-endFunc"><a href="#Functions-Methods-function-myFunc-name-do-say-quot-Hello-quot-name-endFunc" class="headerlink" title="Functions/Methods: function myFunc(name) do say &quot;Hello, &quot;+name endFunc"></a>Functions/Methods: <code>function myFunc(name) do say &quot;Hello, &quot;+name endFunc</code></h4><p>Loops are pretty great at making our code more efficient, but what if we have bigger blocks of code that we wanna pass around? Or, worse, what if we don’t know the order in which we want our code to run? This is where functions (also known as <em>methods</em> in some areas) come in. Functions allow us to write blocks of reusable code that we can pass around for different areas of the code to “borrow”.<br>Let’s stick our conditional example from above in a function</p>
+<p><pre><br>function shoe_or_stew(box_for_shoes,box_for_tupperware) do<br>    if (box_for_shoes==true) then<br>        Put_Shoes_In<br>    else if (box_for_tupperware==true) then<br>        Put_Stew_In<br>    else<br>        Yell “I don’t know what to do!”<br>end<br></pre><br><small>Fig 7: My First Function</small></p>
+<p>The bits between the parentheses are called <em>arguments</em>. They basically allow us to pass in information for our function for each ‘run’ of that function. So each time our robot gets a new box, it runs this function. If the value passed in for <code>box_for_shoes</code> is <em>true</em>, then it’s a shoebox. If the value for <code>box_for_tupperware</code> is <em>true</em>, it’s a tupperware container. And if neither is true, yell in frustration. </p>
+<h4 id="Blocks-do-some-stuff-end"><a href="#Blocks-do-some-stuff-end" class="headerlink" title="Blocks: do some_stuff end"></a>Blocks: <code>do some_stuff end</code></h4><p>You may have noticed in the past few examples the words <code>do</code> and <code>end</code>. These sit on the ends of sometjing in programming called a <em>block</em>. Wikipedia defines a “code block [as] a section of code which is grouped together” (<a href="https://en.wikipedia.org/wiki/Block_%28programming%29" target="_blank" rel="external">Wikipedia:Block Programming</a>). We can then do things with those blocks, like use them as the result of a conditional, or the contents of a function.<br>In some languages, the blocks are denoted by curly brackets (<code>{</code> and <code>}</code>).</p>
+<hr>
+<p><small><br><sup>1</sup> I deliberately use the term “dumping” here, for reasons I’ll explain later.</small><br><small><sup>2</sup> Can ya tell what language I’m using here? I’m totally not a JavaScript fanboy or anything. Nope.</small><br><small><sup>3</sup> This is actually not <em>exactly</em> what the postulate says, but it’s close enough.</small><br><small><sup>4</sup> Variable variables?</small><br><small><sup>5</sup> Variables, functions, strings, function arguments, the <code>alert()</code> method, programming blocks (<code>{...}</code>), and calling functions.</small><br><small><sup>6</sup> Of course I mean <em>programming</em> languages here, but interestingly enough, there are common features to spoken/human languages as well that basically allow us to learn other languages. These include things like verbs, nouns, descriptive words, and some sort of system for distinguishing what words play which “role” (i.e., subject vs. object). </small><br><small><sup>7</sup> We would, of course, at some point also want to mention why we use <code>==</code> vs <code>=</code>.<br></small></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="civhdoe1j00011cv2nz29l007" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Code" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/05/Code/" class="article-date">
+  <time datetime="2014-12-06T01:13:58.000Z" itemprop="datePublished">2014-12-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/05/Code/">What Influenced and Inspired Me to Learn Code</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Why-Program"><a href="#Why-Program" class="headerlink" title="Why Program?"></a>Why Program?</h1><h2 id="Of-Screens-and-Stereotypes"><a href="#Of-Screens-and-Stereotypes" class="headerlink" title="Of Screens and Stereotypes"></a>Of Screens and Stereotypes</h2><p>Why be a programmer? Well, before I answer that question, perhaps we should look at why that even is a question. Why do we still need to justify our decisions to sit behind computer screens, presumably wear pocket protectors and thick-rimmed glasses, and speak in nasally voices? Because let’s face it: that’s exactly what the stereotype of ‘the programmer’ has been for decades. My answer to that question is a multiple part one, and it begins with my love of building things back when I was but a wee lad.</p>
+<h2 id="The-History-of-Dave"><a href="#The-History-of-Dave" class="headerlink" title="The History of Dave"></a>The History of Dave</h2><p>I have had many what one might ostensibly call ‘career ideas’ in my school career, but what they’ve all centered around is the desire to construct and to present information to others.<br>As I’ve mentioned, my school career is diverse. In 2009, I graduated from Lafayette college with a degree in biology, which any scientist will tell you has about as little to do with programming (or indeed, math in general) as anything that’s still in the field of ‘science’ possibly could do. Biologists love dealing in fuzzy logic (or fuzzy creatures), and the only math the traditional biologist is ‘comfortable’ with is the relatively tame world of statistics. I mention this because it’ll help me explain later why I translated into programming eventually. I wasn’t the traditional biologist, and I would often observe particular pieces of the natural world – the structure of DNA and its relation to RNA, protein, and even binary code; the ecological interaction of different levels of a trophic web, and the ‘self balancing’ nature of a mature ecosystem, for example. So it was only natural that I started to apply myself to some basic coding techniques to try to emulate these systems. I learned JavaScript, and dug up my old memories of HTML and CSS (I’d pretty much stopped learning anything web-related back when the font tag was still in vogue!).</p>
+<h2 id="Teaching"><a href="#Teaching" class="headerlink" title="Teaching"></a>Teaching</h2><p>Meanwhile, in my non-computer-related life, I took up the pursuit of teaching. I studied at Drexel University, graduating in 2011 with a Masters’ degree in science education at a secondary level. Again, dear reader, you may be wondering “Dave, what the heck? You were just talking about biology vs. programming, and now you’re onto teaching? Get your mind on track!”. But bear with me. My love of understanding how to model natural systems, how to build, and, let’s just face it, programming in general, extended to the world of teaching. It was all very well and good if I could build a website to translate DNA to RNA and protein, but unless the site could explain why this translation worked, it was useless. Paradoxically, this meant designing a program that could both explain the biological, chemical-related world of transcription and translation – mRNA, tRNA, codons, and all those good buzzwords high schoolers hate – and the oft more strict world of programming. Here’s a brief example:<br>1.DNA is a chemical code comprised of differing combinations of A (Adenine), T (Thymine), C (Cytosine), and G (Guanine).<br>2.Its counterpart RNA (the mid-step to conversion into a protein) basically copies that code (think of DNA as the master blueprint, and RNA as the copy of the blueprint taken to the job site).<br>3.But wait, there’s more! Unlike DNA, RNA has no “T” (that’s thymine, folks). Instead, it uses Uracil (U).<br>4.So in a very simple programming exercise, I needed to replace every instance of ‘T’ in the input string with ‘U’.</p>
+<h2 id="So-What"><a href="#So-What" class="headerlink" title="So What?"></a>So What?</h2><p>So in short, I guess what made me want to program was both a love of web design (and hey, let’s face it, the ‘tricks’ you can do with it’) as well as a desire to take advantage of yet another medium to help in the education of science.</p>
+<h2 id="Another-Observation"><a href="#Another-Observation" class="headerlink" title="Another Observation"></a>Another Observation</h2><p>Perhaps not directly related to the question itself, but here’s a bit of an interesting observation: DNA is a full-fledged programming language, in the same way any other programming language is. It’s reactive, in that the ‘programs’ it generates are reactive to their environment (we call these programs “living things”). It is moderately self-correcting, containing error-proofing mechanisms that any programmer should be jealous of. The major two differences stylistically between DNA and, say, JavaScript are:</p>
+<p>DNA is based on a quaternary (four-part) code, while computer programming languages are at some level influencing a binary system.<br>Its development cycle is a bit slow, on the order of centuries, millennia, or eons. Waiting for the next program update to come out is not advised.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/12/05/Code/" data-id="civhdoe1f00001cv2kjcqanhy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/05/Code/">What Influenced and Inspired Me to Learn Code</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 David Newman<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
