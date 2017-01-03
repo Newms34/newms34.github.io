@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mad Science | Dave&#39;s Thoughts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Explorations with Coding
+Contents:
+
+Introduction
+Neural Network
+Lunar Lander Evolution
+Taxonomy Database
+Ecology Simulation
+
+
+Introduction:Recently, I’ve been exploring a lot of biological - and speci">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mad Science">
+<meta property="og:url" content="http://yoursite.com/2017/01/02/Science-1/index.html">
+<meta property="og:site_name" content="Dave's Thoughts">
+<meta property="og:description" content="Explorations with Coding
+Contents:
+
+Introduction
+Neural Network
+Lunar Lander Evolution
+Taxonomy Database
+Ecology Simulation
+
+
+Introduction:Recently, I’ve been exploring a lot of biological - and speci">
+<meta property="og:updated_time" content="2017-01-03T20:26:03.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mad Science">
+<meta name="twitter:description" content="Explorations with Coding
+Contents:
+
+Introduction
+Neural Network
+Lunar Lander Evolution
+Taxonomy Database
+Ecology Simulation
+
+
+Introduction:Recently, I’ve been exploring a lot of biological - and speci">
+  
+    <link rel="alternate" href="/atom.xml" title="Dave&#39;s Thoughts" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dave&#39;s Thoughts</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Musings of a developer, educator, and science enthusiast</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Science-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/02/Science-1/" class="article-date">
+  <time datetime="2017-01-02T22:50:56.000Z" itemprop="datePublished">2017-01-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mad Science
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Explorations-with-Coding"><a href="#Explorations-with-Coding" class="headerlink" title="Explorations with Coding"></a>Explorations with Coding</h1><hr>
+<p>Contents:</p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#neural-network">Neural Network</a></li>
+<li><a href="#lunar-lander-evolution">Lunar Lander Evolution</a></li>
+<li><a href="#taxonomy-database">Taxonomy Database</a></li>
+<li><a href="#ecology-simulation">Ecology Simulation</a></li>
+</ul>
+<hr>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction:"></a>Introduction:</h2><p>Recently, I’ve been exploring a lot of biological - and specifically ecological - concepts via coding. As much of ecology is based on the behavior of large systems, it’s a field that naturally lends itself to modeling by computers. Be it evolutionary development, neurology, or just basic ecology, it’s both relatively easy - and rather interesting - to model various systems via something as simple as vanilla JavaScript. Below, I’ll talk about a few of the projects I’ve been playing with recently.</p>
+<hr>
+<h2 id="Neural-Network"><a href="#Neural-Network" class="headerlink" title="Neural Network:"></a>Neural Network:</h2><p><a href="davebrain.herokuapp.com">Link</a></p>
+<p>According to wikipedia, a neural network is “a computational approach which is based on a large collection of neural units loosely modeling the way a biological brain solves problems with large clusters of biological neurons connected by axons (Wikipedia: Artificial neural network)”.<br>What?<br>Well, put simply, it’s a virtual brain created in a computer. The neurons in the ‘brain’ are, just as in a biological brain, seperate simple subunits, and they’re connected by connections of differing ‘strength’. These differing strengths then determine the path that a particular signal will take through the ‘brain’, much like the neural signal in a real brain.<br>I created a relatively simple neural network simulation in JavaScript and Angular. As with most neural networks, this one needed to have a goal (otherwise, it’ll just sit there and ponder virtual philosophy or something). In this case, the brain attempts to steer a predator organism to catch a prey organism.<br>The neural network also needs to be able to react with its environment. In a biolgoical sense, this’d be like your eyes and ears, and your muscles. The network needs eyes and ears to get its current state, and muscles to adjust its state. In the case of my simulation, I have a pair of distance sensors which simply read the distance to the target, and a set of out ‘states’ that move the organism up, down, left, or right.<br>One interesting facet of this experiment is that, besides the initial goal and input/output of the organism, the initial network is not ‘programmable’. Instead, the network attempts to program itself, obeying the following rules:</p>
+<ul>
+<li><p>The network runs until one of five conditions are met:</p>
+<ul>
+<li>The network runs out of time. This is essentially starvation, in a biological sense</li>
+<li>The network leaves the play area. This is a predator wandering out of its prey area</li>
+<li>The network has no active nodes. This constitutes random brain death.</li>
+<li>The network has an overwhelming majority of active nodes. This constitutes something like a seizure</li>
+<li>The organism successfully catches the prey item.</li>
+</ul>
+</li>
+<li><p>Each run, the network gets a score, based on two parameters (with lower being better):</p>
+<ul>
+<li>The final distance to the prey item</li>
+<li>The amount of time taken</li>
+</ul>
+</li>
+<li><p>During each run, the paths taken are recorded. At the end of a run, if the current score is better than a moving average, that path is strengthened. If the current score is worse, the path is weakened. </p>
+</li>
+</ul>
+<p>Over time, these relatively simple rules produce a learned behavior. Interestingly, the more nodes you have the better (as would be expected).</p>
+<hr>
+<h2 id="Lunar-Lander-Evolution"><a href="#Lunar-Lander-Evolution" class="headerlink" title="Lunar Lander Evolution"></a>Lunar Lander Evolution</h2><p><a href="https://newms34.github.io/Lunar-Lander-Evolution-Sim/" target="_blank" rel="external">Link</a></p>
+<p><em>Note: The title of the above page refers to this as a neural network. It’s not!</em></p>
+<p>One interesting biological simulation that can be done with code is that of simulated evolution. By giving some sort of ‘survival’ conditions, and a pseudo-randomly mutating spaceship with its own genome, we can produce some basic evolutionary trends.<br>In this example, I’ve created something similar to those ubiquitous lunar lander games that you (used to?) see everywhere: you land on some object with your little spacecraft. This time, however, you have absolutely no control over the spacecraft. Instead, two spacecrafts are generated, each with its own assortment of thrusters, each of which in turn has its own start time, end time, angle, and power settings.<br>Each generation, two spacecraft exist. Except for the initial condition, one of these is an older, ‘parent’ spacecraft, and the other is a mutation off of that parent. The spaceships again have the goal of reaching the target object (the ‘moon’), but this time control is given by an artificial genome that controls the number and stats of each engine.<br>After each generation is complete - i.e., after either one spaceship has landed, one has left the play area, or one has sat with no engines firing for more than 20 seconds - the scores of both spaceships is determined as, again, a combination of distance and time taken. The spaceship with the better score is kept, and the worse-scoring spaceship is discarded. The better spaceship is then duplicated, with a very small chance of mutations. This repeats until the user gets sick of staring at a bunch of circles moving around.<br>Some interesting observations about the behavior of this system:</p>
+<ul>
+<li>Like the Neural Network simulation above, this simulation is not explicitly programmed. That is, while there is ostensibly a success condition (and multiple failure ones!), the spaceship itself doesn’t actually <em>know</em> about this condition. Instead, each generation is rated as an isolated event, and only the emergent behavior of multiple generations leads to any changes.</li>
+<li>This, in turn, means that you might observe very little (if any!) progress in the first 30-60 generations or so. This actually makes complete sense, biologically, and is an example of the late Stephen Jay Gould’s <a href="https://en.wikipedia.org/wiki/Punctuated_equilibrium" target="_blank" rel="external">Punctuated Equilibrium</a>, whereby evolution generally occurs very slowly except for the occasional sudden burst of progress. For example, while life is generally agreed to have appeared 3600 million years ago, it took until about 7-800 million years ago (2800 years at least!) for life to figure out that bunching multiple cells together was a good idea. Pretty soon after that, however, we get an enormous number of diverse new evolutionary experiments as part of the Ediacaran fauna and the famous ‘Cambrian Explosion’.</li>
+<li>The simulation may reach a plateau, beyond which very little if any improvement occurs. This makes a lot of sense too, as while natural selection is goal-driven - that is, better organisms survive more - evolution itself really isn’t. We might refer to pre-avian dinosauria as trying to ‘figure out’ how to fly, for example, but this is really a combination of a colloquialism and hindsight: We can see that, over time, evolutionary pressures were driving certain organisms towards developing flight. However, neither the birds in this example nor the spaceships in this simulation are individually striving towards any particular goal.</li>
+</ul>
+<hr>
+<h2 id="Taxonomy-Database"><a href="#Taxonomy-Database" class="headerlink" title="Taxonomy Database"></a>Taxonomy Database</h2><p><a href="davetaxonomy.herokuapp.com">Link</a></p>
+<p>This example is perhaps the simplest of the bunch, and is still somewhat a work-in-progress. It’s basically just a taxonomy database. Current features:</p>
+<ul>
+<li>Add a taxon by entering its info in the box.</li>
+<li>Remove a taxon by going to davetaxonomy.herokuapp.com/remove/ plus the name of your taxon. So to remove a taxon called ‘myTaxa’, you’d go to davetaxonomy.herokuapp.com/remove/myTaxa. </li>
+<li>Draw a tree by picking a taxon and then clicking the ‘draw tree’ button.</li>
+<li>Get info on any particular taxon by going to davetaxonomy.herokuapp.com/info/ plus the name of your taxon. Case sensitive. <a href="davetaxonomy.herokuapp.com/info/Bilateria">Example for Bilateria</a></li>
+</ul>
+<p>Upcoming features: </p>
+<ul>
+<li>Right now, you can only delete taxa via a specific url (davetaxonomy.herokuapp.com/remove/&lt;nameOfTaxon&gt;). Eventually I’ll make this part of the UI.</li>
+<li>While synapomorphies are entered as part of the taxon creation process, they’re never actually displayed after this. I’ll change that. </li>
+</ul>
+<hr>
+<h2 id="Ecology-Simulation"><a href="#Ecology-Simulation" class="headerlink" title="Ecology Simulation"></a>Ecology Simulation</h2><p><a href="https://github.com/Newms34/lifeStuff" target="_blank" rel="external">Link</a></p>
+<p>This one is, so far, the most complex. It’s basically a food web/ecology simulation, in which there are a number of organisms with specific ‘diets’. The simulation follows these rules: </p>
+<ul>
+<li>Except for plants, which operate by their own rules (they’re hipsters like that), all organisms have a specific list of organisms that they like to eat. </li>
+<li>Organisms constantly lose health, and replenish this whenever they feed. This acts a starvation mechanic.</li>
+<li><p>Interactions between organisms fall into a number of categories:</p>
+<ul>
+<li>Predation: a predator organism ‘tags’ a prey organism, and attempts to feed on it. If successful, the predator organism gains health.</li>
+<li>Intraspecific competition: Usually does not result in death, but may result in one of the organisms being injured (i.e., losing health).</li>
+<li>Interspecific, non-predatory competition: this can result in the death of one of the two organisms. However, it does not ever result in one of the organisms gaining health.</li>
+<li>Mating: a male and female of the same species have a good time together.</li>
+<li>Nothing: Finally, if two organisms have no particular interaction set between them (i.e., a wolf and a tree), then nothing happens: the two just go about their business</li>
+</ul>
+</li>
+<li>Both mating and predation have a certain chance of success. Mating success simply determines whether an offspring is produced or not. Predation, if successful, kills the prey organism and heals the predator. If unsuccessful, the predator takes damage.</li>
+<li>To prevent ‘sticking’ (i.e., predator A continuously following prey item B until it makes a successful kill), organisms have a cooldown timer on things like predation and mating. While this actually isn’t as important for predation, as the predator might equally well end up killing itself, this is quite important for mating, where two ‘stuck together’ organism may continously mate, leading to intense overpopulation.</li>
+<li>newborn organisms have a slightly increased chance of winning predation event if they are the prey item. </li>
+<li>organisms have a few timers:<ul>
+<li>a starvation timer. As mentioned above. This prevents organisms from just sitting there and doing nothing.</li>
+<li>a maturity timer. Basically, newborn organisms must wait a certain amount of time (dependent on species) before they themselves can mate.</li>
+<li>a gestation timer. This actually doesn’t determine how long after mating before a newborn is produced. This happens immediately. Instead, this misnamed timer acts as a time-between matings deally, preventing organisms from mating too many times. This is also based on real-world species-specific data</li>
+<li>a predation timer. Prevents an organism from eating too often</li>
+</ul>
+</li>
+<li>The decision on what an organism is doing (i.e., is it just wandering, seeking prey, or seeking a mate) is determined by how recently each of the relevant events occured.</li>
+<li>Finally, the organisms, if not actively interacting, attempt to stay within a certain distance from each other as part of an underlying flocking simulation. A simplified version of this flocking sim can be seen by clicking the [Old Version] button. </li>
+</ul>
+<p>Setup basically just consists of setting the number of organisms. Click each organism to see what eats. Note that the dragon basically acts as an apex predator, and its particular timers are based on estimates of Tyrannosaur data. </p>
+<p>Finally, please note that the simulation is still buggy, and you may find that organisms tend to fall off the screen more often than not. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/02/Science-1/" data-id="cixgpm3r300005ov2n07huhyj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/13/teaching-and-programming/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Teaching and Programming</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/02/Science-1/">Mad Science</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/05/Code/">What Influenced and Inspired Me to Learn Code</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 David Newman<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

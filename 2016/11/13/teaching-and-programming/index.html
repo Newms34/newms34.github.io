@@ -15,7 +15,7 @@ Dumping">
 <meta property="og:description" content="Opposing ForcesI’ve been thinking a bit about the teaching of programming. Like any technically intense subject, there’s a necessary balance between two (somewhat) opposing forces. These are:
 
 Dumping">
-<meta property="og:updated_time" content="2016-11-14T01:02:45.585Z">
+<meta property="og:updated_time" content="2017-01-02T22:30:12.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Teaching and Programming">
 <meta name="twitter:description" content="Opposing ForcesI’ve been thinking a bit about the teaching of programming. Like any technically intense subject, there’s a necessary balance between two (somewhat) opposing forces. These are:
@@ -128,7 +128,8 @@ Dumping">
 <p>Another incredibly useful type of loop is the <code>for</code> loop. This loop basically runs a set number of times. So if you wanted to say “Hi!” 10 times, you could do:</p>
 <p><pre><br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br> say “Hi!”<br></pre><br><small>Fig 5: Code repetition</small></p>
 <p>Pretty repetitive, right? Alternatively, you could do the following:</p>
-<p><pre><br> var i = 0;<br> for(i,i<10,i+=1) do="" say="" "hi!"="" end="" <="" pre=""><br><small>Fig 6: <code>for()</code> Loop</small></10,i+=1)></pre></p>
+<p><pre><br> var i = 0;<br> for i,i&lt;10,i+=1 do<br>     say “Hi!”<br> end</pre></p>
+<p><br><small>Fig 6: <code>for()</code> Loop</small></p>
 <p>So much more compact! This loop tells us to start by making a variable named <code>i</code>, and setting it to zero. We then start our loop. During each iteration of the loop, we look at <code>i</code> and ask whether it’s still less than 10. If it is, we increment <code>i</code> by one and do another iteration. Otherwise, we stop.</p>
 <h4 id="Functions-Methods-function-myFunc-name-do-say-quot-Hello-quot-name-endFunc"><a href="#Functions-Methods-function-myFunc-name-do-say-quot-Hello-quot-name-endFunc" class="headerlink" title="Functions/Methods: function myFunc(name) do say &quot;Hello, &quot;+name endFunc"></a>Functions/Methods: <code>function myFunc(name) do say &quot;Hello, &quot;+name endFunc</code></h4><p>Loops are pretty great at making our code more efficient, but what if we have bigger blocks of code that we wanna pass around? Or, worse, what if we don’t know the order in which we want our code to run? This is where functions (also known as <em>methods</em> in some areas) come in. Functions allow us to write blocks of reusable code that we can pass around for different areas of the code to “borrow”.<br>Let’s stick our conditional example from above in a function</p>
 <p><pre><br>function shoe_or_stew(box_for_shoes,box_for_tupperware) do<br>    if (box_for_shoes==true) then<br>        Put_Shoes_In<br>    else if (box_for_tupperware==true) then<br>        Put_Stew_In<br>    else<br>        Yell “I don’t know what to do!”<br>end<br></pre><br><small>Fig 7: My First Function</small></p>
@@ -140,7 +141,7 @@ Dumping">
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cixc40r8a00014ov2xrpv0h8r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cixgpm3rd00015ov253rl3xt8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -148,6 +149,15 @@ Dumping">
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/01/02/Science-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mad Science
+        
+      </div>
+    </a>
   
   
     <a href="/2014/12/05/Code/" id="article-nav-older" class="article-nav-link-wrap">
@@ -176,7 +186,7 @@ Dumping">
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
     </div>
   </div>
 
@@ -187,6 +197,10 @@ Dumping">
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/01/02/Science-1/">Mad Science</a>
+          </li>
         
           <li>
             <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
@@ -208,7 +222,7 @@ Dumping">
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 David Newman<br>
+      &copy; 2017 David Newman<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
