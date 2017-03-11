@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Exploring JavaScript Functions | Dave&#39;s Thoughts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Deep-Dive into Functions
+Contents:
+
+Introduction
+Function Expressions vs Function Declarations
+Synchronous vs Asynchronous
+Implicit vs Explicit Return
+Pure vs Impure
+Function Arity
+Functions as First-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exploring JavaScript Functions">
+<meta property="og:url" content="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/index.html">
+<meta property="og:site_name" content="Dave's Thoughts">
+<meta property="og:description" content="Deep-Dive into Functions
+Contents:
+
+Introduction
+Function Expressions vs Function Declarations
+Synchronous vs Asynchronous
+Implicit vs Explicit Return
+Pure vs Impure
+Function Arity
+Functions as First-">
+<meta property="og:image" content="http://yoursite.com/../images/hoist.gif">
+<meta property="og:updated_time" content="2017-03-11T18:38:59.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Exploring JavaScript Functions">
+<meta name="twitter:description" content="Deep-Dive into Functions
+Contents:
+
+Introduction
+Function Expressions vs Function Declarations
+Synchronous vs Asynchronous
+Implicit vs Explicit Return
+Pure vs Impure
+Function Arity
+Functions as First-">
+<meta name="twitter:image" content="http://yoursite.com/../images/hoist.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="Dave&#39;s Thoughts" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dave&#39;s Thoughts</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Musings of a developer, educator, and science enthusiast</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Exploring-JavaScript-Functions" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/10/Exploring-JavaScript-Functions/" class="article-date">
+  <time datetime="2017-03-11T00:42:44.000Z" itemprop="datePublished">2017-03-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Exploring JavaScript Functions
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Deep-Dive-into-Functions"><a href="#Deep-Dive-into-Functions" class="headerlink" title="Deep-Dive into Functions"></a>Deep-Dive into Functions</h1><hr>
+<p>Contents:</p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#function-expressions-vs-function-declarations">Function Expressions vs Function Declarations</a></li>
+<li><a href="#synchronous-vs- asynchronous">Synchronous vs Asynchronous</a></li>
+<li><a href="#implicit-vs-explicit-return">Implicit vs Explicit Return</a></li>
+<li><a href="#pure-vs-impure">Pure vs Impure</a></li>
+<li><a href="#function-arity">Function Arity</a></li>
+<li><a href="#functions-as-first-class-objects">Functions as First-Class Objects</a></li>
+</ul>
+<hr>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
+<pre>
+function(userName){
+    alert('Hello there,'+userName);
+}
+</pre>
+
+<p>Firstly, we simply use the reserved <code>function</code> keyword to designate a function. The word used here depends on the language - Python uses the <code>def</code> keyword, for example - but the underlying structure of functions is pretty similar all over. </p>
+<p>Next, we have a list of arguments. In this case, it’s just one argument - <code>userName</code> - but we could potentially pass more. I’ll talk more about this - as well as some cool things you can do in the latest version of JavaScript - in the <a href="#function-arity">Function Arity</a> section below.</p>
+<p>Finally, we have the meat of the function, known in programming as a ‘block’. <a href="https://en.wikipedia.org/wiki/Block_(programming" target="_blank" rel="external">Wikipedia</a>) defines ‘block’ as, quite unhelpfully and simply, ‘a lexical structure of source code which is grouped together’. Basically, that just says that all the stuff between those two curly brackets is what the function <em>does</em>. If changed it to say:</p>
+<pre>
+{
+callMom();
+}
+</pre>
+
+<p>Our function would now, presumably, call Mom.</p>
+<p>Finally, note that nested functions are a thing. While this can be a bad thing (see below under <a href="#synchronous-vs- asynchronous">Synchronous vs Asynchronous</a> for an example of why), this also allows us to do funky things like this: <code>Math.floor(Math.random()*9999).toString(32)</code>. Here, we <em>first</em> take a random decimal from 0 to 1. We then multiply that by 9999. Next, we take the floor of that number - that is, the next integer lower than or equal to that decimal - and convert it to a base-32 string. All in all, this allows us to easily spit out a random string of letters and numbers; great if you need a random ID for something!</p>
+<p>In the remainder of this post, I’ll look at some various types of functions, as well as a specific feature of ES6/7 that makes functions more adaptable and fun. </p>
+<hr>
+<h2 id="Function-Expressions-vs-Function-Declarations"><a href="#Function-Expressions-vs-Function-Declarations" class="headerlink" title="Function Expressions vs Function Declarations"></a>Function Expressions vs Function Declarations</h2><p>There are, generally speaking, two ways of writing a function. </p>
+<p>The first is known as the <strong>function declaration</strong>:</p>
+<pre>
+function myFunc(breed){
+    console.log('My dog is a ',breed,'!')
+}
+</pre>
+
+<p>The second is the <strong>function expression</strong>:</p>
+<pre>
+var myFunc = function(breed){
+    console.log('My dog is a ',breed,'!')
+};
+</pre>
+
+<p>So… what’s the difference? Well, in this case, none. But remember JavaScript hoisting? </p>
+<p><img src="../images/hoist.gif" alt=""></p>
+<p><em>Hoist the functions!</em></p>
+<p>The important take-away here is that while the function expression’s variable (<code>var myFunc</code>) <em>is</em> hoisted, the actual value of that variable - the function body - <em>isn’t</em>! And that means that if you have the following code:</p>
+<pre>
+myFunc('Dave');
+var myFunc = function(name){
+    console.log('In case you didnt know, your name is',name)
+};
+</pre>
+
+<p>you’ll get the following error (in Chrome):</p>
+<p><code>Uncaught TypeError: myFunc is not a function</code></p>
+<p>because while the fact that the variable myFunc exists (is ‘defined’) <em>is</em> hoisted, the contents of it aren’t. So by the time we call the function with <code>myFunc(&#39;Dave&#39;);</code>, JavaScript thinks that we’re trying to run something that’s not a function! Remember that if neither the contents nor the declaration were hoisted, we’d simply get: <code>Uncaught ReferenceError: blarg is not defined</code>.</p>
+<p>So… why wouldn’t you wanna use function declarations? Would that just make everything easier? Well, yes, and that can actually be a problem. By using function expressions, functions are defined <em>exactly</em> when they need to be. As such, you can much more easily debug your awesome new app, because you know <em>exactly</em> where to look in the code based on where the functions are failing.  </p>
+<hr>
+<h2 id="Synchronous-vs-Asynchronous"><a href="#Synchronous-vs-Asynchronous" class="headerlink" title="Synchronous vs Asynchronous"></a>Synchronous vs Asynchronous</h2><p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
+<p>While this approach is pretty obvious in every life, it’s perhaps not so obvious to the beginning programmer whose code, up until now, has been doing things exactly when he tells it to. Let’s look at a synchronous example first, with some pseudo-pseudocode:</p>
+<pre>
+var animalList = ['cat','fish','dog','monkey','hippo','apatosaurus']
+var myFunc = function(){
+    //it's a function expression!
+    var theAnimal = syncGetAnAnimal(animalList);//pretend this returns 'dog'
+    console.log('The animal we picked is:',theAnimal);
+};
+myFunc();//run function!
+</pre>
+
+<p>Works great! We pick a random animal (in this case, a dog), and spit out “The animal we picked is: dog”. But what if our list of animals is <em>not</em> part of our app? What if it’s somewhere else on the computer, or worse, somewhere else on some <em>other</em> computer? Again, the pseudo-pseudocode:</p>
+<pre>
+var myFunc = function(){
+    //it's a function expression!
+    var theAnimal = asyncGetAnAnimal('davesawesomeanimalsite.com');
+    console.log('The animal we picked is:',theAnimal);
+};
+myFunc();
+</pre>
+
+<p>Same thing, right? Al I’ve done is changed the function a bit. </p>
+<p>Well… no. You should probably be used to blogs doing that by now, since going “Ah, but wait!” seems to make us feel clever or something. Anyway, this function, instead of spitting out what you’d expect - and want! - it to, will just spit out: “The animal we picked is: undefined”. This is because while the <code>asyncGetAnAnimal()</code> function needs an indeterminate amount of time to get its particular resource, the JavaScript interpreter just keeps going. So while <code>asyncGetAnAnimal()</code> is off getting its act together, <code>console.log(...)</code> is <em>already</em> running! It runs before we even <em>have</em> an animal. Now, you may be wondering what happens if we ‘know’ that our delay is extremely small. For example, the <code>setTimeout()</code> function runs a particular bit of code after a specified delay. It’s great for creating JavaScript alarm clocks to piss off your co-workers. That specified delay can be any number, <em>including</em> zero! So what happens if we run this code?:</p>
+<pre>
+console.log('one');
+setTimeout(function(){
+    console.log('two')
+},0);//
+console.log('three');
+</pre> 
+
+<p>Since it’s a delay of zero milliseconds, JavaScript should be <em>fine</em> with that, right? It should just print ‘one’, then ‘two’, then ‘three’! Yeh, you guessed it: Nope. Since <code>setTimeout()</code> is an asynchronous function, JavaScript basically says “Okay, that’s async. I’ll do it later” - <em>no matter how long the delay is</em>! </p>
+<p>Instead, we need to use what’s called a ‘callback’, which essentially is a way for an asynchronous operation to run when it’s ready to. So if our <code>asyncGetAnAnimal()</code> function from above takes a year to run, our callback would run when that year’s up. If it takes a millisecond, it’ll run in a millisecond. Many callbacks take the form of parameters passed to their ‘parent’ async function:</p>
+<pre>
+myAsyncFunc(function aCallBack(r){
+    console.log('Response is',r);
+});
+</pre>
+
+<p>So… what determines whether a function is synchronous or asynchronous. Well, in short, if <em>any</em> of the function’s components - the stuff it calls, etc. - is async, then the function <em>itself</em> is async. </p>
+<p>Finally, some common (uses of) async functions:</p>
+<ul>
+<li><p>Getting data from external resources. Most commonly, using two methods:</p>
+<ul>
+<li>GET method if you basically just want data, and don’t wanna provide a huge amount of data to the external resource</li>
+<li>POST method if you need to provide a lot of data from <em>your</em> side, usually via a POJO (Plain-Old-JavaScript-Object); </li>
+</ul>
+</li>
+<li>The timer functions <code>setInterval()</code> and <code>setTimeout()</code>. Remember as per above that these are <em>always</em> asynchronous, even WITH a timer delay of zero!</li>
+<li><p>User Interface (UI) functions, such as <code>window.onclick()</code>. In this case, the function callback is triggered whenever the user does something. Note that a lot of these functions pass an <code>event</code> parameter to their callback:</p>
+<pre>
+window.onmousemove = function(e){
+  console.log('mouse is at position',e.offsetX,e.offsetY)
+};
+</pre> 
+
+</li>
+</ul>
+<hr>
+<h2 id="Implicit-vs-Explicit-Return"><a href="#Implicit-vs-Explicit-Return" class="headerlink" title="Implicit vs Explicit Return"></a>Implicit vs Explicit Return</h2><p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
+<p><code>mixDryIngreds().mixWetIngreds().addChocolate().pourInCakePan().bake();</code></p>
+<p>In order for a function’s work to be used by something else, that function needs to <em>return</em> something, using (<em> gasp! </em>) a <code>return</code> statement. If it’s not included, the function returns an implied <code>undefined</code>:</p>
+<pre>
+function checkIfDave(name){
+    if(name==='Dave'){
+        return true;
+    }
+}
+</pre>
+
+<p>If the value of the string <code>name</code> passed to the <code>checkIfDave()</code> function isn’t ‘Dave’, we obviously aren’t gonna trigger the <code>return true;</code> bit. Instead, the function will implicitly return <code>undefined</code>. Since that <code>undefined</code> is falsey, we can use this to implied return value a conditional!</p>
+<hr>
+<h2 id="Pure-vs-Impure"><a href="#Pure-vs-Impure" class="headerlink" title="Pure vs Impure"></a>Pure vs Impure</h2><p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.<br>However, <em>pure</em> with regards to functions is simply a term for functions that, given the same specific, explicit arguments each time, will spit out the same result each time. The function <code>Math.floor()</code> is <em>always</em> going to return the <code>4</code>, if given the same input <code>4.3</code>.</p>
+<p>In contrast, an <em>impure</em> function is one that mutates or produces different outputs depending on external resources (and may itself change those external resources):</p>
+<pre>
+var pickCat = false;
+function likesPet(name){
+    if(pickCat){
+        console.log(name,'prefers cats!');
+    }else{
+        console.log(name,'prefers dogs!')
+    }
+}
+</pre>
+
+<p>While this function does include an input of <code>name</code>, which by itself would leave the function pure, its output also depends on the value of an external variable <code>pickCat</code>. As <a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.58st43xfx" target="_blank" rel="external">Eric Elliot</a> says, “pure functions produce no side effects”.  </p>
+<hr>
+<h2 id="Function-Arity"><a href="#Function-Arity" class="headerlink" title="Function Arity"></a>Function Arity</h2><p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
+<p><code>myFunc(name){...}</code></p>
+<p>and then later on write</p>
+<p><code>myFunc(name,date){...}</code></p>
+<p>the single-argument version of <code>myFunc</code> would no longer exist!</p>
+<p>So how do we deal with JavaScript functions with an unknown number of arguments? Traditionally (pre ES2015/ES6), we’ve had to write functions expecting the <em>maximum</em> number of arguments, and then either allow the un-passed arguments to be undefined, <em>or</em> explicitly define them (if undefined!) within the body of the function. So, my example from above:</p>
+<pre>
+var myFunc = function(name,date){
+    if(!name){
+        name = 'An unknown person';
+    }
+    if(!date){
+        date = 'an unknown date';
+    }
+    console.log(name,'called myFunc on',date);
+}
+</pre>
+
+<p>This is fine if we have a maximum number of arguments that could possibly go in the function. However, what if we dont <em>know</em> the number of arguments?</p>
+<p>Enter the ES2015 <em>spread operator</em>, which in addition to making your functions look slightly passive-aggressive, allows you to pass in <em>any number of arguments</em>!</p>
+<pre>
+var doIt = function(...fine){
+    console.log('You inputted',fine.join(','),'. Not like I wanted to run anyway.');
+}
+</pre>
+
+<p>Basically, the arguments inputted in this <code>doIt</code> function get converted to an array. And yes, it’s a <em>real</em> array (unlike, say, the results of <code>document.getElementsByTagName()</code>, which returns an array-like <code>HTMLCollection</code> that doesn’t have inherent access to a lot of the <code>Array</code> prototype functions), so you can then do normal array-things to it, like <code>forEach()</code>, or <code>map()</code>.</p>
+<p>What about arity with NodeJS? Well, it’s relatively easy to pass arguments into a NodeJS module’s function by appending them as flags to the command-line arguments. So:</p>
+<p><code>$node pickAnimalModule</code></p>
+<p>could become</p>
+<p><code>$node pickAnimalModule -onlyMammals</code></p>
+<p>You’d then access these arguments in Node via <code>process.argv</code>, which is, you guessed it, an array. There are, however, two very important distinctions/caveats here:</p>
+<ol>
+<li>First, the first two items in the array (positions <code>0</code> and <code>1</code>, respectively), are the name/location of the process running your Node stuff (that is, <em>Node</em> itself), and the location of the JavaScript file being run. </li>
+<li>Second, the arguments are passed as <em>strings</em>. This means if you want to, say, pass a config object to your Node function, you’ll need to run <code>JSON.parse</code> on it at some point.</li>
+</ol>
+<p>Finally, while the spread operator and <code>process.argv</code> solve the problem of how <em>many</em> arguments there are, it doesn’t help with determing what <em>kind</em> of arguments they are. In other words, let’s say we have a function <code>ageGreeting(name,age)</code> that accepts two arguments - <code>name</code> and <code>age</code> - and outputs some sort of greeting based on that age. So if the user inputs <code>Dave</code> and <code>300</code>, it might say “Hi Dave! You’re very old!”. Now, let’s say that, for whatever reason, we need to pass <code>age</code> in as an object such as:</p>
+<p><code>{years:300}</code></p>
+<p>How would we prevent the user from inputting the arguments in the wrong order? As it’s written, our function wants a string first (<code>name</code>), and then an object (<code>age</code>). Feeding these in the wrong order will generate an error. One way to fix this is by using the <code>arguments</code> parameter, which is part of <em>every</em> JavaScript function, and is simply an array of the arguments given. We can then do some relatively simple type-checking on the items in this <code>arguments</code> array:</p>
+<pre>
+    var ageGreetings = function(name,age){
+        var actualName,
+            actualAge;
+        arguments.forEach(function(arg){
+            if (typeof arg=='string'){
+                //this is probably the name!
+                actualName=arg;
+            }else if(typeof arg=='object' && arg.age){
+                actualAge=arg;
+            }
+        })
+        //do stuff with the info
+    }
+</pre>
+
+
+
+
+
+<hr>
+<h2 id="Functions-as-First-Class-Objects"><a href="#Functions-as-First-Class-Objects" class="headerlink" title="Functions as First-Class Objects"></a>Functions as First-Class Objects</h2><p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
+<p>Of course not. It means that, first and foremost, JavaScript functions follow another very famous JavaScript mantra: (almost) <em>Everything</em> is an object.</p>
+<p>What this means in terms of functions is two-fold: firstly, functions are, as with any other objects, created with their own constructor. This <code>Function</code> constructor actually can be called explicitly (i.e., <code>new Function(args)</code>), but is usually implicitly called via simply writing a function declaration or function expression. </p>
+<p>The second result of functions being objects stems from JavaScript’s prototypical inheritance model. Remember from high school biology how organisms are grouped based on similarities, and organisms that share a common group also share common traits? Well, the same’s true for JavaScript ‘groups’ (we call these <em>classes</em>): all members of the <code>Function</code> class can be ‘called’, all members of the <code>Object</code> class can have their properties listed via <code>Object.getOwnPropertyNames()</code>, and so on. So what does this mean in terms of the statement “functions are first-class objects”? It just means that functions in JavaScript <em>are</em> objects. You can pass them around like objects. You can ask for their property names. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj05lbzvx0003hsv2z3bqd4qb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/02/Science-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mad Science</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/10/Exploring-JavaScript-Functions/">Exploring JavaScript Functions</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/Science-1/">Mad Science</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/05/Code/">What Influenced and Inspired Me to Learn Code</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 David Newman<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
