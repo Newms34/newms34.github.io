@@ -30,7 +30,8 @@ Pure vs Impure
 Function Arity
 Functions as First-">
 <meta property="og:image" content="http://yoursite.com/../images/hoist.gif">
-<meta property="og:updated_time" content="2017-03-11T18:42:58.529Z">
+<meta property="og:image" content="http://yoursite.com/../images/improper.jpg">
+<meta property="og:updated_time" content="2017-03-11T18:58:49.115Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exploring JavaScript Functions">
 <meta name="twitter:description" content="Deep-Dive into Functions
@@ -147,18 +148,18 @@ callMom();
 </pre>
 
 <p>Our function would now, presumably, call Mom.</p>
-<p>Finally, note that nested functions are a thing. While this can be a bad thing (see below under <a href="#synchronous-vs- asynchronous">Synchronous vs Asynchronous</a> for an example of why), this also allows us to do funky things like this: <code>Math.floor(Math.random()*9999).toString(32)</code>. Here, we <em>first</em> take a random decimal from 0 to 1. We then multiply that by 9999. Next, we take the floor of that number - that is, the next integer lower than or equal to that decimal - and convert it to a base-32 string. All in all, this allows us to easily spit out a random string of letters and numbers; great if you need a random ID for something!</p>
+<p>Finally, note that nested functions are a thing. While this can be a bad thing (if, for example, you call recursive functions or allow them to call themselves), this also allows us to do funky things like this: <code>Math.floor(Math.random()*9999).toString(32)</code>. Here, we <em>first</em> take a random decimal from 0 to 1. We then multiply that by 9999. Next, we take the floor of that number - that is, the next integer lower than or equal to that decimal - and convert it to a base-32 string. All in all, this allows us to easily spit out a random string of letters and numbers; great if you need a random ID for something!</p>
 <p>In the remainder of this post, I’ll look at some various types of functions, as well as a specific feature of ES6/7 that makes functions more adaptable and fun. </p>
 <hr>
 <h2 id="Function-Expressions-vs-Function-Declarations"><a href="#Function-Expressions-vs-Function-Declarations" class="headerlink" title="Function Expressions vs Function Declarations"></a>Function Expressions vs Function Declarations</h2><p>There are, generally speaking, two ways of writing a function. </p>
-<p>The first is known as the <strong>function declaration</strong>:</p>
+<p>The first is known as the <em>function declaration</em>:</p>
 <pre>
 function myFunc(breed){
     console.log('My dog is a ',breed,'!')
 }
 </pre>
 
-<p>The second is the <strong>function expression</strong>:</p>
+<p>The second is the <em>function expression</em>:</p>
 <pre>
 var myFunc = function(breed){
     console.log('My dog is a ',breed,'!')
@@ -168,7 +169,7 @@ var myFunc = function(breed){
 <p>So… what’s the difference? Well, in this case, none. But remember JavaScript hoisting? </p>
 <p><img src="../images/hoist.gif" alt=""></p>
 <p><em>Hoist the functions!</em></p>
-<p>The important take-away here is that while the function expression’s variable (<code>var myFunc</code>) <em>is</em> hoisted, the actual value of that variable - the function body - <em>isn’t</em>! And that means that if you have the following code:</p>
+<p>While the function expression’s variable (<code>var myFunc</code>) <em>is</em> hoisted, the actual value of that variable - the function body - <em>isn’t</em>! And that means that if you have the following code:</p>
 <pre>
 myFunc('Dave');
 var myFunc = function(name){
@@ -176,10 +177,10 @@ var myFunc = function(name){
 };
 </pre>
 
-<p>you’ll get the following error (in Chrome):</p>
+<p>you’ll get the following error (in Chrome; other browsers will have different versions of this error):</p>
 <p><code>Uncaught TypeError: myFunc is not a function</code></p>
-<p>because while the fact that the variable myFunc exists (is ‘defined’) <em>is</em> hoisted, the contents of it aren’t. So by the time we call the function with <code>myFunc(&#39;Dave&#39;);</code>, JavaScript thinks that we’re trying to run something that’s not a function! Remember that if neither the contents nor the declaration were hoisted, we’d simply get: <code>Uncaught ReferenceError: blarg is not defined</code>.</p>
-<p>So… why wouldn’t you wanna use function declarations? Would that just make everything easier? Well, yes, and that can actually be a problem. By using function expressions, functions are defined <em>exactly</em> when they need to be. As such, you can much more easily debug your awesome new app, because you know <em>exactly</em> where to look in the code based on where the functions are failing.  </p>
+<p>because while the fact that the variable myFunc exists (is ‘defined’) <em>is</em> hoisted, the contents of it aren’t. So by the time we call the function with <code>myFunc(&#39;Dave&#39;);</code>, JavaScript thinks that we’re trying to run something that’s not a function! Remember that if neither the contents nor the declaration were hoisted, we’d simply get: <code>Uncaught ReferenceError: myFunc is not defined</code>.</p>
+<p>So… why wouldn’t you wanna use function declarations? Would that just make everything easier? Well, yes, and that can <em>actually</em> be a problem. By using function expressions, functions are defined <em>exactly</em> when they need to be. As such, you can much more easily debug your awesome new app, because you know <em>exactly</em> where to look in the code based on where the functions are failing.  </p>
 <hr>
 <h2 id="Synchronous-vs-Asynchronous"><a href="#Synchronous-vs-Asynchronous" class="headerlink" title="Synchronous vs Asynchronous"></a>Synchronous vs Asynchronous</h2><p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
 <p>While this approach is pretty obvious in every life, it’s perhaps not so obvious to the beginning programmer whose code, up until now, has been doing things exactly when he tells it to. Let’s look at a synchronous example first, with some pseudo-pseudocode:</p>
@@ -193,7 +194,8 @@ var myFunc = function(){
 myFunc();//run function!
 </pre>
 
-<p>Works great! We pick a random animal (in this case, a dog), and spit out “The animal we picked is: dog”. But what if our list of animals is <em>not</em> part of our app? What if it’s somewhere else on the computer, or worse, somewhere else on some <em>other</em> computer? Again, the pseudo-pseudocode:</p>
+<p>Works great! We pick a random animal (in this case, a dog), and spit out “The animal we picked is: dog”. The code within the function basically just runs from top to bottom. </p>
+<p>But what if our list of animals is <em>not</em> part of our app? What if it’s somewhere else on the computer, or worse, somewhere else on some <em>other</em> computer? Again, the pseudo-pseudocode:</p>
 <pre>
 var myFunc = function(){
     //it's a function expression!
@@ -204,7 +206,7 @@ myFunc();
 </pre>
 
 <p>Same thing, right? Al I’ve done is changed the function a bit. </p>
-<p>Well… no. You should probably be used to blogs doing that by now, since going “Ah, but wait!” seems to make us feel clever or something. Anyway, this function, instead of spitting out what you’d expect - and want! - it to, will just spit out: “The animal we picked is: undefined”. This is because while the <code>asyncGetAnAnimal()</code> function needs an indeterminate amount of time to get its particular resource, the JavaScript interpreter just keeps going. So while <code>asyncGetAnAnimal()</code> is off getting its act together, <code>console.log(...)</code> is <em>already</em> running! It runs before we even <em>have</em> an animal. Now, you may be wondering what happens if we ‘know’ that our delay is extremely small. For example, the <code>setTimeout()</code> function runs a particular bit of code after a specified delay. It’s great for creating JavaScript alarm clocks to piss off your co-workers. That specified delay can be any number, <em>including</em> zero! So what happens if we run this code?:</p>
+<p>Well… no. You should probably be used to blogs doing that by now, since going “Ah, but wait!” seems to make us devs feel clever or something. Anyway, this function, instead of spitting out what you’d expect - and want! - it to, will just spit out: “The animal we picked is: undefined”. This is because while the <code>asyncGetAnAnimal()</code> function needs an indeterminate amount of time to get its particular resource, the JavaScript interpreter just keeps going. So while <code>asyncGetAnAnimal()</code> is off getting its act together, <code>console.log(...)</code> is <em>already</em> running! It runs before we even <em>have</em> an animal. Now, you may be wondering what happens if we ‘know’ that our delay is extremely small. For example, the <code>setTimeout()</code> function runs a particular bit of code after a specified delay. It’s great for creating JavaScript alarm clocks to piss off your co-workers. That specified delay can be any number, <em>including</em> zero! So what happens if we run this code?:</p>
 <pre>
 console.log('one');
 setTimeout(function(){
@@ -214,18 +216,17 @@ console.log('three');
 </pre> 
 
 <p>Since it’s a delay of zero milliseconds, JavaScript should be <em>fine</em> with that, right? It should just print ‘one’, then ‘two’, then ‘three’! Yeh, you guessed it: Nope. Since <code>setTimeout()</code> is an asynchronous function, JavaScript basically says “Okay, that’s async. I’ll do it later” - <em>no matter how long the delay is</em>! </p>
-<p>Instead, we need to use what’s called a ‘callback’, which essentially is a way for an asynchronous operation to run when it’s ready to. So if our <code>asyncGetAnAnimal()</code> function from above takes a year to run, our callback would run when that year’s up. If it takes a millisecond, it’ll run in a millisecond. Many callbacks take the form of parameters passed to their ‘parent’ async function:</p>
+<p>Instead, we need to use what’s called a ‘callback’, which essentially is a way for an asynchronous operation to run when it’s ready to. So if our <code>asyncGetAnAnimal()</code> function from above takes a year to run, our callback would run when that year’s up. If it takes a millisecond, it’ll run in a millisecond. Many callbacks take the form of arguments passed to their ‘parent’ async function:</p>
 <pre>
 myAsyncFunc(function aCallBack(r){
     console.log('Response is',r);
 });
 </pre>
 
-<p>So… what determines whether a function is synchronous or asynchronous. Well, in short, if <em>any</em> of the function’s components - the stuff it calls, etc. - is async, then the function <em>itself</em> is async. </p>
+<p>So… what determines whether a function is synchronous or asynchronous? Well, in short, if <em>any</em> of the function’s components - the stuff it calls, etc. - is async, then the function <em>itself</em> is async. </p>
 <p>Finally, some common (uses of) async functions:</p>
 <ul>
-<li><p>Getting data from external resources. Most commonly, using two methods:</p>
-<ul>
+<li>Getting data from external resources. Most commonly, using two methods:<ul>
 <li>GET method if you basically just want data, and don’t wanna provide a huge amount of data to the external resource</li>
 <li>POST method if you need to provide a lot of data from <em>your</em> side, usually via a POJO (Plain-Old-JavaScript-Object); </li>
 </ul>
@@ -243,7 +244,7 @@ window.onmousemove = function(e){
 <hr>
 <h2 id="Implicit-vs-Explicit-Return"><a href="#Implicit-vs-Explicit-Return" class="headerlink" title="Implicit vs Explicit Return"></a>Implicit vs Explicit Return</h2><p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
 <p><code>mixDryIngreds().mixWetIngreds().addChocolate().pourInCakePan().bake();</code></p>
-<p>In order for a function’s work to be used by something else, that function needs to <em>return</em> something, using (<em> gasp! </em>) a <code>return</code> statement. If it’s not included, the function returns an implied <code>undefined</code>:</p>
+<p>In order for a function’s work to be used by something else, that function needs to <em>return</em> something, using an optional (<em> gasp! </em>) <code>return</code> statement. If it’s not included, the function returns an implied <code>undefined</code>:</p>
 <pre>
 function checkIfDave(name){
     if(name==='Dave'){
@@ -254,7 +255,10 @@ function checkIfDave(name){
 
 <p>If the value of the string <code>name</code> passed to the <code>checkIfDave()</code> function isn’t ‘Dave’, we obviously aren’t gonna trigger the <code>return true;</code> bit. Instead, the function will implicitly return <code>undefined</code>. Since that <code>undefined</code> is falsey, we can use this to implied return value a conditional!</p>
 <hr>
-<h2 id="Pure-vs-Impure"><a href="#Pure-vs-Impure" class="headerlink" title="Pure vs Impure"></a>Pure vs Impure</h2><p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.<br>However, <em>pure</em> with regards to functions is simply a term for functions that, given the same specific, explicit arguments each time, will spit out the same result each time. The function <code>Math.floor()</code> is <em>always</em> going to return the <code>4</code>, if given the same input <code>4.3</code>.</p>
+<h2 id="Pure-vs-Impure"><a href="#Pure-vs-Impure" class="headerlink" title="Pure vs Impure"></a>Pure vs Impure</h2><p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
+<p><img src="../images/improper.jpg" alt=""></p>
+<p><em>Hide your eyes, kids!</em></p>
+<p>However, <em>pure</em> with regards to functions is simply a term for functions that, given the same specific, explicit arguments each time, will spit out the same result each time. The function <code>Math.floor()</code> is <em>always</em> going to return the <code>4</code>, if given the same input <code>4.3</code>.</p>
 <p>In contrast, an <em>impure</em> function is one that mutates or produces different outputs depending on external resources (and may itself change those external resources):</p>
 <pre>
 var pickCat = false;
