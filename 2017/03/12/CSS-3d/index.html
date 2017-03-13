@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CSS in 3d | Dave&#39;s Thoughts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="#CSS in 3d
+
+Contents:
+
+Introduction
+Review of CSS Inheritance
+Review of CSS Positioning
+The Magic: transform-style:preserve-3d;
+How to 3d
+Performance
+Alternatives and When to Use
+
+
+##Introduction
+Casc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS in 3d">
+<meta property="og:url" content="http://yoursite.com/2017/03/12/CSS-3d/index.html">
+<meta property="og:site_name" content="Dave's Thoughts">
+<meta property="og:description" content="#CSS in 3d
+
+Contents:
+
+Introduction
+Review of CSS Inheritance
+Review of CSS Positioning
+The Magic: transform-style:preserve-3d;
+How to 3d
+Performance
+Alternatives and When to Use
+
+
+##Introduction
+Casc">
+<meta property="og:updated_time" content="2017-03-13T00:39:53.156Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS in 3d">
+<meta name="twitter:description" content="#CSS in 3d
+
+Contents:
+
+Introduction
+Review of CSS Inheritance
+Review of CSS Positioning
+The Magic: transform-style:preserve-3d;
+How to 3d
+Performance
+Alternatives and When to Use
+
+
+##Introduction
+Casc">
+  
+    <link rel="alternate" href="/atom.xml" title="Dave&#39;s Thoughts" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dave&#39;s Thoughts</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Musings of a developer, educator, and science enthusiast</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CSS-3d" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/12/CSS-3d/" class="article-date">
+  <time datetime="2017-03-12T23:10:39.000Z" itemprop="datePublished">2017-03-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CSS in 3d
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#CSS in 3d</p>
+<hr>
+<p>Contents:</p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#review-of-css-inheritance">Review of CSS Inheritance</a></li>
+<li><a href="#review-of-css-positioning">Review of CSS Positioning</a></li>
+<li><a href="#the-magic%3A-*transform%2dstyle%3Apreserve%2d3d%3B*-and-*perspective*">The Magic: <em>transform-style:preserve-3d;</em></a></li>
+<li><a href="#how-to-3d">How to 3d</a></li>
+<li><a href="#performance">Performance</a></li>
+<li><a href="#alternatives-and-when-to-use">Alternatives and When to Use</a></li>
+</ul>
+<hr>
+<p>##Introduction</p>
+<p>Cascading Style Sheets, or CSS, is often viewed as the bane of web design. While it’s relatively easy to learn - there’s generally only one pattern you need to learn, illustrated below - it’s notoriously difficult to master, and there are all sorts of finicky little gotchas that are sure to make you lose at least some of your hair. After all, how can this:</p>
+<pre>
+    #my-element{
+        position:absolute;
+        vertical-align:middle;
+        text-align:center;
+    }
+</pre>
+
+<p>not just simply do what it says on the box and, you know, put stuff in the middle of the page? The fact that simply typing <code>vertical-align</code> into Google brings up “vertical-align not working” as like the second or third suggestion should <em>itself</em> suggest how very many people have trouble with this little CSS rule <sup>1</sup>. </p>
+<p>One way of helping to alleviate this frustration is to remember that you’re a coder, and you love coding. So instead of beating your head against some really annoying, finicky CSS, why not try playing with it instead? Why not try making something in 3D, using only CSS?</p>
+<p>Before we begin, I’m gonna do two review sections: one of the fundamentals of CSS inheritance, and one of the positioning system.</p>
+<hr>
+<p>##Review of CSS Inheritance</p>
+<p>CSS is so-called cascading because of the way in which elements inherit particular CSS rules. The most general rules are ‘obeyed’, <em>unless</em> there are more specific rules. Just so we know what I’m talking about later on, let’s make a quick list of the order of inheritance. First, we’ll look at where the rules are <em>coming</em> from:</p>
+<ul>
+<li><em>None</em>: While it’s pretty much impossible to ‘use’ this, as the user-agent stylesheet takes precedence over it, we could argue that the most basic style is simply <em>no</em> style.</li>
+<li><em>User-Agent stylesheet</em>: The most general ruleset in use is the user-agent stylesheet, which is defined by the browser itself. This is why, for example, input elements look different in different browsers. Worth remember, if you need very specific styles.</li>
+<li><em>External stylesheets</em>: If we load an external sheet, via a <code>&lt;link&gt;</code> tag, that stylesheet takes precedence over the user-agent sheet.</li>
+<li><em>Inline <code>&lt;style&gt;</code> declaration</em>: It’s usually frowned upon (separation of concerns and all that), but if you’re a rebel and choose to include inline <code>&lt;style&gt;</code> elements, these will win over external stylesheets.</li>
+<li><em>Inline, in-element declarations</em>: These are the most specific, generally speaking. While they were traditionally frowned upon, as they have the same issue as inline <code>&lt;style&gt;</code> declarations in terms of lack of separation of concerns, they’ve become slightly more popular with dynamically generated views, from stuff like AngularJS or ReactJS.</li>
+</ul>
+<p>Within each of these style categories, there are also rules determining <em>what</em> element(s) is/are selected:</p>
+<ul>
+<li><em>‘&ast;’ selector</em>: The ‘everything’ selector. &ast; is a generic wildcard for ‘any element’. Useful if you wanna make very broad changes</li>
+<li><em><code>&lt;tag&gt;</code> selector</em>: This selects every element with a particular tag name. For example, if you said <code>span{ background:#f00; }</code>, every <code>&lt;span&gt;</code> element would now have a bright red background. Note two things here: firstly, making all your span elements have a red background is a surefire way to make people hate you. Second, the actual selector here is just the tag’s <em>name</em>, *not the name plus the <code>&lt;</code> and <code>&gt;</code> symbols.</li>
+<li><em>‘.class’ selector</em>: This selects everything with a particular class. So if we apply a style to class ‘my-class’, then that’d affect <code>&lt;div class=&#39;my-class&#39;&gt;</code>, <code>&lt;span class=&#39;my-class&#39;&gt;</code>, and <code>&lt;input class=&#39;my-class&#39;&gt;</code>, but <em>not</em> <code>&lt;div class=&#39;your-class&#39;&gt;</code>. The class selector (almost!) <em>always</em> wins over the tag selector.</li>
+<li><em>‘#id’ selector</em>: The ID selector is the most specific of the general element selectors. Baring any other hierarchy considerations, the ID selector <em>always</em> wins over the class selector.</li>
+</ul>
+<p>There are also pseudo-classes, pseudo-selectors, and other miscellanous bits, which can be applied to any of the above four selector types:</p>
+<ul>
+<li><code>:hover</code>: Applies a style only when an element has the mouse over it. An example might be something like <code>#my-btn:hover{font-size:larger}</code>, which would make your (presumably button) element with the id <code>my-btn</code> have a larger font-size when hovered over.</li>
+<li><code>:focus</code>: <em>Usually</em> used for input elements, this is used when an element has focus. That is, for example, if I’m typing, and the stuff I’m typing is currently going in this particular text input, then this style will affect that element.</li>
+<li><code>:active</code>: Don’t ignore this one just because it’s there for such a brief time! The <code>:active</code> pseudo-class applies while an element is being actually <em>used</em>. So if it’s a link, this’ll be active while the mouse is down on it.</li>
+<li><code>:visited</code>: Remember the old <code>alink</code>, <code>link</code> and <code>vlink</code> attributes of HTML4 and previous? This is sorta like that old <code>vlink</code>: it changes the style of links, but only if they’ve been visited.</li>
+<li><code>::before</code>: Allows you to create what is essentially a separate element (complete with its own style!) that’s ‘attached’ to the parent element. Note that you’ll usually need to use <code>content:&#39;&#39;;</code> to actually give the element something to ‘show’. traditionally goes <em>before</em> the element (that is, above or to the left of)</li>
+<li><code>::after</code>: Same as above, but traditionally goes, well, after the element.</li>
+<li><p><code>!important</code>: Not a pseudo-selector, but I thought it important to include it here anyway. The infamous !important declaration goes on a particular rule, and basically overrides any other heirarchy rules:</p>
+<pre>
+&#35;my-id{
+  background-color:#f00;
+}
+.my-class{
+  background-color:#0f0!important;
+}
+</pre>
+
+<p>Assuming we have element with both the class ‘my-class’ and the id ‘my-id’, the background color of this element would be <em>green</em>, despite the fact that ID selectors normally take precedence over class selectors. Because it basically overwrites any normally more-specific rulesets, this is frowned upon as a bit of a sledgehammer-to-crack-a-nut approach: it’s <em>far</em> better to rewrite your code so that you don’t have to use this than to use it. <sup>2</sup></p>
+</li>
+</ul>
+<hr>
+<p>##Review of CSS Positioning</p>
+<p>If you ever wanna position <em>anything</em> with CSS, you’ll need to know about the four different types of positioning, via the eponymous <code>position</code> property.</p>
+<ul>
+<li><p><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:<br>  <pre><br>  &#35;my-div{</pre></p>
+<pre><code>position:static;
+left:100px;
+</code></pre><p>  }<br>  <br>  Your element would stubbornly refuse to move right 100 pixels. How rude. Instead, elements with a <code>static</code> declaration will be positioned as per ‘normal’ layout.</p>
+</li>
+<li><p><code>position:absolute;</code>: In this case, the element is positioned relative to the first parent (going up its DOM heirarchy tree) that itself has a <code>position</code> value of something other than <code>static</code>. As the name implies, it’s useful for positioning elements absolutely.  </p>
+</li>
+<li><code>position:relative;</code>: This allows you to position elements relative to their ‘normal’ position. So if you say:<br>  <pre><br>  &#35;my-div{<pre><code>position:relative;
+left:10px;
+</code></pre>  }<br>  </pre><br>  then your element would be 10px to the right of where it ‘normally’ is. <sup>3</sup> </li>
+<li><p><code>position:fixed;</code>: This one’s a bit odd: instead of positioning an element relative to a parent, or to its original position, it positions the element relative to the <em>browser window</em>. THe cool thing about this affect is that if you position an element as so:<br>  <pre><br>  &#35;my-div{</pre></p>
+<pre><code>position:fixed;
+left:10px;
+top:10px;
+</code></pre><p>  }<br>  <br>  and then scroll the window, the element will stay ‘glued’ to the same position. Really useful for stuff like menus.</p>
+<p>Note that <code>fixed</code> and <code>absolute</code> also tell the browser not to leave space for the element. That is, if we have three spans, and the middle one has <code>position:fixed;</code>, then the first and third span will be smack up against each other.</p>
+</li>
+</ul>
+<p>You’ll <em>also</em>, however, need to know about the various <code>display</code> property values:</p>
+<ul>
+<li><code>display:none;</code>: Does pretty much what it says on the can: doesn’t show anything. Often used behind the scenes with various dynamic view things like AngularJS’s <code>ng-show</code> attribute.</li>
+<li><code>display:inline;</code>: Basically only takes up as much with as the element needs. Does not force a new line (akin to <code>&lt;br&gt;</code>) after or before the element. <code>inline</code> also tends to ignore certain positioning rules (as well as <code>width</code> and <code>height</code>), so when in doubt, probably best to choose one of the other rules if you need specific positioning.</li>
+<li><code>display:block;</code>: On the contrary, this by default takes up the <em>whole</em> width of the page, and <em>does</em> force a new before and after. Also, does pay attention to positioning rules. Pretty useful, but for elements that aren’t supposed to take up the entire page, the blank space can get kinda annoying.</li>
+<li><code>display:inline-block;</code>: The best of both worlds! Doesn’t force annoying linebreaks that create nasty blank space, but also allows you to specify widths and heights. Great for things like menus!</li>
+<li><code>display:flex;</code>: I won’t go into this much here, but suffice it to say that <code>flex</code>, part of CSS3’s Flexbox setup, is <em>very</em> useful, and well worth the research.</li>
+</ul>
+<hr>
+<p>##The Magic: <em>transform-style:preserve-3d;</em> and <em>perspective</em>;</p>
+<p>The <code>transform-style</code> property declares how elements are displayed in 3-space. Normally, its default value of <code>flat</code> means that while you can rotate and move elements in 3-space, they’ll be ‘flattened’ against the element with this declaration. That is, if you attempt to dynamically rotate them (via an <code>onmousemove</code> event or something similar), they’ll still appear as part of a flat, z-axis-less plane.</p>
+<p>Instead, we need to use the magic rule <code>transform-style:preserve-3d;</code>, which says that any child elements of this element will keep their z-axis (and thus <em>stay</em> 3D!). It’s worth repeating that this does <em>not</em> affect this element itself, but <em>only</em> its children! </p>
+<hr>
+<p>##How to 3d</p>
+<p>After you’ve declared a parent element with a <code>transform-style</code> property of <code>preserve-3d</code>, you just simply have to use the various <code>transform</code> property values to position your element in 3-space. Be aware that while you can rotate and move an element in the third, Z-axis dimension, there is no <code>depth</code> property. That is, you cannot construct a box by doing:</p>
+<pre>
+    .my-box{
+        width:100px;
+        height:100px;
+        depth:100px;
+    }
+</pre>
+instead, you'd have to construct the 'walls' of the box by rotating and positioning the individual faces.
+
+---
+
+##Performance
+
+There are generally three pieces of advice useful for doing CSS-3d:
+
+ 1. When possible, don't. Yes, I love doing CSS 3d, but even the best computer/browser is gonna find it a strain.
+ 2. When possible, use 3d transforms. The reason for this is that, especially with modern browsers, simply *using* a 3d-transform (even something like `transform:rotateZ(30deg)`, which is visually no different than `transform:rotate(30deg)`) forces the browser to use hardware accelerated graphics, if available. Since most computer's graphics cards are better at, well, doing graphics than simple software rendering, this can make stuff much more performant.
+ 3. Cross-browser testing is important! Depending on exactly what you're doing, you're gonna be using some pretty fancy and cutting-edge tech here. Certain browsers (hello again, IE/Edge) haven't quite kept up with that, so you may run into issues rendering stuff in 3d in those environments. 
+
+---
+
+##Alternatives and When to Use
+
+As I mention in point 1 of the previous section,  most browsers find this a particular strain, since it's forcing the browser to make relatively complex calculations. A much faster method would be to use JavaScript and Canvas, which are explicitly *designed* for graphics. 
+However, for demonstration purposes, very simple UI effects, and a few other use cases, CSS 3d is fine to use.
+
+---
+<small>
+
+Notes:
+
+ 1. If you're wondering why this doesn't work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they're designed to scroll vertically, webpages basically function on the "if I need more space, just add more vertical height" mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like "500px") just won't work. Take a look at the following example:
+ <pre>
+ html,body{
+     background:#000;//black background;
+ }
+ .my-div{
+     position:absolute;
+     width:98%;
+     left:1%;
+     top:1%;
+     height:98%;
+     background:#ddf;
+ }
+ </pre>
+
+<p> This, demonstrably, doesn’t work. If you inspect it, you’ll find a div with the correct width (98% of the total window width), but a height of zero! Instead, we need to <em>explicitly</em> define the height of the document as 100%:</p>
+ <pre>
+ html,body{
+     height:100%;
+     width:100%;
+     background:#000;//black background;
+ }
+ </pre>
+
+<ol>
+<li>Furthermore, using multiple !important declarations can make your CSS incredibly difficult to debug!</li>
+<li>Here’s a perhaps better example. Imagine we have a bunch of <code>&lt;span&gt;</code> elements in a row, contained within a div that has its <code>property</code> set to <code>absolute</code>. If we apply the rule <code>position:relative</code> to the spans, and then add <code>left:0px;</code>, the elements will be positioned as if they had no position styling at all. If we changed that <code>left</code> to say, <code>5px</code>, the elements would now <em>all</em> be shifted <em>right</em> by 5 pixels from their original locations. Similarly, if we change <code>position:relative</code> to <code>position:absolute</code>, the elements would now all be stacked on top of each, 5 pixels from the left border of the container div.<br></li></ol></small>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj07dtwcj0000rov2e1bfguo2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/10/Exploring-JavaScript-Functions/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Exploring JavaScript Functions</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/12/CSS-3d/">CSS in 3d</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/10/Exploring-JavaScript-Functions/">Exploring JavaScript Functions</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/Science-1/">Mad Science</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/05/Code/">What Influenced and Inspired Me to Learn Code</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 David Newman<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

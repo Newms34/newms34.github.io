@@ -65,6 +65,202 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CSS-3d" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/12/CSS-3d/" class="article-date">
+  <time datetime="2017-03-12T23:10:39.000Z" itemprop="datePublished">2017-03-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/12/CSS-3d/">CSS in 3d</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#CSS in 3d</p>
+<hr>
+<p>Contents:</p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#review-of-css-inheritance">Review of CSS Inheritance</a></li>
+<li><a href="#review-of-css-positioning">Review of CSS Positioning</a></li>
+<li><a href="#the-magic%3A-*transform%2dstyle%3Apreserve%2d3d%3B*-and-*perspective*">The Magic: <em>transform-style:preserve-3d;</em></a></li>
+<li><a href="#how-to-3d">How to 3d</a></li>
+<li><a href="#performance">Performance</a></li>
+<li><a href="#alternatives-and-when-to-use">Alternatives and When to Use</a></li>
+</ul>
+<hr>
+<p>##Introduction</p>
+<p>Cascading Style Sheets, or CSS, is often viewed as the bane of web design. While it’s relatively easy to learn - there’s generally only one pattern you need to learn, illustrated below - it’s notoriously difficult to master, and there are all sorts of finicky little gotchas that are sure to make you lose at least some of your hair. After all, how can this:</p>
+<pre>
+    #my-element{
+        position:absolute;
+        vertical-align:middle;
+        text-align:center;
+    }
+</pre>
+
+<p>not just simply do what it says on the box and, you know, put stuff in the middle of the page? The fact that simply typing <code>vertical-align</code> into Google brings up “vertical-align not working” as like the second or third suggestion should <em>itself</em> suggest how very many people have trouble with this little CSS rule <sup>1</sup>. </p>
+<p>One way of helping to alleviate this frustration is to remember that you’re a coder, and you love coding. So instead of beating your head against some really annoying, finicky CSS, why not try playing with it instead? Why not try making something in 3D, using only CSS?</p>
+<p>Before we begin, I’m gonna do two review sections: one of the fundamentals of CSS inheritance, and one of the positioning system.</p>
+<hr>
+<p>##Review of CSS Inheritance</p>
+<p>CSS is so-called cascading because of the way in which elements inherit particular CSS rules. The most general rules are ‘obeyed’, <em>unless</em> there are more specific rules. Just so we know what I’m talking about later on, let’s make a quick list of the order of inheritance. First, we’ll look at where the rules are <em>coming</em> from:</p>
+<ul>
+<li><em>None</em>: While it’s pretty much impossible to ‘use’ this, as the user-agent stylesheet takes precedence over it, we could argue that the most basic style is simply <em>no</em> style.</li>
+<li><em>User-Agent stylesheet</em>: The most general ruleset in use is the user-agent stylesheet, which is defined by the browser itself. This is why, for example, input elements look different in different browsers. Worth remember, if you need very specific styles.</li>
+<li><em>External stylesheets</em>: If we load an external sheet, via a <code>&lt;link&gt;</code> tag, that stylesheet takes precedence over the user-agent sheet.</li>
+<li><em>Inline <code>&lt;style&gt;</code> declaration</em>: It’s usually frowned upon (separation of concerns and all that), but if you’re a rebel and choose to include inline <code>&lt;style&gt;</code> elements, these will win over external stylesheets.</li>
+<li><em>Inline, in-element declarations</em>: These are the most specific, generally speaking. While they were traditionally frowned upon, as they have the same issue as inline <code>&lt;style&gt;</code> declarations in terms of lack of separation of concerns, they’ve become slightly more popular with dynamically generated views, from stuff like AngularJS or ReactJS.</li>
+</ul>
+<p>Within each of these style categories, there are also rules determining <em>what</em> element(s) is/are selected:</p>
+<ul>
+<li><em>‘&ast;’ selector</em>: The ‘everything’ selector. &ast; is a generic wildcard for ‘any element’. Useful if you wanna make very broad changes</li>
+<li><em><code>&lt;tag&gt;</code> selector</em>: This selects every element with a particular tag name. For example, if you said <code>span{ background:#f00; }</code>, every <code>&lt;span&gt;</code> element would now have a bright red background. Note two things here: firstly, making all your span elements have a red background is a surefire way to make people hate you. Second, the actual selector here is just the tag’s <em>name</em>, *not the name plus the <code>&lt;</code> and <code>&gt;</code> symbols.</li>
+<li><em>‘.class’ selector</em>: This selects everything with a particular class. So if we apply a style to class ‘my-class’, then that’d affect <code>&lt;div class=&#39;my-class&#39;&gt;</code>, <code>&lt;span class=&#39;my-class&#39;&gt;</code>, and <code>&lt;input class=&#39;my-class&#39;&gt;</code>, but <em>not</em> <code>&lt;div class=&#39;your-class&#39;&gt;</code>. The class selector (almost!) <em>always</em> wins over the tag selector.</li>
+<li><em>‘#id’ selector</em>: The ID selector is the most specific of the general element selectors. Baring any other hierarchy considerations, the ID selector <em>always</em> wins over the class selector.</li>
+</ul>
+<p>There are also pseudo-classes, pseudo-selectors, and other miscellanous bits, which can be applied to any of the above four selector types:</p>
+<ul>
+<li><code>:hover</code>: Applies a style only when an element has the mouse over it. An example might be something like <code>#my-btn:hover{font-size:larger}</code>, which would make your (presumably button) element with the id <code>my-btn</code> have a larger font-size when hovered over.</li>
+<li><code>:focus</code>: <em>Usually</em> used for input elements, this is used when an element has focus. That is, for example, if I’m typing, and the stuff I’m typing is currently going in this particular text input, then this style will affect that element.</li>
+<li><code>:active</code>: Don’t ignore this one just because it’s there for such a brief time! The <code>:active</code> pseudo-class applies while an element is being actually <em>used</em>. So if it’s a link, this’ll be active while the mouse is down on it.</li>
+<li><code>:visited</code>: Remember the old <code>alink</code>, <code>link</code> and <code>vlink</code> attributes of HTML4 and previous? This is sorta like that old <code>vlink</code>: it changes the style of links, but only if they’ve been visited.</li>
+<li><code>::before</code>: Allows you to create what is essentially a separate element (complete with its own style!) that’s ‘attached’ to the parent element. Note that you’ll usually need to use <code>content:&#39;&#39;;</code> to actually give the element something to ‘show’. traditionally goes <em>before</em> the element (that is, above or to the left of)</li>
+<li><code>::after</code>: Same as above, but traditionally goes, well, after the element.</li>
+<li><p><code>!important</code>: Not a pseudo-selector, but I thought it important to include it here anyway. The infamous !important declaration goes on a particular rule, and basically overrides any other heirarchy rules:</p>
+<pre>
+&#35;my-id{
+  background-color:#f00;
+}
+.my-class{
+  background-color:#0f0!important;
+}
+</pre>
+
+<p>Assuming we have element with both the class ‘my-class’ and the id ‘my-id’, the background color of this element would be <em>green</em>, despite the fact that ID selectors normally take precedence over class selectors. Because it basically overwrites any normally more-specific rulesets, this is frowned upon as a bit of a sledgehammer-to-crack-a-nut approach: it’s <em>far</em> better to rewrite your code so that you don’t have to use this than to use it. <sup>2</sup></p>
+</li>
+</ul>
+<hr>
+<p>##Review of CSS Positioning</p>
+<p>If you ever wanna position <em>anything</em> with CSS, you’ll need to know about the four different types of positioning, via the eponymous <code>position</code> property.</p>
+<ul>
+<li><p><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:<br>  <pre><br>  &#35;my-div{</pre></p>
+<pre><code>position:static;
+left:100px;
+</code></pre><p>  }<br>  <br>  Your element would stubbornly refuse to move right 100 pixels. How rude. Instead, elements with a <code>static</code> declaration will be positioned as per ‘normal’ layout.</p>
+</li>
+<li><p><code>position:absolute;</code>: In this case, the element is positioned relative to the first parent (going up its DOM heirarchy tree) that itself has a <code>position</code> value of something other than <code>static</code>. As the name implies, it’s useful for positioning elements absolutely.  </p>
+</li>
+<li><code>position:relative;</code>: This allows you to position elements relative to their ‘normal’ position. So if you say:<br>  <pre><br>  &#35;my-div{<pre><code>position:relative;
+left:10px;
+</code></pre>  }<br>  </pre><br>  then your element would be 10px to the right of where it ‘normally’ is. <sup>3</sup> </li>
+<li><p><code>position:fixed;</code>: This one’s a bit odd: instead of positioning an element relative to a parent, or to its original position, it positions the element relative to the <em>browser window</em>. THe cool thing about this affect is that if you position an element as so:<br>  <pre><br>  &#35;my-div{</pre></p>
+<pre><code>position:fixed;
+left:10px;
+top:10px;
+</code></pre><p>  }<br>  <br>  and then scroll the window, the element will stay ‘glued’ to the same position. Really useful for stuff like menus.</p>
+<p>Note that <code>fixed</code> and <code>absolute</code> also tell the browser not to leave space for the element. That is, if we have three spans, and the middle one has <code>position:fixed;</code>, then the first and third span will be smack up against each other.</p>
+</li>
+</ul>
+<p>You’ll <em>also</em>, however, need to know about the various <code>display</code> property values:</p>
+<ul>
+<li><code>display:none;</code>: Does pretty much what it says on the can: doesn’t show anything. Often used behind the scenes with various dynamic view things like AngularJS’s <code>ng-show</code> attribute.</li>
+<li><code>display:inline;</code>: Basically only takes up as much with as the element needs. Does not force a new line (akin to <code>&lt;br&gt;</code>) after or before the element. <code>inline</code> also tends to ignore certain positioning rules (as well as <code>width</code> and <code>height</code>), so when in doubt, probably best to choose one of the other rules if you need specific positioning.</li>
+<li><code>display:block;</code>: On the contrary, this by default takes up the <em>whole</em> width of the page, and <em>does</em> force a new before and after. Also, does pay attention to positioning rules. Pretty useful, but for elements that aren’t supposed to take up the entire page, the blank space can get kinda annoying.</li>
+<li><code>display:inline-block;</code>: The best of both worlds! Doesn’t force annoying linebreaks that create nasty blank space, but also allows you to specify widths and heights. Great for things like menus!</li>
+<li><code>display:flex;</code>: I won’t go into this much here, but suffice it to say that <code>flex</code>, part of CSS3’s Flexbox setup, is <em>very</em> useful, and well worth the research.</li>
+</ul>
+<hr>
+<p>##The Magic: <em>transform-style:preserve-3d;</em> and <em>perspective</em>;</p>
+<p>The <code>transform-style</code> property declares how elements are displayed in 3-space. Normally, its default value of <code>flat</code> means that while you can rotate and move elements in 3-space, they’ll be ‘flattened’ against the element with this declaration. That is, if you attempt to dynamically rotate them (via an <code>onmousemove</code> event or something similar), they’ll still appear as part of a flat, z-axis-less plane.</p>
+<p>Instead, we need to use the magic rule <code>transform-style:preserve-3d;</code>, which says that any child elements of this element will keep their z-axis (and thus <em>stay</em> 3D!). It’s worth repeating that this does <em>not</em> affect this element itself, but <em>only</em> its children! </p>
+<hr>
+<p>##How to 3d</p>
+<p>After you’ve declared a parent element with a <code>transform-style</code> property of <code>preserve-3d</code>, you just simply have to use the various <code>transform</code> property values to position your element in 3-space. Be aware that while you can rotate and move an element in the third, Z-axis dimension, there is no <code>depth</code> property. That is, you cannot construct a box by doing:</p>
+<pre>
+    .my-box{
+        width:100px;
+        height:100px;
+        depth:100px;
+    }
+</pre>
+instead, you'd have to construct the 'walls' of the box by rotating and positioning the individual faces.
+
+---
+
+##Performance
+
+There are generally three pieces of advice useful for doing CSS-3d:
+
+ 1. When possible, don't. Yes, I love doing CSS 3d, but even the best computer/browser is gonna find it a strain.
+ 2. When possible, use 3d transforms. The reason for this is that, especially with modern browsers, simply *using* a 3d-transform (even something like `transform:rotateZ(30deg)`, which is visually no different than `transform:rotate(30deg)`) forces the browser to use hardware accelerated graphics, if available. Since most computer's graphics cards are better at, well, doing graphics than simple software rendering, this can make stuff much more performant.
+ 3. Cross-browser testing is important! Depending on exactly what you're doing, you're gonna be using some pretty fancy and cutting-edge tech here. Certain browsers (hello again, IE/Edge) haven't quite kept up with that, so you may run into issues rendering stuff in 3d in those environments. 
+
+---
+
+##Alternatives and When to Use
+
+As I mention in point 1 of the previous section,  most browsers find this a particular strain, since it's forcing the browser to make relatively complex calculations. A much faster method would be to use JavaScript and Canvas, which are explicitly *designed* for graphics. 
+However, for demonstration purposes, very simple UI effects, and a few other use cases, CSS 3d is fine to use.
+
+---
+<small>
+
+Notes:
+
+ 1. If you're wondering why this doesn't work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they're designed to scroll vertically, webpages basically function on the "if I need more space, just add more vertical height" mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like "500px") just won't work. Take a look at the following example:
+ <pre>
+ html,body{
+     background:#000;//black background;
+ }
+ .my-div{
+     position:absolute;
+     width:98%;
+     left:1%;
+     top:1%;
+     height:98%;
+     background:#ddf;
+ }
+ </pre>
+
+<p> This, demonstrably, doesn’t work. If you inspect it, you’ll find a div with the correct width (98% of the total window width), but a height of zero! Instead, we need to <em>explicitly</em> define the height of the document as 100%:</p>
+ <pre>
+ html,body{
+     height:100%;
+     width:100%;
+     background:#000;//black background;
+ }
+ </pre>
+
+<ol>
+<li>Furthermore, using multiple !important declarations can make your CSS incredibly difficult to debug!</li>
+<li>Here’s a perhaps better example. Imagine we have a bunch of <code>&lt;span&gt;</code> elements in a row, contained within a div that has its <code>property</code> set to <code>absolute</code>. If we apply the rule <code>position:relative</code> to the spans, and then add <code>left:0px;</code>, the elements will be positioned as if they had no position styling at all. If we changed that <code>left</code> to say, <code>5px</code>, the elements would now <em>all</em> be shifted <em>right</em> by 5 pixels from their original locations. Similarly, if we change <code>position:relative</code> to <code>position:absolute</code>, the elements would now all be stacked on top of each, 5 pixels from the left border of the container div.<br></li></ol></small>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj07dtwcj0000rov2e1bfguo2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Exploring-JavaScript-Functions" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/03/10/Exploring-JavaScript-Functions/" class="article-date">
@@ -87,19 +283,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Deep-Dive-into-Functions"><a href="#Deep-Dive-into-Functions" class="headerlink" title="Deep-Dive into Functions"></a>Deep-Dive into Functions</h1><hr>
+        <p>#Deep-Dive into Functions</p>
+<hr>
 <p>Contents:</p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#function-expressions-vs-function-declarations">Function Expressions vs Function Declarations</a></li>
-<li><a href="#synchronous-vs- asynchronous">Synchronous vs Asynchronous</a></li>
+<li><a href="#synchronous-vs-asynchronous">Synchronous vs Asynchronous</a></li>
 <li><a href="#implicit-vs-explicit-return">Implicit vs Explicit Return</a></li>
 <li><a href="#pure-vs-impure">Pure vs Impure</a></li>
 <li><a href="#function-arity">Function Arity</a></li>
 <li><a href="#functions-as-first-class-objects">Functions as First-Class Objects</a></li>
 </ul>
 <hr>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
+<p>##Introduction</p>
+<p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
 <pre>
 function(userName){
     alert('Hello there,'+userName);
@@ -119,7 +317,8 @@ callMom();
 <p>Finally, note that nested functions are a thing. While this can be a bad thing (if, for example, you call recursive functions or allow them to call themselves), this also allows us to do funky things like this: <code>Math.floor(Math.random()*9999).toString(32)</code>. Here, we <em>first</em> take a random decimal from 0 to 1. We then multiply that by 9999. Next, we take the floor of that number - that is, the next integer lower than or equal to that decimal - and convert it to a base-32 string. All in all, this allows us to easily spit out a random string of letters and numbers; great if you need a random ID for something!</p>
 <p>In the remainder of this post, I’ll look at some various types of functions, as well as a specific feature of ES6/7 that makes functions more adaptable and fun. </p>
 <hr>
-<h2 id="Function-Expressions-vs-Function-Declarations"><a href="#Function-Expressions-vs-Function-Declarations" class="headerlink" title="Function Expressions vs Function Declarations"></a>Function Expressions vs Function Declarations</h2><p>There are, generally speaking, two ways of writing a function. </p>
+<p>##Function Expressions vs Function Declarations</p>
+<p>There are, generally speaking, two ways of writing a function. </p>
 <p>The first is known as the <em>function declaration</em>:</p>
 <pre>
 function myFunc(breed){
@@ -150,7 +349,8 @@ var myFunc = function(name){
 <p>because while the fact that the variable myFunc exists (is ‘defined’) <em>is</em> hoisted, the contents of it aren’t. So by the time we call the function with <code>myFunc(&#39;Dave&#39;);</code>, JavaScript thinks that we’re trying to run something that’s not a function! Remember that if neither the contents nor the declaration were hoisted, we’d simply get: <code>Uncaught ReferenceError: myFunc is not defined</code>.</p>
 <p>So… why wouldn’t you wanna use function declarations? Would that just make everything easier? Well, yes, and that can <em>actually</em> be a problem. By using function expressions, functions are defined <em>exactly</em> when they need to be. As such, you can much more easily debug your awesome new app, because you know <em>exactly</em> where to look in the code based on where the functions are failing.  </p>
 <hr>
-<h2 id="Synchronous-vs-Asynchronous"><a href="#Synchronous-vs-Asynchronous" class="headerlink" title="Synchronous vs Asynchronous"></a>Synchronous vs Asynchronous</h2><p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
+<p>##Synchronous vs Asynchronous</p>
+<p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
 <p>While this approach is pretty obvious in every life, it’s perhaps not so obvious to the beginning programmer whose code, up until now, has been doing things exactly when he tells it to. Let’s look at a synchronous example first, with some pseudo-pseudocode:</p>
 <pre>
 var animalList = ['cat','fish','dog','monkey','hippo','apatosaurus']
@@ -210,7 +410,8 @@ window.onmousemove = function(e){
 </li>
 </ul>
 <hr>
-<h2 id="Implicit-vs-Explicit-Return"><a href="#Implicit-vs-Explicit-Return" class="headerlink" title="Implicit vs Explicit Return"></a>Implicit vs Explicit Return</h2><p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
+<p>##Implicit vs Explicit Return</p>
+<p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
 <p><code>mixDryIngreds().mixWetIngreds().addChocolate().pourInCakePan().bake();</code></p>
 <p>In order for a function’s work to be used by something else, that function needs to <em>return</em> something, using an optional (<em> gasp! </em>) <code>return</code> statement. If it’s not included, the function returns an implied <code>undefined</code>:</p>
 <pre>
@@ -223,7 +424,8 @@ function checkIfDave(name){
 
 <p>If the value of the string <code>name</code> passed to the <code>checkIfDave()</code> function isn’t ‘Dave’, we obviously aren’t gonna trigger the <code>return true;</code> bit. Instead, the function will implicitly return <code>undefined</code>. Since that <code>undefined</code> is falsey, we can use this to implied return value a conditional!</p>
 <hr>
-<h2 id="Pure-vs-Impure"><a href="#Pure-vs-Impure" class="headerlink" title="Pure vs Impure"></a>Pure vs Impure</h2><p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
+<p>##Pure vs Impure </p>
+<p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
 <p><img src="../images/improper.jpg" alt=""></p>
 <p><em>Hide your eyes, kids!</em></p>
 <p>However, <em>pure</em> with regards to functions is simply a term for functions that, given the same specific, explicit arguments each time, will spit out the same result each time. The function <code>Math.floor()</code> is <em>always</em> going to return the <code>4</code>, if given the same input <code>4.3</code>.</p>
@@ -241,7 +443,8 @@ function likesPet(name){
 
 <p>While this function does include an input of <code>name</code>, which by itself would leave the function pure, its output also depends on the value of an external variable <code>pickCat</code>. As <a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.58st43xfx" target="_blank" rel="external">Eric Elliot</a> says, “pure functions produce no side effects”.  </p>
 <hr>
-<h2 id="Function-Arity"><a href="#Function-Arity" class="headerlink" title="Function Arity"></a>Function Arity</h2><p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
+<p>##Function Arity </p>
+<p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
 <p><code>myFunc(name){...}</code></p>
 <p>and then later on write</p>
 <p><code>myFunc(name,date){...}</code></p>
@@ -296,12 +499,9 @@ var doIt = function(...fine){
     }
 </pre>
 
-
-
-
-
 <hr>
-<h2 id="Functions-as-First-Class-Objects"><a href="#Functions-as-First-Class-Objects" class="headerlink" title="Functions as First-Class Objects"></a>Functions as First-Class Objects</h2><p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
+<p>##Functions as First-Class Objects</p>
+<p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
 <p>Of course not. It means that, first and foremost, JavaScript functions follow another very famous JavaScript mantra: (almost) <em>Everything</em> is an object.</p>
 <p>What this means in terms of functions is two-fold: firstly, functions are, as with any other objects, created with their own constructor. This <code>Function</code> constructor actually can be called explicitly (i.e., <code>new Function(args)</code>), but is usually implicitly called via simply writing a function declaration or function expression. </p>
 <p>The second result of functions being objects stems from JavaScript’s prototypical inheritance model. Remember from high school biology how organisms are grouped based on similarities, and organisms that share a common group also share common traits? Well, the same’s true for JavaScript ‘groups’ (we call these <em>classes</em>): all members of the <code>Function</code> class can be ‘called’, all members of the <code>Object</code> class can have their properties listed via <code>Object.getOwnPropertyNames()</code>, and so on. So what does this mean in terms of the statement “functions are first-class objects”? It just means that functions in JavaScript <em>are</em> objects. You can pass them around like objects. You can ask for their property names. </p>
@@ -309,7 +509,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj05lj62z0002u4v2hdbsysoh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj07dtwcn0001rov2nwoot76t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -432,7 +632,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/02/Science-1/" data-id="cj05lj62x0001u4v2d7vnbwes" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/01/02/Science-1/" data-id="cj07dtwcs0004rov20fu350cb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -510,7 +710,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cj05lj6310003u4v26n3ggk7r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cj07dtwcq0003rov2ccq15nav" class="article-share-link">Share</a>
       
       
     </footer>
@@ -552,7 +752,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/05/Code/" data-id="cj05lj62k0000u4v2rmy8bvju" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/05/Code/" data-id="cj07dtwcp0002rov2kub83zpy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -590,6 +790,10 @@ var doIt = function(...fine){
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/03/12/CSS-3d/">CSS in 3d</a>
+          </li>
         
           <li>
             <a href="/2017/03/10/Exploring-JavaScript-Functions/">Exploring JavaScript Functions</a>
