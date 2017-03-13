@@ -35,7 +35,7 @@ Alternatives and When to Use
 
 
 IntroductionCascading">
-<meta property="og:updated_time" content="2017-03-13T00:47:09.556Z">
+<meta property="og:updated_time" content="2017-03-13T00:49:37.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS in 3d">
 <meta name="twitter:description" content="CSS in 3d
@@ -173,40 +173,56 @@ IntroductionCascading">
 <li><code>:visited</code>: Remember the old <code>alink</code>, <code>link</code> and <code>vlink</code> attributes of HTML4 and previous? This is sorta like that old <code>vlink</code>: it changes the style of links, but only if they’ve been visited.</li>
 <li><code>::before</code>: Allows you to create what is essentially a separate element (complete with its own style!) that’s ‘attached’ to the parent element. Note that you’ll usually need to use <code>content:&#39;&#39;;</code> to actually give the element something to ‘show’. traditionally goes <em>before</em> the element (that is, above or to the left of)</li>
 <li><code>::after</code>: Same as above, but traditionally goes, well, after the element.</li>
-<li><p><code>!important</code>: Not a pseudo-selector, but I thought it important to include it here anyway. The infamous !important declaration goes on a particular rule, and basically overrides any other heirarchy rules:</p>
+<li><code>!important</code>: Not a pseudo-selector, but I thought it important to include it here anyway. The infamous !important declaration goes on a particular rule, and basically overrides any other heirarchy rules:</li>
+</ul>
 <pre>
-&#35;my-id{
-  background-color:#f00;
-}
-.my-class{
-  background-color:#0f0!important;
-}
+  #my-id{
+      background-color:#f00;
+  }
+  .my-class{
+      background-color:#0f0!important;
+  }
 </pre>
 
-<p>Assuming we have element with both the class ‘my-class’ and the id ‘my-id’, the background color of this element would be <em>green</em>, despite the fact that ID selectors normally take precedence over class selectors. Because it basically overwrites any normally more-specific rulesets, this is frowned upon as a bit of a sledgehammer-to-crack-a-nut approach: it’s <em>far</em> better to rewrite your code so that you don’t have to use this than to use it. <sup>2</sup></p>
-</li>
-</ul>
+<p>  Assuming we have element with both the class ‘my-class’ and the id ‘my-id’, the background color of this element would be <em>green</em>, despite the fact that ID selectors normally take precedence over class selectors. Because it basically overwrites any normally more-specific rulesets, this is frowned upon as a bit of a sledgehammer-to-crack-a-nut approach: it’s <em>far</em> better to rewrite your code so that you don’t have to use this than to use it. <sup>2</sup></p>
 <hr>
 <h2 id="Review-of-CSS-Positioning"><a href="#Review-of-CSS-Positioning" class="headerlink" title="Review of CSS Positioning"></a>Review of CSS Positioning</h2><p>If you ever wanna position <em>anything</em> with CSS, you’ll need to know about the four different types of positioning, via the eponymous <code>position</code> property.</p>
 <ul>
-<li><p><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:<br>  <pre><br>  #my-div{</pre></p>
-<pre><code>position:static;
-left:100px;
-</code></pre><p>  }<br>  <br>  Your element would stubbornly refuse to move right 100 pixels. How rude. Instead, elements with a <code>static</code> declaration will be positioned as per ‘normal’ layout.</p>
-</li>
-<li><p><code>position:absolute;</code>: In this case, the element is positioned relative to the first parent (going up its DOM heirarchy tree) that itself has a <code>position</code> value of something other than <code>static</code>. As the name implies, it’s useful for positioning elements absolutely.  </p>
-</li>
-<li><code>position:relative;</code>: This allows you to position elements relative to their ‘normal’ position. So if you say:<br>  <pre><br>  #my-div{<pre><code>position:relative;
-left:10px;
-</code></pre>  }<br>  </pre><br>  then your element would be 10px to the right of where it ‘normally’ is. <sup>3</sup> </li>
-<li><p><code>position:fixed;</code>: This one’s a bit odd: instead of positioning an element relative to a parent, or to its original position, it positions the element relative to the <em>browser window</em>. The cool thing about this affect is that if you position an element as so:<br><pre><br>  #my-div{</pre></p>
-<pre><code>position:fixed;
-left:10px;
-top:10px;
-</code></pre><p>  }<br><br>and then scroll the window, the element will stay ‘glued’ to the same position. Really useful for stuff like menus.</p>
-<p>Note that <code>fixed</code> and <code>absolute</code> also tell the browser not to leave space for the element. That is, if we have three spans, and the middle one has <code>position:fixed;</code>, then the first and third span will be smack up against each other.</p>
-</li>
+<li><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:</li>
 </ul>
+<pre>
+     #my-div{
+         position:static;
+         left:100px;
+     }
+</pre> 
+
+<pre><code>Your element would stubbornly refuse to move right 100 pixels. How rude. Instead, elements with a `static` declaration will be positioned as per &apos;normal&apos; layout.
+</code></pre><ul>
+<li><code>position:absolute;</code>: In this case, the element is positioned relative to the first parent (going up its DOM heirarchy tree) that itself has a <code>position</code> value of something other than <code>static</code>. As the name implies, it’s useful for positioning elements absolutely.  </li>
+<li><code>position:relative;</code>: This allows you to position elements relative to their ‘normal’ position. So if you say: </li>
+</ul>
+<pre>
+     #my-div{
+         position:relative;
+         left:10px;
+     }
+</pre>
+
+<pre><code>then your element would be 10px to the right of where it &apos;normally&apos; is. &lt;sup&gt;3&lt;/sup&gt; 
+</code></pre><ul>
+<li><code>position:fixed;</code>: This one’s a bit odd: instead of positioning an element relative to a parent, or to its original position, it positions the element relative to the <em>browser window</em>. The cool thing about this affect is that if you position an element as so:</li>
+</ul>
+<pre>
+     #my-div{
+         position:fixed;
+         left:10px;
+         top:10px;
+     }
+</pre>
+
+<p> and then scroll the window, the element will stay ‘glued’ to the same position. Really useful for stuff like menus.</p>
+<p> Note that <code>fixed</code> and <code>absolute</code> also tell the browser not to leave space for the element. That is, if we have three spans, and the middle one has <code>position:fixed;</code>, then the first and third span will be smack up against each other.</p>
 <p>You’ll <em>also</em>, however, need to know about the various <code>display</code> property values:</p>
 <ul>
 <li><code>display:none;</code>: Does pretty much what it says on the can: doesn’t show anything. Often used behind the scenes with various dynamic view things like AngularJS’s <code>ng-show</code> attribute.</li>
@@ -252,7 +268,8 @@ However, for demonstration purposes, very simple UI effects, and a few other use
 Notes:
 
  1. If you're wondering why this doesn't work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they're designed to scroll vertically, webpages basically function on the "if I need more space, just add more vertical height" mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like "500px") just won't work. Take a look at the following example:
- <pre>
+
+<pre>
  html,body{
      background:#000;//black background;
  }
@@ -264,10 +281,10 @@ Notes:
      height:98%;
      background:#ddf;
  }
- </pre>
+</pre>
 
 <p> This, demonstrably, doesn’t work. If you inspect it, you’ll find a div with the correct width (98% of the total window width), but a height of zero! Instead, we need to <em>explicitly</em> define the height of the document as 100%:</p>
- <pre>
+<pre>
  html,body{
      height:100%;
      width:100%;
