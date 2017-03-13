@@ -35,7 +35,7 @@ Alternatives and When to Use
 
 
 IntroductionCascading">
-<meta property="og:updated_time" content="2017-03-13T00:54:45.414Z">
+<meta property="og:updated_time" content="2017-03-13T00:55:34.797Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS in 3d">
 <meta name="twitter:description" content="CSS in 3d
@@ -243,31 +243,22 @@ IntroductionCascading">
         depth:100px;
     }
 </pre>
-instead, you'd have to construct the 'walls' of the box by rotating and positioning the individual faces.
 
----
-
-## Performance
-
-There are generally three pieces of advice useful for doing CSS-3d:
-
- 1. When possible, don't. Yes, I love doing CSS 3d, but even the best computer/browser is gonna find it a strain.
- 2. When possible, use 3d transforms. The reason for this is that, especially with modern browsers, simply *using* a 3d-transform (even something like `transform:rotateZ(30deg)`, which is visually no different than `transform:rotate(30deg)`) forces the browser to use hardware accelerated graphics, if available. Since most computer's graphics cards are better at, well, doing graphics than simple software rendering, this can make stuff much more performant.
- 3. Cross-browser testing is important! Depending on exactly what you're doing, you're gonna be using some pretty fancy and cutting-edge tech here. Certain browsers (hello again, IE/Edge) haven't quite kept up with that, so you may run into issues rendering stuff in 3d in those environments. 
-
----
-
-## Alternatives and When to Use
-
-As I mention in point 1 of the previous section,  most browsers find this a particular strain, since it's forcing the browser to make relatively complex calculations. A much faster method would be to use JavaScript and Canvas, which are explicitly *designed* for graphics. 
-However, for demonstration purposes, very simple UI effects, and a few other use cases, CSS 3d is fine to use.
-
----
-
-Notes:
-
-1. If you're wondering why this doesn't work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they're designed to scroll vertically, webpages basically function on the "if I need more space, just add more vertical height" mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like "500px") just won't work. Take a look at the following example:
-
+<p>instead, you’d have to construct the ‘walls’ of the box by rotating and positioning the individual faces.</p>
+<hr>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><p>There are generally three pieces of advice useful for doing CSS-3d:</p>
+<ol>
+<li>When possible, don’t. Yes, I love doing CSS 3d, but even the best computer/browser is gonna find it a strain.</li>
+<li>When possible, use 3d transforms. The reason for this is that, especially with modern browsers, simply <em>using</em> a 3d-transform (even something like <code>transform:rotateZ(30deg)</code>, which is visually no different than <code>transform:rotate(30deg)</code>) forces the browser to use hardware accelerated graphics, if available. Since most computer’s graphics cards are better at, well, doing graphics than simple software rendering, this can make stuff much more performant.</li>
+<li>Cross-browser testing is important! Depending on exactly what you’re doing, you’re gonna be using some pretty fancy and cutting-edge tech here. Certain browsers (hello again, IE/Edge) haven’t quite kept up with that, so you may run into issues rendering stuff in 3d in those environments. </li>
+</ol>
+<hr>
+<h2 id="Alternatives-and-When-to-Use"><a href="#Alternatives-and-When-to-Use" class="headerlink" title="Alternatives and When to Use"></a>Alternatives and When to Use</h2><p>As I mention in point 1 of the previous section,  most browsers find this a particular strain, since it’s forcing the browser to make relatively complex calculations. A much faster method would be to use JavaScript and Canvas, which are explicitly <em>designed</em> for graphics.<br>However, for demonstration purposes, very simple UI effects, and a few other use cases, CSS 3d is fine to use.</p>
+<hr>
+<p>Notes:</p>
+<ol>
+<li>If you’re wondering why this doesn’t work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they’re designed to scroll vertically, webpages basically function on the “if I need more space, just add more vertical height” mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like “500px”) just won’t work. Take a look at the following example:</li>
+</ol>
 <pre>
  html,body{
      background:#000;//black background;
@@ -299,7 +290,7 @@ Notes:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj07ecrsw0003icv2qswey0eq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj07edv360001m0v210k0b7il" class="article-share-link">Share</a>
       
       
     </footer>
