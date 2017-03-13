@@ -217,12 +217,10 @@
 <hr>
 <h2 id="Alternatives-and-When-to-Use"><a href="#Alternatives-and-When-to-Use" class="headerlink" title="Alternatives and When to Use"></a>Alternatives and When to Use</h2><p>As I mention in point 1 of the previous section,  most browsers find this a particular strain, since it’s forcing the browser to make relatively complex calculations. A much faster method would be to use JavaScript and Canvas, which are explicitly <em>designed</em> for graphics.<br>However, for demonstration purposes, very simple UI effects, and a few other use cases, CSS 3d is fine to use.</p>
 <hr>
-<p><small></small></p>
-<p>Notes:</p>
-<ol>
-<li>If you’re wondering why this doesn’t work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they’re designed to scroll vertically, webpages basically function on the “if I need more space, just add more vertical height” mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like “500px”) just won’t work. Take a look at the following example:</li>
-</ol>
-<pre>
+<p><small><br>    Notes:</small></p>
+<pre><code>1. If you&apos;re wondering why this doesn&apos;t work, it has to do with the fact that the height of a webpage is very rarely explictly defined. Because they&apos;re designed to scroll vertically, webpages basically function on the &quot;if I need more space, just add more vertical height&quot; mantra. For this reason, telling something to be positioned vertically, especially by something like a percent or relative value (rather than, say, an absolute one like &quot;500px&quot;) just won&apos;t work. Take a look at the following example:
+
+&lt;pre&gt;
  html,body{
      background:#000;//black background;
  }
@@ -234,27 +232,26 @@
      height:98%;
      background:#ddf;
  }
- </pre>
+ &lt;/pre&gt;
 
-<p> This, demonstrably, doesn’t work. If you inspect it, you’ll find a div with the correct width (98% of the total window width), but a height of zero! Instead, we need to <em>explicitly</em> define the height of the document as 100%:</p>
- <pre>
+ This, demonstrably, doesn&apos;t work. If you inspect it, you&apos;ll find a div with the correct width (98% of the total window width), but a height of zero! Instead, we need to *explicitly* define the height of the document as 100%:
+
+ &lt;pre&gt;
      html,body{
          height:100%;
          width:100%;
          background:#000;//black background;
      }
- </pre>
+ &lt;/pre&gt;
 
-<ol>
-<li>Furthermore, using multiple !important declarations can make your CSS incredibly difficult to debug!</li>
-<li>Here’s a perhaps better example. Imagine we have a bunch of <code>&lt;span&gt;</code> elements in a row, contained within a div that has its <code>property</code> set to <code>absolute</code>. If we apply the rule <code>position:relative</code> to the spans, and then add <code>left:0px;</code>, the elements will be positioned as if they had no position styling at all. If we changed that <code>left</code> to say, <code>5px</code>, the elements would now <em>all</em> be shifted <em>right</em> by 5 pixels from their original locations. Similarly, if we change <code>position:relative</code> to <code>position:absolute</code>, the elements would now all be stacked on top of each, 5 pixels from the left border of the container div.</li>
-</ol>
-<p></p>
+2. Furthermore, using multiple !important declarations can make your CSS incredibly difficult to debug!
+3. Here&apos;s a perhaps better example. Imagine we have a bunch of `&lt;span&gt;` elements in a row, contained within a div that has its `property` set to `absolute`. If we apply the rule `position:relative` to the spans, and then add `left:0px;`, the elements will be positioned as if they had no position styling at all. If we changed that `left` to say, `5px`, the elements would now *all* be shifted *right* by 5 pixels from their original locations. Similarly, if we change `position:relative` to `position:absolute`, the elements would now all be stacked on top of each, 5 pixels from the left border of the container div.
+</code></pre><p></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj07ego4s00007cv23tzsbyez" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj07eig5o00004sv2rg4ovtns" class="article-share-link">Share</a>
       
       
     </footer>
@@ -504,7 +501,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj07ego5300037cv2robgn6xm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj07eig5x00044sv2wapkr4ao" class="article-share-link">Share</a>
       
       
     </footer>
@@ -627,7 +624,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/02/Science-1/" data-id="cj07ego5200027cv20el4p3hz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/01/02/Science-1/" data-id="cj07eig5u00024sv2iiqx6h39" class="article-share-link">Share</a>
       
       
     </footer>
@@ -705,7 +702,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cj07ego5g00047cv25bxiosyd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cj07eig5w00034sv251i2x6jn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -747,7 +744,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/05/Code/" data-id="cj07ego4w00017cv2rooehqfd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/05/Code/" data-id="cj07eig5s00014sv2w3dplcwr" class="article-share-link">Share</a>
       
       
     </footer>
