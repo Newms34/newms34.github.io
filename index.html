@@ -158,13 +158,13 @@ left:100px;
 </li>
 <li><p><code>position:absolute;</code>: In this case, the element is positioned relative to the first parent (going up its DOM heirarchy tree) that itself has a <code>position</code> value of something other than <code>static</code>. As the name implies, it’s useful for positioning elements absolutely.  </p>
 </li>
-<li><code>position:relative;</code>: This allows you to position elements relative to their ‘normal’ position. So if you say:<br>  <pre><pre><code>&amp;#35;my-div{
+<li><code>position:relative;</code>: This allows you to position elements relative to their ‘normal’ position. So if you say:<br>  <pre><pre><code>#my-div{
     position:relative;
     left:10px;
 }
 </code></pre>  </pre><br>  then your element would be 10px to the right of where it ‘normally’ is. <sup>3</sup> </li>
 <li><p><code>position:fixed;</code>: This one’s a bit odd: instead of positioning an element relative to a parent, or to its original position, it positions the element relative to the <em>browser window</em>. THe cool thing about this affect is that if you position an element as so:<br>  <pre></pre></p>
-<pre><code>&amp;#35;my-div{
+<pre><code>#my-div{
     position:fixed;
     left:10px;
     top:10px;
