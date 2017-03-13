@@ -87,8 +87,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#CSS in 3d</p>
-<hr>
+        <h1 id="CSS-in-3d"><a href="#CSS-in-3d" class="headerlink" title="CSS in 3d"></a>CSS in 3d</h1><hr>
 <p>Contents:</p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -100,8 +99,7 @@
 <li><a href="#alternatives-and-when-to-use">Alternatives and When to Use</a></li>
 </ul>
 <hr>
-<p>##Introduction</p>
-<p>Cascading Style Sheets, or CSS, is often viewed as the bane of web design. While it’s relatively easy to learn - there’s generally only one pattern you need to learn, illustrated below - it’s notoriously difficult to master, and there are all sorts of finicky little gotchas that are sure to make you lose at least some of your hair. After all, how can this:</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Cascading Style Sheets, or CSS, is often viewed as the bane of web design. While it’s relatively easy to learn - there’s generally only one pattern you need to learn, illustrated below - it’s notoriously difficult to master, and there are all sorts of finicky little gotchas that are sure to make you lose at least some of your hair. After all, how can this:</p>
 <pre>
     #my-element{
         position:absolute;
@@ -114,8 +112,7 @@
 <p>One way of helping to alleviate this frustration is to remember that you’re a coder, and you love coding. So instead of beating your head against some really annoying, finicky CSS, why not try playing with it instead? Why not try making something in 3D, using only CSS?</p>
 <p>Before we begin, I’m gonna do two review sections: one of the fundamentals of CSS inheritance, and one of the positioning system.</p>
 <hr>
-<p>##Review of CSS Inheritance</p>
-<p>CSS is so-called cascading because of the way in which elements inherit particular CSS rules. The most general rules are ‘obeyed’, <em>unless</em> there are more specific rules. Just so we know what I’m talking about later on, let’s make a quick list of the order of inheritance. First, we’ll look at where the rules are <em>coming</em> from:</p>
+<h2 id="Review-of-CSS-Inheritance"><a href="#Review-of-CSS-Inheritance" class="headerlink" title="Review of CSS Inheritance"></a>Review of CSS Inheritance</h2><p>CSS is so-called cascading because of the way in which elements inherit particular CSS rules. The most general rules are ‘obeyed’, <em>unless</em> there are more specific rules. Just so we know what I’m talking about later on, let’s make a quick list of the order of inheritance. First, we’ll look at where the rules are <em>coming</em> from:</p>
 <ul>
 <li><em>None</em>: While it’s pretty much impossible to ‘use’ this, as the user-agent stylesheet takes precedence over it, we could argue that the most basic style is simply <em>no</em> style.</li>
 <li><em>User-Agent stylesheet</em>: The most general ruleset in use is the user-agent stylesheet, which is defined by the browser itself. This is why, for example, input elements look different in different browsers. Worth remember, if you need very specific styles.</li>
@@ -152,8 +149,7 @@
 </li>
 </ul>
 <hr>
-<p>##Review of CSS Positioning</p>
-<p>If you ever wanna position <em>anything</em> with CSS, you’ll need to know about the four different types of positioning, via the eponymous <code>position</code> property.</p>
+<h2 id="Review-of-CSS-Positioning"><a href="#Review-of-CSS-Positioning" class="headerlink" title="Review of CSS Positioning"></a>Review of CSS Positioning</h2><p>If you ever wanna position <em>anything</em> with CSS, you’ll need to know about the four different types of positioning, via the eponymous <code>position</code> property.</p>
 <ul>
 <li><p><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:<br>  <pre><br>  &#35;my-div{</pre></p>
 <pre><code>position:static;
@@ -182,12 +178,10 @@ top:10px;
 <li><code>display:flex;</code>: I won’t go into this much here, but suffice it to say that <code>flex</code>, part of CSS3’s Flexbox setup, is <em>very</em> useful, and well worth the research.</li>
 </ul>
 <hr>
-<p>##The Magic: <em>transform-style:preserve-3d;</em> and <em>perspective</em>;</p>
-<p>The <code>transform-style</code> property declares how elements are displayed in 3-space. Normally, its default value of <code>flat</code> means that while you can rotate and move elements in 3-space, they’ll be ‘flattened’ against the element with this declaration. That is, if you attempt to dynamically rotate them (via an <code>onmousemove</code> event or something similar), they’ll still appear as part of a flat, z-axis-less plane.</p>
+<h2 id="The-Magic-transform-style-preserve-3d-and-perspective"><a href="#The-Magic-transform-style-preserve-3d-and-perspective" class="headerlink" title="The Magic: transform-style:preserve-3d; and perspective;"></a>The Magic: <em>transform-style:preserve-3d;</em> and <em>perspective</em>;</h2><p>The <code>transform-style</code> property declares how elements are displayed in 3-space. Normally, its default value of <code>flat</code> means that while you can rotate and move elements in 3-space, they’ll be ‘flattened’ against the element with this declaration. That is, if you attempt to dynamically rotate them (via an <code>onmousemove</code> event or something similar), they’ll still appear as part of a flat, z-axis-less plane.</p>
 <p>Instead, we need to use the magic rule <code>transform-style:preserve-3d;</code>, which says that any child elements of this element will keep their z-axis (and thus <em>stay</em> 3D!). It’s worth repeating that this does <em>not</em> affect this element itself, but <em>only</em> its children! </p>
 <hr>
-<p>##How to 3d</p>
-<p>After you’ve declared a parent element with a <code>transform-style</code> property of <code>preserve-3d</code>, you just simply have to use the various <code>transform</code> property values to position your element in 3-space. Be aware that while you can rotate and move an element in the third, Z-axis dimension, there is no <code>depth</code> property. That is, you cannot construct a box by doing:</p>
+<h2 id="How-to-3d"><a href="#How-to-3d" class="headerlink" title="How to 3d"></a>How to 3d</h2><p>After you’ve declared a parent element with a <code>transform-style</code> property of <code>preserve-3d</code>, you just simply have to use the various <code>transform</code> property values to position your element in 3-space. Be aware that while you can rotate and move an element in the third, Z-axis dimension, there is no <code>depth</code> property. That is, you cannot construct a box by doing:</p>
 <pre>
     .my-box{
         width:100px;
@@ -199,7 +193,7 @@ instead, you'd have to construct the 'walls' of the box by rotating and position
 
 ---
 
-##Performance
+## Performance
 
 There are generally three pieces of advice useful for doing CSS-3d:
 
@@ -209,7 +203,7 @@ There are generally three pieces of advice useful for doing CSS-3d:
 
 ---
 
-##Alternatives and When to Use
+## Alternatives and When to Use
 
 As I mention in point 1 of the previous section,  most browsers find this a particular strain, since it's forcing the browser to make relatively complex calculations. A much faster method would be to use JavaScript and Canvas, which are explicitly *designed* for graphics. 
 However, for demonstration purposes, very simple UI effects, and a few other use cases, CSS 3d is fine to use.
@@ -283,8 +277,7 @@ Notes:
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Deep-Dive into Functions</p>
-<hr>
+        <h1 id="Deep-Dive-into-Functions"><a href="#Deep-Dive-into-Functions" class="headerlink" title="Deep-Dive into Functions"></a>Deep-Dive into Functions</h1><hr>
 <p>Contents:</p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -296,8 +289,7 @@ Notes:
 <li><a href="#functions-as-first-class-objects">Functions as First-Class Objects</a></li>
 </ul>
 <hr>
-<p>##Introduction</p>
-<p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
 <pre>
 function(userName){
     alert('Hello there,'+userName);
@@ -317,8 +309,7 @@ callMom();
 <p>Finally, note that nested functions are a thing. While this can be a bad thing (if, for example, you call recursive functions or allow them to call themselves), this also allows us to do funky things like this: <code>Math.floor(Math.random()*9999).toString(32)</code>. Here, we <em>first</em> take a random decimal from 0 to 1. We then multiply that by 9999. Next, we take the floor of that number - that is, the next integer lower than or equal to that decimal - and convert it to a base-32 string. All in all, this allows us to easily spit out a random string of letters and numbers; great if you need a random ID for something!</p>
 <p>In the remainder of this post, I’ll look at some various types of functions, as well as a specific feature of ES6/7 that makes functions more adaptable and fun. </p>
 <hr>
-<p>##Function Expressions vs Function Declarations</p>
-<p>There are, generally speaking, two ways of writing a function. </p>
+<h2 id="Function-Expressions-vs-Function-Declarations"><a href="#Function-Expressions-vs-Function-Declarations" class="headerlink" title="Function Expressions vs Function Declarations"></a>Function Expressions vs Function Declarations</h2><p>There are, generally speaking, two ways of writing a function. </p>
 <p>The first is known as the <em>function declaration</em>:</p>
 <pre>
 function myFunc(breed){
@@ -349,8 +340,7 @@ var myFunc = function(name){
 <p>because while the fact that the variable myFunc exists (is ‘defined’) <em>is</em> hoisted, the contents of it aren’t. So by the time we call the function with <code>myFunc(&#39;Dave&#39;);</code>, JavaScript thinks that we’re trying to run something that’s not a function! Remember that if neither the contents nor the declaration were hoisted, we’d simply get: <code>Uncaught ReferenceError: myFunc is not defined</code>.</p>
 <p>So… why wouldn’t you wanna use function declarations? Would that just make everything easier? Well, yes, and that can <em>actually</em> be a problem. By using function expressions, functions are defined <em>exactly</em> when they need to be. As such, you can much more easily debug your awesome new app, because you know <em>exactly</em> where to look in the code based on where the functions are failing.  </p>
 <hr>
-<p>##Synchronous vs Asynchronous</p>
-<p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
+<h2 id="Synchronous-vs-Asynchronous"><a href="#Synchronous-vs-Asynchronous" class="headerlink" title="Synchronous vs Asynchronous"></a>Synchronous vs Asynchronous</h2><p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
 <p>While this approach is pretty obvious in every life, it’s perhaps not so obvious to the beginning programmer whose code, up until now, has been doing things exactly when he tells it to. Let’s look at a synchronous example first, with some pseudo-pseudocode:</p>
 <pre>
 var animalList = ['cat','fish','dog','monkey','hippo','apatosaurus']
@@ -410,8 +400,7 @@ window.onmousemove = function(e){
 </li>
 </ul>
 <hr>
-<p>##Implicit vs Explicit Return</p>
-<p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
+<h2 id="Implicit-vs-Explicit-Return"><a href="#Implicit-vs-Explicit-Return" class="headerlink" title="Implicit vs Explicit Return"></a>Implicit vs Explicit Return</h2><p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
 <p><code>mixDryIngreds().mixWetIngreds().addChocolate().pourInCakePan().bake();</code></p>
 <p>In order for a function’s work to be used by something else, that function needs to <em>return</em> something, using an optional (<em> gasp! </em>) <code>return</code> statement. If it’s not included, the function returns an implied <code>undefined</code>:</p>
 <pre>
@@ -424,8 +413,7 @@ function checkIfDave(name){
 
 <p>If the value of the string <code>name</code> passed to the <code>checkIfDave()</code> function isn’t ‘Dave’, we obviously aren’t gonna trigger the <code>return true;</code> bit. Instead, the function will implicitly return <code>undefined</code>. Since that <code>undefined</code> is falsey, we can use this to implied return value a conditional!</p>
 <hr>
-<p>##Pure vs Impure </p>
-<p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
+<h2 id="Pure-vs-Impure"><a href="#Pure-vs-Impure" class="headerlink" title="Pure vs Impure"></a>Pure vs Impure</h2><p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
 <p><img src="../images/improper.jpg" alt=""></p>
 <p><em>Hide your eyes, kids!</em></p>
 <p>However, <em>pure</em> with regards to functions is simply a term for functions that, given the same specific, explicit arguments each time, will spit out the same result each time. The function <code>Math.floor()</code> is <em>always</em> going to return the <code>4</code>, if given the same input <code>4.3</code>.</p>
@@ -443,8 +431,7 @@ function likesPet(name){
 
 <p>While this function does include an input of <code>name</code>, which by itself would leave the function pure, its output also depends on the value of an external variable <code>pickCat</code>. As <a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.58st43xfx" target="_blank" rel="external">Eric Elliot</a> says, “pure functions produce no side effects”.  </p>
 <hr>
-<p>##Function Arity </p>
-<p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
+<h2 id="Function-Arity"><a href="#Function-Arity" class="headerlink" title="Function Arity"></a>Function Arity</h2><p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
 <p><code>myFunc(name){...}</code></p>
 <p>and then later on write</p>
 <p><code>myFunc(name,date){...}</code></p>
@@ -500,8 +487,7 @@ var doIt = function(...fine){
 </pre>
 
 <hr>
-<p>##Functions as First-Class Objects</p>
-<p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
+<h2 id="Functions-as-First-Class-Objects"><a href="#Functions-as-First-Class-Objects" class="headerlink" title="Functions as First-Class Objects"></a>Functions as First-Class Objects</h2><p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
 <p>Of course not. It means that, first and foremost, JavaScript functions follow another very famous JavaScript mantra: (almost) <em>Everything</em> is an object.</p>
 <p>What this means in terms of functions is two-fold: firstly, functions are, as with any other objects, created with their own constructor. This <code>Function</code> constructor actually can be called explicitly (i.e., <code>new Function(args)</code>), but is usually implicitly called via simply writing a function declaration or function expression. </p>
 <p>The second result of functions being objects stems from JavaScript’s prototypical inheritance model. Remember from high school biology how organisms are grouped based on similarities, and organisms that share a common group also share common traits? Well, the same’s true for JavaScript ‘groups’ (we call these <em>classes</em>): all members of the <code>Function</code> class can be ‘called’, all members of the <code>Object</code> class can have their properties listed via <code>Object.getOwnPropertyNames()</code>, and so on. So what does this mean in terms of the statement “functions are first-class objects”? It just means that functions in JavaScript <em>are</em> objects. You can pass them around like objects. You can ask for their property names. </p>

@@ -5,8 +5,7 @@
   
   <title>Exploring JavaScript Functions | Dave&#39;s Thoughts</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#Deep-Dive into Functions
-
+  <meta name="description" content="Deep-Dive into Functions
 Contents:
 
 Introduction
@@ -15,13 +14,12 @@ Synchronous vs Asynchronous
 Implicit vs Explicit Return
 Pure vs Impure
 Function Arity
-Functions as Firs">
+Functions as First-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Exploring JavaScript Functions">
 <meta property="og:url" content="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/index.html">
 <meta property="og:site_name" content="Dave's Thoughts">
-<meta property="og:description" content="#Deep-Dive into Functions
-
+<meta property="og:description" content="Deep-Dive into Functions
 Contents:
 
 Introduction
@@ -30,14 +28,13 @@ Synchronous vs Asynchronous
 Implicit vs Explicit Return
 Pure vs Impure
 Function Arity
-Functions as Firs">
+Functions as First-">
 <meta property="og:image" content="http://yoursite.com/../images/hoist.gif">
 <meta property="og:image" content="http://yoursite.com/../images/improper.jpg">
-<meta property="og:updated_time" content="2017-03-12T22:14:25.971Z">
+<meta property="og:updated_time" content="2017-03-13T00:41:34.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exploring JavaScript Functions">
-<meta name="twitter:description" content="#Deep-Dive into Functions
-
+<meta name="twitter:description" content="Deep-Dive into Functions
 Contents:
 
 Introduction
@@ -46,7 +43,7 @@ Synchronous vs Asynchronous
 Implicit vs Explicit Return
 Pure vs Impure
 Function Arity
-Functions as Firs">
+Functions as First-">
 <meta name="twitter:image" content="http://yoursite.com/../images/hoist.gif">
   
     <link rel="alternate" href="/atom.xml" title="Dave&#39;s Thoughts" type="application/atom+xml">
@@ -122,8 +119,7 @@ Functions as Firs">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Deep-Dive into Functions</p>
-<hr>
+        <h1 id="Deep-Dive-into-Functions"><a href="#Deep-Dive-into-Functions" class="headerlink" title="Deep-Dive into Functions"></a>Deep-Dive into Functions</h1><hr>
 <p>Contents:</p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -135,8 +131,7 @@ Functions as Firs">
 <li><a href="#functions-as-first-class-objects">Functions as First-Class Objects</a></li>
 </ul>
 <hr>
-<p>##Introduction</p>
-<p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Functions in programming, including JavaScript, are the verbs of code. They are the doers, without which our code would be boring at best, and long-winded at worst. Functions allow us to package our code and deliver it in those nice little packages to whatever might need to use it. Before we begin, let’s look at the anatomy of one particular type of function, known as an anonymous function:</p>
 <pre>
 function(userName){
     alert('Hello there,'+userName);
@@ -156,8 +151,7 @@ callMom();
 <p>Finally, note that nested functions are a thing. While this can be a bad thing (if, for example, you call recursive functions or allow them to call themselves), this also allows us to do funky things like this: <code>Math.floor(Math.random()*9999).toString(32)</code>. Here, we <em>first</em> take a random decimal from 0 to 1. We then multiply that by 9999. Next, we take the floor of that number - that is, the next integer lower than or equal to that decimal - and convert it to a base-32 string. All in all, this allows us to easily spit out a random string of letters and numbers; great if you need a random ID for something!</p>
 <p>In the remainder of this post, I’ll look at some various types of functions, as well as a specific feature of ES6/7 that makes functions more adaptable and fun. </p>
 <hr>
-<p>##Function Expressions vs Function Declarations</p>
-<p>There are, generally speaking, two ways of writing a function. </p>
+<h2 id="Function-Expressions-vs-Function-Declarations"><a href="#Function-Expressions-vs-Function-Declarations" class="headerlink" title="Function Expressions vs Function Declarations"></a>Function Expressions vs Function Declarations</h2><p>There are, generally speaking, two ways of writing a function. </p>
 <p>The first is known as the <em>function declaration</em>:</p>
 <pre>
 function myFunc(breed){
@@ -188,8 +182,7 @@ var myFunc = function(name){
 <p>because while the fact that the variable myFunc exists (is ‘defined’) <em>is</em> hoisted, the contents of it aren’t. So by the time we call the function with <code>myFunc(&#39;Dave&#39;);</code>, JavaScript thinks that we’re trying to run something that’s not a function! Remember that if neither the contents nor the declaration were hoisted, we’d simply get: <code>Uncaught ReferenceError: myFunc is not defined</code>.</p>
 <p>So… why wouldn’t you wanna use function declarations? Would that just make everything easier? Well, yes, and that can <em>actually</em> be a problem. By using function expressions, functions are defined <em>exactly</em> when they need to be. As such, you can much more easily debug your awesome new app, because you know <em>exactly</em> where to look in the code based on where the functions are failing.  </p>
 <hr>
-<p>##Synchronous vs Asynchronous</p>
-<p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
+<h2 id="Synchronous-vs-Asynchronous"><a href="#Synchronous-vs-Asynchronous" class="headerlink" title="Synchronous vs Asynchronous"></a>Synchronous vs Asynchronous</h2><p>In any application that will eventually require some sort of communication with a non-immediately-local resource, you’re gonna have some unpredictability over when that resource will finally get there. Anyone who’s planned a party (or even <em>been</em> to a party) has experienced this issue: when do you start the party so that people don’t get bored waiting, but so that there’s enough, say, cake for the late-comers? The Asynchronous methodology adopts the “when-it’s-ready approach”: You serve people cake when they arrive.</p>
 <p>While this approach is pretty obvious in every life, it’s perhaps not so obvious to the beginning programmer whose code, up until now, has been doing things exactly when he tells it to. Let’s look at a synchronous example first, with some pseudo-pseudocode:</p>
 <pre>
 var animalList = ['cat','fish','dog','monkey','hippo','apatosaurus']
@@ -249,8 +242,7 @@ window.onmousemove = function(e){
 </li>
 </ul>
 <hr>
-<p>##Implicit vs Explicit Return</p>
-<p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
+<h2 id="Implicit-vs-Explicit-Return"><a href="#Implicit-vs-Explicit-Return" class="headerlink" title="Implicit vs Explicit Return"></a>Implicit vs Explicit Return</h2><p>One thing functions in any programming language - especially an object-oriented-capable one like JavaScript - are useful for is stringing together various operations. So, for example:</p>
 <p><code>mixDryIngreds().mixWetIngreds().addChocolate().pourInCakePan().bake();</code></p>
 <p>In order for a function’s work to be used by something else, that function needs to <em>return</em> something, using an optional (<em> gasp! </em>) <code>return</code> statement. If it’s not included, the function returns an implied <code>undefined</code>:</p>
 <pre>
@@ -263,8 +255,7 @@ function checkIfDave(name){
 
 <p>If the value of the string <code>name</code> passed to the <code>checkIfDave()</code> function isn’t ‘Dave’, we obviously aren’t gonna trigger the <code>return true;</code> bit. Instead, the function will implicitly return <code>undefined</code>. Since that <code>undefined</code> is falsey, we can use this to implied return value a conditional!</p>
 <hr>
-<p>##Pure vs Impure </p>
-<p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
+<h2 id="Pure-vs-Impure"><a href="#Pure-vs-Impure" class="headerlink" title="Pure vs Impure"></a>Pure vs Impure</h2><p>It sounds like some horrible term for JavaScript eugenics. Either that, or impure functions sound like something that little kids should be shielded from.</p>
 <p><img src="../images/improper.jpg" alt=""></p>
 <p><em>Hide your eyes, kids!</em></p>
 <p>However, <em>pure</em> with regards to functions is simply a term for functions that, given the same specific, explicit arguments each time, will spit out the same result each time. The function <code>Math.floor()</code> is <em>always</em> going to return the <code>4</code>, if given the same input <code>4.3</code>.</p>
@@ -282,8 +273,7 @@ function likesPet(name){
 
 <p>While this function does include an input of <code>name</code>, which by itself would leave the function pure, its output also depends on the value of an external variable <code>pickCat</code>. As <a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.58st43xfx" target="_blank" rel="external">Eric Elliot</a> says, “pure functions produce no side effects”.  </p>
 <hr>
-<p>##Function Arity </p>
-<p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
+<h2 id="Function-Arity"><a href="#Function-Arity" class="headerlink" title="Function Arity"></a>Function Arity</h2><p><em>Function Arity</em> is, simply put, the number of arguments that a function can take. In a lot of programming languages, we can do what’s called ‘overloading’ functions by specifying a bunch of identically named functions, all with different numbers of arguments. When the code’s run, the computer will ‘pick’ the appropriate function. However, we can’t do this with JavaScript. Because it’s a scripting language, subsequently defined ‘bodies’ for a particular function would replace previously-defined ones. So if we write:</p>
 <p><code>myFunc(name){...}</code></p>
 <p>and then later on write</p>
 <p><code>myFunc(name,date){...}</code></p>
@@ -339,8 +329,7 @@ var doIt = function(...fine){
 </pre>
 
 <hr>
-<p>##Functions as First-Class Objects</p>
-<p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
+<h2 id="Functions-as-First-Class-Objects"><a href="#Functions-as-First-Class-Objects" class="headerlink" title="Functions as First-Class Objects"></a>Functions as First-Class Objects</h2><p>One of the most popular statements used as an explanation of JavaScript is that “functions are first-class objects”. But what does this <em>mean</em>? Does it mean that JavaScript functions sit in the front of the plane, drinking Martinis? Does it mean they’re richer than other functions?</p>
 <p>Of course not. It means that, first and foremost, JavaScript functions follow another very famous JavaScript mantra: (almost) <em>Everything</em> is an object.</p>
 <p>What this means in terms of functions is two-fold: firstly, functions are, as with any other objects, created with their own constructor. This <code>Function</code> constructor actually can be called explicitly (i.e., <code>new Function(args)</code>), but is usually implicitly called via simply writing a function declaration or function expression. </p>
 <p>The second result of functions being objects stems from JavaScript’s prototypical inheritance model. Remember from high school biology how organisms are grouped based on similarities, and organisms that share a common group also share common traits? Well, the same’s true for JavaScript ‘groups’ (we call these <em>classes</em>): all members of the <code>Function</code> class can be ‘called’, all members of the <code>Object</code> class can have their properties listed via <code>Object.getOwnPropertyNames()</code>, and so on. So what does this mean in terms of the statement “functions are first-class objects”? It just means that functions in JavaScript <em>are</em> objects. You can pass them around like objects. You can ask for their property names. </p>
