@@ -35,7 +35,7 @@ Alternatives and When to Use
 
 
 IntroductionCascading">
-<meta property="og:updated_time" content="2017-03-13T00:43:54.961Z">
+<meta property="og:updated_time" content="2017-03-13T00:45:08.395Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS in 3d">
 <meta name="twitter:description" content="CSS in 3d
@@ -189,10 +189,12 @@ IntroductionCascading">
 <hr>
 <h2 id="Review-of-CSS-Positioning"><a href="#Review-of-CSS-Positioning" class="headerlink" title="Review of CSS Positioning"></a>Review of CSS Positioning</h2><p>If you ever wanna position <em>anything</em> with CSS, you’ll need to know about the four different types of positioning, via the eponymous <code>position</code> property.</p>
 <ul>
-<li><p><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:<br>  <pre><br>  &#35;my-div{</pre></p>
-<pre><code>position:static;
-left:100px;
-</code></pre><p>  }<br>  <br>  Your element would stubbornly refuse to move right 100 pixels. How rude. Instead, elements with a <code>static</code> declaration will be positioned as per ‘normal’ layout.</p>
+<li><p><code>position:static;</code>: This value is very rarely explicitly used, as it’s basically the default value. This basically means that the element ignores all ‘custom’ positioning rules. So if you said:<br>  <pre></pre></p>
+<pre><code>#my-div{
+    position:static;
+    left:100px;
+}
+</code></pre><p>  <br>  Your element would stubbornly refuse to move right 100 pixels. How rude. Instead, elements with a <code>static</code> declaration will be positioned as per ‘normal’ layout.</p>
 </li>
 <li><p><code>position:absolute;</code>: In this case, the element is positioned relative to the first parent (going up its DOM heirarchy tree) that itself has a <code>position</code> value of something other than <code>static</code>. As the name implies, it’s useful for positioning elements absolutely.  </p>
 </li>
