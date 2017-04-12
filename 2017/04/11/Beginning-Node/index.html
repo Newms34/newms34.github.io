@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Simple Server in Node and Express | Dave&#39;s Thoughts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="What This IsThe following is a brief explanation of how to set up (and run!) a server using NodeJS (from now on, called Node) and Node’s express module. You’ll learn how to install Node, as well as ho">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Simple Server in Node and Express">
+<meta property="og:url" content="http://yoursite.com/2017/04/11/Beginning-Node/index.html">
+<meta property="og:site_name" content="Dave's Thoughts">
+<meta property="og:description" content="What This IsThe following is a brief explanation of how to set up (and run!) a server using NodeJS (from now on, called Node) and Node’s express module. You’ll learn how to install Node, as well as ho">
+<meta property="og:updated_time" content="2017-04-12T18:35:05.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Simple Server in Node and Express">
+<meta name="twitter:description" content="What This IsThe following is a brief explanation of how to set up (and run!) a server using NodeJS (from now on, called Node) and Node’s express module. You’ll learn how to install Node, as well as ho">
+  
+    <link rel="alternate" href="/atom.xml" title="Dave&#39;s Thoughts" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dave&#39;s Thoughts</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Musings of a developer, educator, and science enthusiast</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Beginning-Node" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/11/Beginning-Node/" class="article-date">
+  <time datetime="2017-04-12T00:29:30.000Z" itemprop="datePublished">2017-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Simple Server in Node and Express
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="What-This-Is"><a href="#What-This-Is" class="headerlink" title="What This Is"></a>What This Is</h2><p>The following is a brief explanation of how to set up (and run!) a server using NodeJS (from now on, called Node) and Node’s <code>express</code> module. You’ll learn how to install Node, as well as how to download and include (‘require’ packages). By the end of this, you’ll have a simple webserver running that can be extended into multiple projects:</p>
+<h2 id="Prior-Knowledge"><a href="#Prior-Knowledge" class="headerlink" title="Prior Knowledge"></a>Prior Knowledge</h2><p>To get the most out of this tutorial, you’ll need to know a few things beforehand:</p>
+<ul>
+<li>You’ll need to know basic HTML. While we won’t initially be doing anything on the front-end, we’ll eventually be sending some basic webpages forward.</li>
+<li>You <em>may</em> want to know some basic CSS. While it’s not hugely necessary, I’d also recommend beginning developers learn HTML <em>and</em> CSS together.</li>
+<li>You absolutely <em>must</em> know JavaScript. Since our server’s written in JavaScript, this tutorial will be largely useless/foreign to you if you don’t have a background in JavaScript.</li>
+<li>You’ll probably want to already know AJAX and asynchronous JavaScript. While I’ll do a brief review of that below, I’d strongly suggest that, if you have never heard of these terms before, or never written a callback, you stop right now and go do that first.</li>
+</ul>
+<p>All good? Then let’s continue with that aforementioned review of Async JavaScript.</p>
+<h2 id="Review-of-Asynchronous-JavaScript"><a href="#Review-of-Asynchronous-JavaScript" class="headerlink" title="Review of Asynchronous JavaScript"></a>Review of Asynchronous JavaScript</h2><h3 id="Synchronous-JavaScript"><a href="#Synchronous-JavaScript" class="headerlink" title="Synchronous JavaScript"></a>Synchronous JavaScript</h3><p>JavaScript is single-threaded. That means that it can only, generally speaking, do <em>one</em> thing at a time. In more simple programs, this doesn’t matter as much, since modern computers can run JavaScript so quickly that it feels like everything’s happening at once. However… (you knew that was coming, didn’t you?)</p>
+<h3 id="Asynchronous-JavaScript"><a href="#Asynchronous-JavaScript" class="headerlink" title="Asynchronous JavaScript"></a>Asynchronous JavaScript</h3><p>Certain actions in JavaScript are such that you don’t know <em>when</em> they’ll finish. We call these actions ‘asynchronous’, because we’re not sure if they’ll happen immediately after we ask them to, or if they’ll take some time. Here’s a brief example:</p>
+<pre><code>var data = null;
+function getStuff(){
+    grabDataFromFarAway(function(data){
+        console.log(&apos;Inside the callback, the data is&apos;,data)
+    });
+    console.log(&apos;Outside the callback, the data is&apos;,data);
+}();
+console.log(&apos;Outside everything, the data is&apos;,data);
+</code></pre><p>When we run this, the <code>getStuff()</code> function is called. Now, imagine that this function grabs my favorite color (blue) from some external server. In normal, synchronous JavaScript, we’d expect the console to read</p>
+<pre><code>Inside the callback, the data is blue
+Outside the callback, the data is blue
+Outside everything, the data is blue
+</code></pre><p>because that’s the order the lines are given in. However, JavaScript can’t <em>know</em> when the response from <code>grabDataFromFarAway()</code> will return. It may take picoseconds, or it make take centuries! So instead, JavaScript does the sensible thing and continues onto the next line. As such, we get the following: </p>
+<pre><code>Outside the callback, the data is null
+Outside everything, the data is null
+Inside the callback, the data is blue
+</code></pre><p>If you’re wondering what this ‘callback’ thing is, that’s the function that’s ‘called’ when the response gets ‘back’ from the asynchronous request. In this case, it’s just an anonymous function that logs out <code>&quot;Inside the callback, the data is &quot;</code> plus the value of whatever we get back. </p>
+<h3 id="Async-is-Always-Async"><a href="#Async-is-Always-Async" class="headerlink" title="Async is Always Async!"></a>Async is Always Async!</h3><p>If you’re using an asynchronous function, you can <em>never expect it to run synchronously!</em> Consider the following code:</p>
+<pre><code>console.log(&apos;one&apos;);
+setTimeout(function(){
+    console.log(&apos;two&apos;);
+},0);
+console.log(&apos;three&apos;);
+</code></pre><p>Before we answer, note that <code>setTimeout()</code> is an asynchronous function that basically says “shove whatever’s in here aside, and run it after <em>n</em> seconds”. In this case, <em>n</em> is zero. The important thing about <code>setTimeout()</code> - and indeed all async functions - is that JavaScript does NOT wait for it to be done, but instead moves onto the next statement and does whatever the async function says to do <em>when it’s ready</em>. So, what does the above code print out to the console?</p>
+<p>You may assume that, because the delay time is zero (i.e., no delay), it prints:</p>
+<pre><code>one
+two
+three
+</code></pre><p>But unfortunately, because <code>setTimeout()</code> is an asynchronous function, JavaScript <em>still</em> says, “okay, I’ll deal with that later”, and moves onto the next line. So we get: </p>
+<pre><code>one
+three
+two
+</code></pre><p>Moral of the story? Don’t expect even the <em>briefest</em> of async functions to run sequentially! Also, keep in mind that, in a series of nested functions, if one of the functions is asynchronous, all of its parent functions can be considered asynchronous. </p>
+<h3 id="Common-Async-Functions"><a href="#Common-Async-Functions" class="headerlink" title="Common Async Functions"></a>Common Async Functions</h3><p>The following are pretty much always run asynchronously:</p>
+<ul>
+<li>HTTP Requests: These requests (<code>get</code> to ‘get’ information, <code>post</code> to send info to a server, as well as a few others) are generally used to bring external resources into a webpage or webserver. For example, when your favorite video sharing site plays a video, it might send out a request every few seconds to say “Hey, external resource! Can I get the next bit of video?”.</li>
+<li><code>setTimeout()</code> and <code>setInterval()</code>. These two sibling functions are asynchronous. As such, it’s important to remember that if you wanna use <code>setTimeout()</code> as a timer, you’ll need whatever you want to happen at the end of that time to be inside <code>setTimeout()</code>‘s callback.</li>
+<li>User-triggered events, like <code>window.onclick()</code> and <code>window.onkeydown()</code>. As we can’t expect the user to hit a button exactly when we want, these actions are asynchronous. It’s not uncommon to see something like this: </li>
+</ul>
+<pre><code>window.onmousemove(function(e){
+    //e is the mousemove event object
+    console.log(e.x,e.y);//prints the current mouse coordinates
+    //do something with those!
+});
+</code></pre><p>So now hopefully you at least have some idea of asynchronous JavaScript. Again, if this is your first introduction to it, I’d suggest you take a break and read up on it a bit. Because next, we’re gonna go in a completely different direction and code editors (hah, you didn’t see that coming, did you?).</p>
+<h2 id="Code-Editors-What-to-Use"><a href="#Code-Editors-What-to-Use" class="headerlink" title="Code Editors: What to Use"></a>Code Editors: What to Use</h2><p>To make your life easier when writing JavaScript (or HTML, CSS, C#, Assembly… Whatever), you’re going to want an Integrated Development Environment, or IDE. An IDE this a special program that developers use to write code. Now, you might be thinking “I can write stuff in Notepad!”, and while that’s true, you’re gonna have a difficult time if your code ends up being longer than a few files. IDEs allow you to do cool things like:</p>
+<ul>
+<li>Changing multiple lines at once</li>
+<li>Selecting (and changing) all instances of a word or phrase</li>
+<li>Having multiple files open at once for easy comparison</li>
+<li>Auto-arranging text in particular languages for easy readability.</li>
+</ul>
+<p>Notepad… doesn’t do this. Instead, you’ll have to keep track of everything yourself, which can get to be a nightmare with anything but the simplest projects.</p>
+<p>You’ll also wanna make sure whatever you’re using saves your stuff in a plain-text format. Rich-text editors like Microsoft Word don’t do this. As an example, here’s an example of my (normally very readable!) resume opened in a plain-text editor:</p>
+<pre><code>f7da b146 98c7 2221 7c15 595f 1fef afa6
+d648 69c4 1344 05c7 91f5 8295 753b 7f73
+b39d f18c 2db0 3479 2363 c1d5 8cc5 91b5
+d63a 9dd9 b68a d798 2175 2d52 cc4d 7029
+2443 dafc 942b 9b21 f994 a557 b160 29d2
+6441 28d1 2fb6 e738 a1b5 b311 9195 493e
+</code></pre><p>That’s the result of the plain-text editor opening it and assuming it’s, well, just text. Most of this comes from extra formatting stuff, like font faces, font weights, etc. that are not part of what the text itself ‘says’. </p>
+<p>Which IDE you choose is generally up to you, but I personally love Sublime Text for its extensibility. Webstorm and Atom are also very popular, as is Visual Studio.</p>
+<p>For Sublime Text, go <a href="https://www.sublimetext.com/3" target="_blank" rel="external">here</a> to download it and install. Got an IDE? Great. Now let’s quit all this dilly-dallying and get into some Node!</p>
+<h2 id="Installing-Node"><a href="#Installing-Node" class="headerlink" title="Installing Node"></a>Installing Node</h2><p>Installing Node’s pretty easy. Just go to <a href="https://nodejs.org/en/" target="_blank" rel="external">NodeJS.org</a>. You’ll see two green buttons. The left-hand one, the LTS version, is the <em>stable</em> version (and is the one <em>you</em> should use!). It’s been tried and tested, and is relatively stable. The other version is the ‘bleeding-edge’ build, and may not be 100% stable. Unless you absolutely know what you’re doing, it’s better to stick with the well-tested version. Take note of that little bit that mentions NPM too! </p>
+<p>So go ahead and download and install that LTS version. I’ll wait. Got it? Let’s make sure. Open a terminal/command prompt and type <code>node</code>. If everything worked out correctly, you should just be put on a blank new line. If you didn’t install it correctly, it’ll just tell you that it doesn’t know what ‘node’ is.</p>
+<p>Congratulations! You’ve installed Node! Next, we’re gonna talk about Node ‘packages’, and how you organize a project in Node. Keep that command prompt/terminal open for now. As an aside, I’m gonna start just using the word ‘terminal’ for now, but if you’re on Windows, you’ll of course be using the command prompt.</p>
+<h2 id="Package-JSON-Node-Packages-and-NPM"><a href="#Package-JSON-Node-Packages-and-NPM" class="headerlink" title="Package.JSON: Node Packages and NPM"></a>Package.JSON: Node Packages and NPM</h2><p>Node projects are organized by a special JSON file called ‘package.json’. This file contains info such as the project’s title, its author, and more importantly its dependencies (the stuff other people have written that you’re using in your project). So let’s not waste any more time and make our first NPM Project. Since this is eventually gonna be a server, we’ll call it myserver (names need to be all lowercase). For starters, we’ll create this package.json file using node’s package manager, NPM. If you’re wondering where you get NPM, don’t worry: it’s installed with Node.</p>
+<p>Start by creating a new folder and <code>cd</code>ing into it: <code>mkdir myServer &amp;&amp; cd myServer</code>. Then, make a package.json file by typing <code>npm init</code> in your terminal. You’ll be walked through creating a package.json file (it <em>does</em> say that, and NodeJS likes to be nice and honest with you). Some specific suggestions:</p>
+<ul>
+<li>For version, I usually start out with 0.0.1 and follow <a href="http://semver.org/" target="_blank" rel="external">Semantic Versioning</a>, but that’s really up to you.</li>
+<li>For the description, go ahead and give it a nice helpful description. Something like “This is my first Node and Express server”.</li>
+<li>The ‘entry point’ is the file used if you decide to upload your package to npm so that others can use it. We’re not gonna do that, so you can just say “app.js” or something for now.</li>
+<li>The remaining items can just be left blank. </li>
+</ul>
+<p>In your <code>myServer</code> folder, you should now have a file labeled ‘package.json’. That’s your project file, and you can add packages to it using NPM. So let’s do that now, with <code>chalk</code>, which is a nice little package for making colored text in the terminal (it’s great for specific error or status messages). To install <code>chalk</code>, type the following:</p>
+<pre><code>npm install chalk --save
+</code></pre><p>If you’re wondering (and you <em>should</em> be!), the <code>--save</code> tells NPM ‘record that to the package.json file’. Normally, when someone sends you a node project, they’re <em>not</em> gonna send you all the dependencies explicitly with it. Instead, they’ll just send you a list of the dependencies, and say “make sure you download those too!”. </p>
+<p>Go ahead and check your ‘package.json’. You should notice a new property, “dependencies”, with one entry: <code>chalk</code>. If you’re wondering what the weird stuff after <code>chalk</code> is, that’s just the version of that package NPM is using. We don’t really need <code>chalk</code> for this project, so go ahead and run <code>npm uninstall chalk</code> to remove that dependency. </p>
+<p>Next, let’s install some actually helpful packages. Start with <code>Express</code>, which is what we’ll use to write our routes. Remember, that’s <code>npm install express --save</code>. We’re also gonna want <code>nodemon</code>, which allows us to write a server that restarts whenever one of its files changes, and <code>body-parser</code>, which makes sure we can parse objects within POST requests. Got all those? Great. As a final step, go into your package.json file, and find the <code>scripts</code> object. Add the property <code>&quot;start&quot;</code>, and give it the property of <code>&quot;nodemon app.js&quot;</code>.</p>
+<p>Next, we’ll talk about including modules within other modules: requiring!</p>
+<h2 id="What-Dost-Thou-Require-require"><a href="#What-Dost-Thou-Require-require" class="headerlink" title="What Dost Thou Require? require()"></a>What Dost Thou Require? <code>require()</code></h2><p>One of the great things about Node is the ability to include one file inside another by simply <code>require()</code>ing that included file. Those of you coming from other languages like C, Python, or Java might be familiar with this with things like Python’s <code>Import</code>. Those of you who are <em>not</em> coming from other languages can think of this like buying a brownie mix from the store and adding your own stuff, rather than making everthing from scratch. You’re <code>require()</code>ing the brownie mix, which means you don’t have to ‘code’ that part yourself.<br>For starters, make a new file in your ‘myServer’ folder called ‘app.js’. Open that file in your favorite code editor. For starters, we’re gonna include the <code>Express</code> module:</p>
+<pre><code>var express = require(&apos;express&apos;);
+</code></pre><p>Again, that says “find the module named ‘express’, and include it”. Now we can use whatever functions and code Express has. Let’s add some more lines:</p>
+<pre><code>var http = require(&apos;http&apos;),
+    app = express(),
+    routes = require(&apos;./routes&apos;),
+    path = require(&apos;path&apos;),
+    bodyParser = require(&apos;body-parser&apos;);
+</code></pre><p>These lines are:</p>
+<ul>
+<li><strong>http</strong>: Allows HTTP requests (GET, POST, PUT, DELETE) on the back-end. This will actually serve (heh) as our server for this project. You might also notice that we never did <code>npm install http --save</code>. That’s because the <code>http</code> module is natively part of Node. We just gotta tell Node, yes, we <em>do</em> want that module.</li>
+<li><strong>app</strong>: Running the express module as a function creates an instance of express (it’s a <em>constructor function</em>). This will be our server.</li>
+<li><strong>routes</strong>: You <em>can</em> put all your routes (more on this in a bit!) in the <code>app.js</code> file. However, for sanity’s sake, you’ll probably wanna split them up into their own folder. Note the ‘./‘ here, which means we’re looking in a particular folder. In most cases, Node will assume that the first file in that folder called ‘index.js’ is the one you want. However, you could do ‘./routes/myRoutes.js’ instead. Go ahead and create a folder called ‘routes’, and put an index.js file in it.</li>
+<li><strong>bodyParser</strong>: Note the name format here: JavaScript variables are not allowed to have dashes in the middle. Remember that this module allows us to read the contents of POST requests.</li>
+</ul>
+<p>Next, we’ll talk about configuring your server!</p>
+<h2 id="Setting-Things-Up-app-use-and-middleware"><a href="#Setting-Things-Up-app-use-and-middleware" class="headerlink" title="Setting Things Up. app.use() and middleware"></a>Setting Things Up. <code>app.use()</code> and middleware</h2><p>Add the following lines to your <code>app.js</code> file:</p>
+<pre><code>app.use(bodyParser.urlencoded({ extended: false })); //allows your app to accept UTF-8 encoded stuff.
+app.use(bodyParser.json()); //allow us to parse JSON (so we cand send data across!)
+app.set(&apos;view engine&apos;, &apos;html&apos;); //what KIND of files will we be displaying on the front end?
+app.set(&apos;views&apos;, path.join(__dirname, &apos;views&apos;)); //and where are those files?
+
+//Next, let&apos;s tell Node where to find the so-called front-end files.
+app.use(express.static(path.join(__dirname, &apos;public&apos;)));
+app.use(express.static(path.join(__dirname, &apos;views&apos;)));
+
+//Finally, let&apos;s tell node to include that `routes` folder. 
+app.use(&apos;/&apos;, routes);
+</code></pre><p>And let’s go ahead and put some stuff in that <code>index.js</code> file inside your <code>routes</code> folder: </p>
+<pre><code>var express = require(&apos;express&apos;);
+var router = express.Router();
+var dog = {
+    breed:&apos;Tyrannosaur&apos;,
+    name:&apos;Fido&apos;
+};
+//Routes will go on this line
+module.exports=router;
+</code></pre><p>Let’s take a look at what we just wrote. Firstly, we’re requiring <code>Express</code> again. Next, we access <code>Express</code>‘s <code>Router()</code> method, which allows us to construct routes. Routes tell a server how to respond when it receives a particular URL. I’ll talk about this more in the next section.<br>Finally, we tell Node that, if any external modules request access to this file, we’re gonna wanna let them have access to the <code>router</code> object. Note that, for example, the ‘dog’ object is <em>not</em> exported: if I <code>require()</code>d this module, I would <em>not</em> have access to the dog object!</p>
+<p>Now that we’ve got our app’s routes file set up, let’s actually put some routes in!</p>
+<p>##Routes: Where do We Go From Here?<br>As I’ve mentioned, routes basically tell our server how to respond when a particular URL is requested. It’s important to note that they do not just tell the server where to go; they tell it how to <em>answer</em>. This is essential to remember since the response may occasionally not be a file. For example, I might have a particular route at ‘mySite.com/serverTime’ that simply asks the Node process to tell me the current system time on the server.</p>
+<p>With that clarification out of the way, let’s get to routing! Remove the line in your ‘./routes/index.js’ file that says <code>//Routes will go on this line</code>, and replace it with the following:</p>
+<pre><code>router.get(&apos;/&apos;,function(req,res,next){
+    res.sendFile(&apos;index.html&apos;,{&quot;root&quot;:&apos;./views&apos;});
+});
+</code></pre><p>Let’s break this down. Firstly, it’s method on the router object we brought in via <code>var router = express.Router()</code>. It’s an HTTP GET method, which <em>usually</em> means it’s designed to, well, <em>get</em> information from the server while not giving a huge amount. Those of you familiar with the CRUD (Create, Read, Update, Delete) methodology of databases may note that this usually means it fits the ‘Read’ portion of that acronym. Next, we have the parameters that are sent to the <code>.get()</code> method. The first is the URL that we want this route to respond to. In this case, it’s just the root route; it’ll be activated when we go to ‘mysite.com’ without any other…stuff.</p>
+<p>Finally, there’s the callback. Router callbacks in <code>Express</code> <em>always</em> have the same format:</p>
+<ul>
+<li>It’s a callback function, so the entire thing’s a function. That means the usual <code>function()</code> and <code>{}</code>.</li>
+<li>It has three parameters:<ul>
+<li><code>req</code>: The Request object. In the case of GET requests, this can hold query string parameters as part of <code>req.params</code>. In the case of POST requests, this holds the body of the post request in, well… <code>req.body</code>.</li>
+<li><code>res</code>: The Response object. A response isn’t <em>technically</em> required, but not saying anything is a bad idea: how else does the front end know its information has been recieved? Remember that, under normal circumstances, a webserver can only send a response to the front end <em>when requested</em>! So if you don’t use this to respond, you may not be able to send that information. Also, note that a response can only be sent <em>once</em> per request!</li>
+<li><code>next</code>: Used for stuff like error-handling middleware. Often times, you’ll see something like <code>if(errHappened) return next(err);</code>, which basically says “If there’s an error, go ahead and continue to the next route (that’s specifically designed to deal with errors)”.</li>
+</ul>
+</li>
+<li>It uses that response object somehow. This can be done a number of ways:<ul>
+<li><code>res.send(&#39;Hiya!&#39;)</code>:Send a simple response. Note that because most responses are gonna be viewed in a web browser, you <em>can</em> send HTML and stuff like that across.</li>
+<li><code>res.sendFile(&#39;myFile.html&#39;)</code>: This allows you to respond with a file (often HTML) when a particular route is used. For example, in the above route, you respond with the <code>index.html</code> file. Note the object here and its ‘roots’ property, which basically tells us where the file can be found.</li>
+<li><code>res.json({some:&#39;jsonObject&#39;})</code>: Send a specifically JSON response. Great if you’re requesting information of some sort.</li>
+<li><code>res.end()</code>: End the request without sending data.</li>
+<li><code>res.download(&#39;./files/file.mp3&#39;)</code>: Initiate a download (at the okay of the user, of course!). This includes a path to the file, and actually includes its <em>own</em> nested callback.</li>
+<li><code>res.redirect(&#39;youreNotLoggedIn.html&#39;)</code>: Allows you to respond by redirecting the client. Useful if, for example, you have a login service. In the event that a check for a logged-in status <em>fails</em>, you may wanna use this to redirect the client to a ‘hey, you need to login to view this!’ page.</li>
+<li><code>res.render(&#39;jediProfile.ejs&#39;,{name:&#39;Luke Skywalker&#39;})</code>: Used for so-called ‘template engines’ like EJS, Jade, etc. and can include stuff like template-specific variables. If you’re using HTML, don’t worry about this one.</li>
+<li><code>res.status(418)</code>: <em>Must</em> be used with one of the other methods to actually respond, as all this does it determine the status code. Allows you to send a specific error code if an error occurs, rather than just 500 or 404 or something generic. </li>
+</ul>
+</li>
+</ul>
+<p>And yes, go ahead and create a ‘./views’ folder and put an <code>index.html</code> file in there. It doesn’t matter what it has in it, as long as it’s in the right place.</p>
+<p>Next, let’s add two more routes, just to give us a little variety. Put these after your first route.:</p>
+<pre><code>router.get(&apos;/err&apos;,function(req,res,next){
+    res.status(418).send(&apos;tea time!&apos;)
+})
+router.get(&apos;*&apos;,function(req,res,next){
+    res.send(&apos;&lt;span style=&quot;background:#090; color:#fff&quot;&gt;Oh no!&lt;/span&gt; I dont have a route for that!&apos;);
+});
+</code></pre><p>The first route responds with a specific error code. Open up your browser console and you should see something like <code>[HTTP/1.1 418 I&#39;m a teapot 8ms]</code>. Yes, HTTP Error 418 is a real HTTP status code. The second route contains a wildcard, and basically means that if we go to any route, send this response.</p>
+<p>You might ( == <em>should</em>) be wondering how the other routes get precedence over this ‘any’ route. When we go to ‘mysite.com/‘, for example, how does it know to trigger the <code>index.html</code> route instead? Well, remember that JavaScript is single-threaded, and so things happen, generally, in a sequence. Since the ‘/‘ route comes <em>first</em>, it gets precedence. </p>
+<p>Now, go ahead and try to start your server. Type <code>npm start</code> in your terminal and press enter. You should see:</p>
+<pre><code>&gt;nodemon app.js
+[nodemon] 1.11.0
+[nodemon] watching: *.*
+[nodemon] starting `node app.js`, enter `rs`
+[nodemon] clean exit - waiting for changes before restart
+</code></pre><p>Well, it didn’t <em>break</em>, but clearly we’re missing something. That’s because while we’ve <code>require()</code>d the <code>http</code> module, we’ve yet to actually <em>use</em> it. Let’s do that now by passing our app into the <code>http.Server()</code> method. At the bottom of your <code>app.js</code> file, write <code>var server = http.Server(app);</code>. </p>
+<p>Still not working. We need one more line, so go ahead and tell your server to start listening. Write: <code>server.listen(process.env.PORT || 8080);</code></p>
+<p>And that’s it! Go to ‘localhost.com:8080’ in your browser, and see that your server now works! Try a bunch of routes, including the ones we implemented before. </p>
+<p>If you’re wondering, the parameter passed to the <code>.listen()</code> method basically says “Check our runtime environment for a port to run on, and if one exists, use it. Otherwise, use port 8080”. This is important to include (rather than simply doing <code>server.listen(8080)</code>) as certain webhosts like <a href="https://herokuapp.com" target="_blank" rel="external">Heroku</a> want to specify their <em>own</em> ports (and will actually <em>crash</em> if you try to specify one for them!). This just saves some headache later.</p>
+<h2 id="Further-Exploration"><a href="#Further-Exploration" class="headerlink" title="Further Exploration"></a>Further Exploration</h2><h3 id="Adding-More"><a href="#Adding-More" class="headerlink" title="Adding More"></a>Adding More</h3><p>Adding more stuff is simply a matter of adding more routes. Let’s try using some dynamic routes. Add the following to your ‘./routes/index.js’, before the wildcard (‘*’) route:</p>
+<pre><code>router.get(&apos;/sayHi/:myName&apos;,function(req,res,next){
+    res.send(&apos;Hello,&apos;+req.params.myName+&apos;! How are you today?&apos;)
+});
+</code></pre><p>Go to ‘localhost.com:8080/sayHi/Frodo’, and you’ll see it responds ‘Hello, Frodo! How are you today?’. GET parameters in Express are signified by a <code>:</code>. In this case, we’re sending along the property <code>myName</code>. </p>
+<p>You can also send POST requests in a similar way. Assuming the route you send your post request to is ‘localhost.com:8080/sendInfo’, your route might look something like this:</p>
+<pre><code>router.post(&apos;/sendInfo&apos;,function(req,res,next){
+    //assume that the post object you sent has a &apos;name&apos; property and an &apos;age&apos; property.
+    if(req.body.age &gt; 18){
+        res.send(&apos;Hi &apos;+req.body.name+&apos;. You are an adult!&apos;)
+    }else{
+        res.send(&apos;Hi &apos;+req.body.name+&apos;. You are NOT an adult!&apos;)
+    }
+});
+</code></pre><h3 id="Front-End-Files"><a href="#Front-End-Files" class="headerlink" title="Front-End Files"></a>Front-End Files</h3><p>One thing you may be wondering is where to put front-end JavaScript and CSS files. We’ve already discussed that HTML goes in the ‘./views’ folder, but what about making your website prettier (or more dynamic!)? Well, take a look back at the line in your ‘app.js’ that says <code>app.use(express.static(path.join(__dirname, &#39;public&#39;)));</code>. Basically, that tells us to make the ‘./public’ folder available to the front end. </p>
+<p>Go ahead and create that folder, and stick a file called ‘main.js’ in it. Then, in your ‘index.html’, insert the line <code>&lt;script src=&quot;./main.js&quot;&gt;&lt;/script&gt;</code> near the bottom. Note that since the ‘./public’ folder’s <em>contents</em> are now part of our front-end, we <em>don’t</em> need to include that as part of the path here: <code>&lt;script src=&quot;./public/main.js&quot;&gt;&lt;/script&gt;</code> would be <em>wrong</em>.</p>
+<p>Finally, let’s actually put a script in their. For now, we’ll just tell our user when the page was loaded. In that ‘main.js’ file you just made, write <code>document.body.append(&#39;This file was loaded at: &#39;+ new Date());</code>. Reload the page (‘localhost.com:8080/‘), and you should notice it says when the page was loaded!</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>That’s it! Keep experimenting with routes, and have fun!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/11/Beginning-Node/" data-id="cj1fawd6c0000hsv27vjtnt1x" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/12/CSS-3d/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSS in 3d</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/11/Beginning-Node/">Simple Server in Node and Express</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/12/CSS-3d/">CSS in 3d</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/10/Exploring-JavaScript-Functions/">Exploring JavaScript Functions</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/Science-1/">Mad Science</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 David Newman<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
