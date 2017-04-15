@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/11/Beginning-Node/index.html">
 <meta property="og:site_name" content="Dave's Thoughts">
 <meta property="og:description" content="What This IsThe following is a brief explanation of how to set up (and run!) a server using NodeJS (from now on, called Node) and Node’s express module. You’ll learn how to install Node, as well as ho">
-<meta property="og:updated_time" content="2017-04-12T21:43:28.669Z">
+<meta property="og:updated_time" content="2017-04-15T23:57:09.045Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Simple Server in Node and Express">
 <meta name="twitter:description" content="What This IsThe following is a brief explanation of how to set up (and run!) a server using NodeJS (from now on, called Node) and Node’s express module. You’ll learn how to install Node, as well as ho">
@@ -219,7 +219,7 @@ const dog = {
 module.exports=router;
 </code></pre><p>Let’s take a look at what we just wrote. Firstly, we’re requiring <code>Express</code> again. Next, we access <code>Express</code>‘s <code>Router()</code> method, which allows us to construct routes. Routes tell a server how to respond when it receives a particular URL. I’ll talk about this more in the next section.<br>Finally, we tell Node that, if any external modules request access to this file, we’re gonna wanna let them have access to the <code>router</code> object. Note that, for example, the ‘dog’ object is <em>not</em> exported: if I <code>require()</code>d this module, I would <em>not</em> have access to the dog object!</p>
 <p>Now that we’ve got our app’s routes file set up, let’s actually put some routes in!</p>
-<p>##Routes: Where do We Go From Here?<br>As I’ve mentioned, routes basically tell our server how to respond when a particular URL is requested. It’s important to note that they do not just tell the server where to go; they tell it how to <em>answer</em>. This is essential to remember since the response may occasionally not be a file. For example, I might have a particular route at ‘mySite.com/serverTime’ that simply asks the Node process to tell me the current system time on the server.</p>
+<h2 id="Routes-Where-do-We-Go-From-Here"><a href="#Routes-Where-do-We-Go-From-Here" class="headerlink" title="Routes: Where do We Go From Here?"></a>Routes: Where do We Go From Here?</h2><p>As I’ve mentioned, routes basically tell our server how to respond when a particular URL is requested. It’s important to note that they do not just tell the server where to go; they tell it how to <em>answer</em>. This is essential to remember since the response may occasionally not be a file. For example, I might have a particular route at ‘mySite.com/serverTime’ that simply asks the Node process to tell me the current system time on the server.</p>
 <p>With that clarification out of the way, let’s get to routing! Remove the line in your ‘./routes/index.js’ file that says <code>//Routes will go on this line</code>, and replace it with the following:</p>
 <pre><code>router.get(&apos;/&apos;,function(req,res,next){
     res.sendFile(&apos;index.html&apos;,{&quot;root&quot;:&apos;./views&apos;});
@@ -288,7 +288,7 @@ router.get(&apos;*&apos;,function(req,res,next){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/11/Beginning-Node/" data-id="cj1fawd6c0000hsv27vjtnt1x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/04/11/Beginning-Node/" data-id="cj1jx9ov10002bsv25nrml3d9" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2017/04/11/Beginning-Node/#disqus_thread" class="article-comment-link">Comments</a>
       
