@@ -179,9 +179,9 @@ d63a 9dd9 b68a d798 2175 2d52 cc4d 7029
 <p>Next, let’s install some actually helpful packages. Start with <code>Express</code>, which is what we’ll use to write our routes. Remember, that’s <code>npm install express --save</code>. We’re also gonna want <code>nodemon</code>, which allows us to write a server that restarts whenever one of its files changes, and <code>body-parser</code>, which makes sure we can parse objects within POST requests. Got all those? Great. As a final step, go into your package.json file, and find the <code>scripts</code> object. Add the property <code>&quot;start&quot;</code>, and give it the property of <code>&quot;nodemon app.js&quot;</code>.</p>
 <p>Next, we’ll talk about including modules within other modules: requiring!</p>
 <h2 id="What-Dost-Thou-Require-require"><a href="#What-Dost-Thou-Require-require" class="headerlink" title="What Dost Thou Require? require()"></a>What Dost Thou Require? <code>require()</code></h2><p>One of the great things about Node is the ability to include one file inside another by simply <code>require()</code>ing that included file. Those of you coming from other languages like C, Python, or Java might be familiar with this with things like Python’s <code>Import</code>. Those of you who are <em>not</em> coming from other languages can think of this like buying a brownie mix from the store and adding your own stuff, rather than making everthing from scratch. You’re <code>require()</code>ing the brownie mix, which means you don’t have to ‘code’ that part yourself.<br>For starters, make a new file in your ‘myServer’ folder called ‘app.js’. Open that file in your favorite code editor. For starters, we’re gonna include the <code>Express</code> module:</p>
-<pre><code>var express = require(&apos;express&apos;);
+<pre><code>const express = require(&apos;express&apos;);
 </code></pre><p>Again, that says “find the module named ‘express’, and include it”. Now we can use whatever functions and code Express has. Let’s add some more lines:</p>
-<pre><code>var http = require(&apos;http&apos;),
+<pre><code>const http = require(&apos;http&apos;),
     app = express(),
     routes = require(&apos;./routes&apos;),
     path = require(&apos;path&apos;),
@@ -207,9 +207,9 @@ app.use(express.static(path.join(__dirname, &apos;views&apos;)));
 //Finally, let&apos;s tell node to include that `routes` folder. 
 app.use(&apos;/&apos;, routes);
 </code></pre><p>And let’s go ahead and put some stuff in that <code>index.js</code> file inside your <code>routes</code> folder: </p>
-<pre><code>var express = require(&apos;express&apos;);
-var router = express.Router();
-var dog = {
+<pre><code>const express = require(&apos;express&apos;);
+const router = express.Router();
+const dog = {
     breed:&apos;Tyrannosaur&apos;,
     name:&apos;Fido&apos;
 };
@@ -222,7 +222,7 @@ module.exports=router;
 <pre><code>router.get(&apos;/&apos;,function(req,res,next){
     res.sendFile(&apos;index.html&apos;,{&quot;root&quot;:&apos;./views&apos;});
 });
-</code></pre><p>Let’s break this down. Firstly, it’s method on the router object we brought in via <code>var router = express.Router()</code>. It’s an HTTP GET method, which <em>usually</em> means it’s designed to, well, <em>get</em> information from the server while not giving a huge amount. Those of you familiar with the CRUD (Create, Read, Update, Delete) methodology of databases may note that this usually means it fits the ‘Read’ portion of that acronym. Next, we have the parameters that are sent to the <code>.get()</code> method. The first is the URL that we want this route to respond to. In this case, it’s just the root route; it’ll be activated when we go to ‘mysite.com’ without any other…stuff.</p>
+</code></pre><p>Let’s break this down. Firstly, it’s method on the router object we brought in via <code>const router = express.Router()</code>. It’s an HTTP GET method, which <em>usually</em> means it’s designed to, well, <em>get</em> information from the server while not giving a huge amount. Those of you familiar with the CRUD (Create, Read, Update, Delete) methodology of databases may note that this usually means it fits the ‘Read’ portion of that acronym. Next, we have the parameters that are sent to the <code>.get()</code> method. The first is the URL that we want this route to respond to. In this case, it’s just the root route; it’ll be activated when we go to ‘mysite.com’ without any other…stuff.</p>
 <p>Finally, there’s the callback. Router callbacks in <code>Express</code> <em>always</em> have the same format:</p>
 <ul>
 <li>It’s a callback function, so the entire thing’s a function. That means the usual <code>function()</code> and <code>{}</code>.</li>
@@ -260,7 +260,7 @@ router.get(&apos;*&apos;,function(req,res,next){
 [nodemon] watching: *.*
 [nodemon] starting `node app.js`, enter `rs`
 [nodemon] clean exit - waiting for changes before restart
-</code></pre><p>Well, it didn’t <em>break</em>, but clearly we’re missing something. That’s because while we’ve <code>require()</code>d the <code>http</code> module, we’ve yet to actually <em>use</em> it. Let’s do that now by passing our app into the <code>http.Server()</code> method. At the bottom of your <code>app.js</code> file, write <code>var server = http.Server(app);</code>. </p>
+</code></pre><p>Well, it didn’t <em>break</em>, but clearly we’re missing something. That’s because while we’ve <code>require()</code>d the <code>http</code> module, we’ve yet to actually <em>use</em> it. Let’s do that now by passing our app into the <code>http.Server()</code> method. At the bottom of your <code>app.js</code> file, write <code>const server = http.Server(app);</code>. </p>
 <p>Still not working. We need one more line, so go ahead and tell your server to start listening. Write: <code>server.listen(process.env.PORT || 8080);</code></p>
 <p>And that’s it! Go to ‘localhost.com:8080’ in your browser, and see that your server now works! Try a bunch of routes, including the ones we implemented before. </p>
 <p>If you’re wondering, the parameter passed to the <code>.listen()</code> method basically says “Check our runtime environment for a port to run on, and if one exists, use it. Otherwise, use port 8080”. This is important to include (rather than simply doing <code>server.listen(8080)</code>) as certain webhosts like <a href="https://herokuapp.com" target="_blank" rel="external">Heroku</a> want to specify their <em>own</em> ports (and will actually <em>crash</em> if you try to specify one for them!). This just saves some headache later.</p>
@@ -287,6 +287,8 @@ router.get(&apos;*&apos;,function(req,res,next){
     </div>
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2017/04/11/Beginning-Node/" data-id="cj1fawd6c0000hsv27vjtnt1x" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2017/04/11/Beginning-Node/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -482,6 +484,8 @@ router.get(&apos;*&apos;,function(req,res,next){
     </div>
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2017/03/12/CSS-3d/" data-id="cj1fav0fd0004jov2qxkw5rpq" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2017/03/12/CSS-3d/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -732,6 +736,8 @@ var doIt = function(...fine){
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj1fav0ep0001jov2s430iin2" class="article-share-link">Share</a>
       
+        <a href="http://yoursite.com/2017/03/10/Exploring-JavaScript-Functions/#disqus_thread" class="article-comment-link">Comments</a>
+      
       
     </footer>
   </div>
@@ -855,6 +861,8 @@ var doIt = function(...fine){
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2017/01/02/Science-1/" data-id="cj1fav0f50003jov2bd9u79la" class="article-share-link">Share</a>
       
+        <a href="http://yoursite.com/2017/01/02/Science-1/#disqus_thread" class="article-comment-link">Comments</a>
+      
       
     </footer>
   </div>
@@ -933,6 +941,8 @@ var doIt = function(...fine){
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2016/11/13/teaching-and-programming/" data-id="cj1fav0f10002jov298vphkxj" class="article-share-link">Share</a>
       
+        <a href="http://yoursite.com/2016/11/13/teaching-and-programming/#disqus_thread" class="article-comment-link">Comments</a>
+      
       
     </footer>
   </div>
@@ -974,6 +984,8 @@ var doIt = function(...fine){
     </div>
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2014/12/05/Code/" data-id="cj1fav0e40000jov2ufqdoieb" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2014/12/05/Code/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -1058,6 +1070,18 @@ var doIt = function(...fine){
   
 </nav>
     
+<script>
+  var disqus_shortname = 'newms34-github-io';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
