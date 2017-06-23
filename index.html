@@ -65,6 +65,73 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-brains" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/23/brains/" class="article-date">
+  <time datetime="2017-06-23T22:37:09.000Z" itemprop="datePublished">2017-06-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/23/brains/">Neural Networks and Unguided Machine Learning</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Lately, I’ve been taking another look at my <a href="davebrain.herokuapp.com">davebrain app</a>, which is a simplified neural network. In the following post, I’ll talk first about the changes I’ve made to it since my last post and some challenges faced when building this kind of simulation. Secondly, I’ll talk about some interesting observations regarding the network’s behavior.</p>
+<h2 id="Building-a-Better-Brain-Part-1-Speed"><a href="#Building-a-Better-Brain-Part-1-Speed" class="headerlink" title="Building a Better Brain Part 1: Speed"></a>Building a Better Brain Part 1: Speed</h2><p>One of the challenges in building a randomly-generated neural network with a potentially limitless number of neurons is, of course, optimization. After all, if each brain ‘cycle’ has 500+ neurons, with each neuron connected to 250 other neurons, we’re gonna need to focus pretty heavily on optimization if we want any generations to pass (and thus any learning to happen). The original setup used CSS, <code>ng-repeat</code>s, and <code>&lt;div&gt;</code>s to actually draw the neurons. This looked pretty cool, and allowed us to do some neat things with 3D CSS, but man, was it slow! Instead, I’ve replaced this with HTML5 <code>&lt;canvas&gt;</code>, which allows a much faster drawing speed.</p>
+<p>In addition, I’ve decided to fully remove the 3d-mode. The minor interesting graphical improvement this afforded (a 3D ‘brain’) was vastly offset by the huge detriment to performance.  </p>
+<p>These two changes serve to generally improve the speed of the app such that, at maximum speed, we can actually begin to see some emergent behavior now. </p>
+<p>The other major changes made to the network are in the form of the actual behavior of the network itself, and are, in my opinion, more interesting.</p>
+<h2 id="Building-a-Better-Brain-Part-2-Sensing-and-Learning"><a href="#Building-a-Better-Brain-Part-2-Sensing-and-Learning" class="headerlink" title="Building a Better Brain Part 2: Sensing and Learning"></a>Building a Better Brain Part 2: Sensing and Learning</h2><p>The original goal of this project was to create a network that could learn given very minimal ‘rules’. The network then controls an ‘organism’ that attempts to seek out a prey item (and ‘consume’ it). While we could pretty easily directly program the organism to hunt down and find the organism directly, that would negate the purpose of the neural network (and thus the entire app). Instead, we need to determine simple rules that, in the lingo of evolutionary biology, act as both positive and negative environmental pressure to our organism^ . These are as follows, including both ‘reset’ scenarios as well as sensing and learning:</p>
+<ul>
+<li><strong>Hyperactivity (Seizure):</strong> If 90% or more of the neurons are ‘active’ (firing), then the organism’s brain has essentially experienced a lethal seizure. The organism is reset.</li>
+<li><strong>Hypoactivity (Brain Death):</strong> If no neurons are firing, the organism is essentially experiencing brain death. Again, the organism is reset.</li>
+<li><strong>Successful Hunt:</strong> If the organism ‘catches’ the prey (measured as the location of the prey and organism being within a certain threshold), then obviously it’s been successful. It’s reset, but a bonus is added to its ‘score’.</li>
+<li><strong>Energy Usage (Starvation):</strong> Finally, each neuron that fires uses up a certain percentage of a total energy amount. This is akin to metabolic energy that is used and must be replenished before an organism dies of starvation/exhaustion. If this energy is used up, then the organism resets.</li>
+<li><strong>Directional Tendency:</strong> As the organism moves, any movement <em>towards</em> the prey adds a point to the score. Any movement <em>away</em> from the prey subtracts a point. This is rule is actually the least ‘unguided’, as there <em>should</em> be nothing explicitly telling the organism that it needs to head towards the prey. I may remove this later.</li>
+<li><strong>Range Finding:</strong> In the original design, each ‘eyespot’ of the organism housed (or rather, was the geometric center of) one distance sensor that sensed the distance to the prey item. In this updated, new design, each eyespot actually now houses <em>two</em> sensors, one long distance and one short distance. As with regular neurons, the output of these is either binary. In the case of the distance sensors, this binary state is a random var, with the likelihood of the sensor being on going up the closer the organism is. The addition of two extra sensors affords the organism a little more specificity in locating the prey.</li>
+<li><strong>Scoreboard:</strong> The score, as well as a rolling average, is now graphed on a scoreboard so that you can more easily see the improvement (or lack of improvement!) over time.</li>
+<li><p><strong>Learning (Path Adjustment):</strong> Once a generation is complete - whether it’s successful or not - the network needs to be changed based on the score of that generation. This is done in a way that mimics biological learning: successful paths (measured as a score <em>higher</em> than the previous rolling average) are strengthened, while unsuccessful paths are weakened. The exact mathematical method of strengthening and weakening the paths depends on user choice:</p>
+<ul>
+<li>If the user sets the Path Change Method to Multiplicative, the strength of successful paths is multiplied by 1.2 if successful, and 0.8 if unsuccessful.</li>
+<li>If the user sets the Path Change Method to Additive, 0.02 is added to the path if successful, and 0.02 is subtracted if unsuccessful.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Building-a-Better-Brain-Part-3-Observations"><a href="#Building-a-Better-Brain-Part-3-Observations" class="headerlink" title="Building a Better Brain Part 3: Observations"></a>Building a Better Brain Part 3: Observations</h2><ul>
+<li>The first, and most prevalent observation about this simulation is that it’s <em>slow</em>. Even if I do everything to optimize it, remember that this is a combination of evolution <em>and</em> learning simulator, and it tends to make mistakes just as often as it makes correct choices. In many cases, it needs to be run for a least a few hours before it shows any significant improvement.</li>
+<li>In line with above, remember that this is a JavaScript app, and as with a lot of front-end stuff, will stop running when the tab it’s in is not focused. So run it on a machine you’re not using!</li>
+<li>Interestingly, the overall pattern of scores tends to be sinusoidal. That is, a relatively successful generation is almost always followed by a relatively <em>un</em>successful generation. This makes sense in the context of how the network learns. </li>
+<li>For the (relatively simple) behavior that the organism needs to learn, a huge number of neurons doesn’t <em>actually</em> really improve it that much. This makes sense, as <em>C. elegans</em> has only 302 neurons at around an 8% connect rate (that is, each neuron is on average connected to around 8% of its fellow neurons).</li>
+</ul>
+<hr>
+<p><small><br>^I’ll note here that this simulation actually acts both as a <em>learning</em> simulator - that is, the organism tries to learn how to figure out how to achieve its goal - and as an <em>evolution</em> simulator, whereby the organism changes during each generation depending on the previous generation’s performance and an element of random mutation.<br></small></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://newms34.github.io/2017/06/23/brains/" data-id="cj4afwtis0002qkv2jl8cfc8a" class="article-share-link">Share</a>
+      
+        <a href="https://newms34.github.io/2017/06/23/brains/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Beginning-Node" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/04/11/Beginning-Node/" class="article-date">
@@ -286,7 +353,7 @@ router.get(&apos;*&apos;,function(req,res,next){
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://newms34.github.io/2017/04/11/Beginning-Node/" data-id="cj1jx9ov10002bsv25nrml3d9" class="article-share-link">Share</a>
+      <a data-url="https://newms34.github.io/2017/04/11/Beginning-Node/" data-id="cj4afwtiq0001qkv2io3ajwrp" class="article-share-link">Share</a>
       
         <a href="https://newms34.github.io/2017/04/11/Beginning-Node/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -483,7 +550,7 @@ router.get(&apos;*&apos;,function(req,res,next){
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://newms34.github.io/2017/03/12/CSS-3d/" data-id="cj1jx9out0000bsv2uowhssxp" class="article-share-link">Share</a>
+      <a data-url="https://newms34.github.io/2017/03/12/CSS-3d/" data-id="cj4afwtjh0006qkv226u9b53z" class="article-share-link">Share</a>
       
         <a href="https://newms34.github.io/2017/03/12/CSS-3d/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -734,7 +801,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://newms34.github.io/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj1jx9ov20003bsv2e73j7tmw" class="article-share-link">Share</a>
+      <a data-url="https://newms34.github.io/2017/03/10/Exploring-JavaScript-Functions/" data-id="cj4afwtiz0004qkv20su51jgq" class="article-share-link">Share</a>
       
         <a href="https://newms34.github.io/2017/03/10/Exploring-JavaScript-Functions/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -803,7 +870,7 @@ var doIt = function(...fine){
 </ul>
 <p>Over time, these relatively simple rules produce a learned behavior. Interestingly, the more nodes you have the better (as would be expected).</p>
 <hr>
-<h2 id="Lunar-Lander-Evolution"><a href="#Lunar-Lander-Evolution" class="headerlink" title="Lunar Lander Evolution"></a>Lunar Lander Evolution</h2><p><a href="https://newms34.github.io/Lunar-Lander-Evolution-Sim/" target="_blank" rel="external">Link</a></p>
+<h2 id="Lunar-Lander-Evolution"><a href="#Lunar-Lander-Evolution" class="headerlink" title="Lunar Lander Evolution"></a>Lunar Lander Evolution</h2><p><a href="https://newms34.github.io/Lunar-Lander-Evolution-Sim/">Link</a></p>
 <p><em>Note: The title of the above page refers to this as a neural network. It’s not!</em></p>
 <p>One interesting biological simulation that can be done with code is that of simulated evolution. By giving some sort of ‘survival’ conditions, and a pseudo-randomly mutating spaceship with its own genome, we can produce some basic evolutionary trends.<br>In this example, I’ve created something similar to those ubiquitous lunar lander games that you (used to?) see everywhere: you land on some object with your little spacecraft. This time, however, you have absolutely no control over the spacecraft. Instead, two spacecrafts are generated, each with its own assortment of thrusters, each of which in turn has its own start time, end time, angle, and power settings.<br>Each generation, two spacecraft exist. Except for the initial condition, one of these is an older, ‘parent’ spacecraft, and the other is a mutation off of that parent. The spaceships again have the goal of reaching the target object (the ‘moon’), but this time control is given by an artificial genome that controls the number and stats of each engine.<br>After each generation is complete - i.e., after either one spaceship has landed, one has left the play area, or one has sat with no engines firing for more than 20 seconds - the scores of both spaceships is determined as, again, a combination of distance and time taken. The spaceship with the better score is kept, and the worse-scoring spaceship is discarded. The better spaceship is then duplicated, with a very small chance of mutations. This repeats until the user gets sick of staring at a bunch of circles moving around.<br>Some interesting observations about the behavior of this system:</p>
 <ul>
@@ -859,7 +926,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://newms34.github.io/2017/01/02/Science-1/" data-id="cj1jx9ov60005bsv2vnrkpmp7" class="article-share-link">Share</a>
+      <a data-url="https://newms34.github.io/2017/01/02/Science-1/" data-id="cj4afwtiy0003qkv2edpioxyy" class="article-share-link">Share</a>
       
         <a href="https://newms34.github.io/2017/01/02/Science-1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -939,7 +1006,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://newms34.github.io/2016/11/13/teaching-and-programming/" data-id="cj1jx9ov40004bsv257xi4wsd" class="article-share-link">Share</a>
+      <a data-url="https://newms34.github.io/2016/11/13/teaching-and-programming/" data-id="cj4afwtj10005qkv26jo0fnyu" class="article-share-link">Share</a>
       
         <a href="https://newms34.github.io/2016/11/13/teaching-and-programming/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -983,7 +1050,7 @@ var doIt = function(...fine){
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://newms34.github.io/2014/12/05/Code/" data-id="cj1jx9ouy0001bsv224pxfezu" class="article-share-link">Share</a>
+      <a data-url="https://newms34.github.io/2014/12/05/Code/" data-id="cj4afwtim0000qkv2ovnwwc9m" class="article-share-link">Share</a>
       
         <a href="https://newms34.github.io/2014/12/05/Code/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1012,7 +1079,7 @@ var doIt = function(...fine){
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
     </div>
   </div>
 
@@ -1023,6 +1090,10 @@ var doIt = function(...fine){
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/06/23/brains/">Neural Networks and Unguided Machine Learning</a>
+          </li>
         
           <li>
             <a href="/2017/04/11/Beginning-Node/">Simple Server in Node and Express</a>
@@ -1038,10 +1109,6 @@ var doIt = function(...fine){
         
           <li>
             <a href="/2017/01/02/Science-1/">Mad Science</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/13/teaching-and-programming/">Teaching and Programming</a>
           </li>
         
       </ul>

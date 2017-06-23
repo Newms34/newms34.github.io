@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Neural Networks and Unguided Machine Learning | Dave&#39;s Thoughts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Lately, I’ve been taking another look at my davebrain app, which is a simplified neural network. In the following post, I’ll talk first about the changes I’ve made to it since my last post and some ch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural Networks and Unguided Machine Learning">
+<meta property="og:url" content="https://newms34.github.io/2017/06/23/brains/index.html">
+<meta property="og:site_name" content="Dave's Thoughts">
+<meta property="og:description" content="Lately, I’ve been taking another look at my davebrain app, which is a simplified neural network. In the following post, I’ll talk first about the changes I’ve made to it since my last post and some ch">
+<meta property="og:updated_time" content="2017-06-23T22:41:40.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural Networks and Unguided Machine Learning">
+<meta name="twitter:description" content="Lately, I’ve been taking another look at my davebrain app, which is a simplified neural network. In the following post, I’ll talk first about the changes I’ve made to it since my last post and some ch">
+  
+    <link rel="alternate" href="/atom.xml" title="Dave&#39;s Thoughts" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dave&#39;s Thoughts</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Musings of a developer, educator, and science enthusiast</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://newms34.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-brains" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/23/brains/" class="article-date">
+  <time datetime="2017-06-23T22:37:09.000Z" itemprop="datePublished">2017-06-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Neural Networks and Unguided Machine Learning
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Lately, I’ve been taking another look at my <a href="davebrain.herokuapp.com">davebrain app</a>, which is a simplified neural network. In the following post, I’ll talk first about the changes I’ve made to it since my last post and some challenges faced when building this kind of simulation. Secondly, I’ll talk about some interesting observations regarding the network’s behavior.</p>
+<h2 id="Building-a-Better-Brain-Part-1-Speed"><a href="#Building-a-Better-Brain-Part-1-Speed" class="headerlink" title="Building a Better Brain Part 1: Speed"></a>Building a Better Brain Part 1: Speed</h2><p>One of the challenges in building a randomly-generated neural network with a potentially limitless number of neurons is, of course, optimization. After all, if each brain ‘cycle’ has 500+ neurons, with each neuron connected to 250 other neurons, we’re gonna need to focus pretty heavily on optimization if we want any generations to pass (and thus any learning to happen). The original setup used CSS, <code>ng-repeat</code>s, and <code>&lt;div&gt;</code>s to actually draw the neurons. This looked pretty cool, and allowed us to do some neat things with 3D CSS, but man, was it slow! Instead, I’ve replaced this with HTML5 <code>&lt;canvas&gt;</code>, which allows a much faster drawing speed.</p>
+<p>In addition, I’ve decided to fully remove the 3d-mode. The minor interesting graphical improvement this afforded (a 3D ‘brain’) was vastly offset by the huge detriment to performance.  </p>
+<p>These two changes serve to generally improve the speed of the app such that, at maximum speed, we can actually begin to see some emergent behavior now. </p>
+<p>The other major changes made to the network are in the form of the actual behavior of the network itself, and are, in my opinion, more interesting.</p>
+<h2 id="Building-a-Better-Brain-Part-2-Sensing-and-Learning"><a href="#Building-a-Better-Brain-Part-2-Sensing-and-Learning" class="headerlink" title="Building a Better Brain Part 2: Sensing and Learning"></a>Building a Better Brain Part 2: Sensing and Learning</h2><p>The original goal of this project was to create a network that could learn given very minimal ‘rules’. The network then controls an ‘organism’ that attempts to seek out a prey item (and ‘consume’ it). While we could pretty easily directly program the organism to hunt down and find the organism directly, that would negate the purpose of the neural network (and thus the entire app). Instead, we need to determine simple rules that, in the lingo of evolutionary biology, act as both positive and negative environmental pressure to our organism^ . These are as follows, including both ‘reset’ scenarios as well as sensing and learning:</p>
+<ul>
+<li><strong>Hyperactivity (Seizure):</strong> If 90% or more of the neurons are ‘active’ (firing), then the organism’s brain has essentially experienced a lethal seizure. The organism is reset.</li>
+<li><strong>Hypoactivity (Brain Death):</strong> If no neurons are firing, the organism is essentially experiencing brain death. Again, the organism is reset.</li>
+<li><strong>Successful Hunt:</strong> If the organism ‘catches’ the prey (measured as the location of the prey and organism being within a certain threshold), then obviously it’s been successful. It’s reset, but a bonus is added to its ‘score’.</li>
+<li><strong>Energy Usage (Starvation):</strong> Finally, each neuron that fires uses up a certain percentage of a total energy amount. This is akin to metabolic energy that is used and must be replenished before an organism dies of starvation/exhaustion. If this energy is used up, then the organism resets.</li>
+<li><strong>Directional Tendency:</strong> As the organism moves, any movement <em>towards</em> the prey adds a point to the score. Any movement <em>away</em> from the prey subtracts a point. This is rule is actually the least ‘unguided’, as there <em>should</em> be nothing explicitly telling the organism that it needs to head towards the prey. I may remove this later.</li>
+<li><strong>Range Finding:</strong> In the original design, each ‘eyespot’ of the organism housed (or rather, was the geometric center of) one distance sensor that sensed the distance to the prey item. In this updated, new design, each eyespot actually now houses <em>two</em> sensors, one long distance and one short distance. As with regular neurons, the output of these is either binary. In the case of the distance sensors, this binary state is a random var, with the likelihood of the sensor being on going up the closer the organism is. The addition of two extra sensors affords the organism a little more specificity in locating the prey.</li>
+<li><strong>Scoreboard:</strong> The score, as well as a rolling average, is now graphed on a scoreboard so that you can more easily see the improvement (or lack of improvement!) over time.</li>
+<li><p><strong>Learning (Path Adjustment):</strong> Once a generation is complete - whether it’s successful or not - the network needs to be changed based on the score of that generation. This is done in a way that mimics biological learning: successful paths (measured as a score <em>higher</em> than the previous rolling average) are strengthened, while unsuccessful paths are weakened. The exact mathematical method of strengthening and weakening the paths depends on user choice:</p>
+<ul>
+<li>If the user sets the Path Change Method to Multiplicative, the strength of successful paths is multiplied by 1.2 if successful, and 0.8 if unsuccessful.</li>
+<li>If the user sets the Path Change Method to Additive, 0.02 is added to the path if successful, and 0.02 is subtracted if unsuccessful.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Building-a-Better-Brain-Part-3-Observations"><a href="#Building-a-Better-Brain-Part-3-Observations" class="headerlink" title="Building a Better Brain Part 3: Observations"></a>Building a Better Brain Part 3: Observations</h2><ul>
+<li>The first, and most prevalent observation about this simulation is that it’s <em>slow</em>. Even if I do everything to optimize it, remember that this is a combination of evolution <em>and</em> learning simulator, and it tends to make mistakes just as often as it makes correct choices. In many cases, it needs to be run for a least a few hours before it shows any significant improvement.</li>
+<li>In line with above, remember that this is a JavaScript app, and as with a lot of front-end stuff, will stop running when the tab it’s in is not focused. So run it on a machine you’re not using!</li>
+<li>Interestingly, the overall pattern of scores tends to be sinusoidal. That is, a relatively successful generation is almost always followed by a relatively <em>un</em>successful generation. This makes sense in the context of how the network learns. </li>
+<li>For the (relatively simple) behavior that the organism needs to learn, a huge number of neurons doesn’t <em>actually</em> really improve it that much. This makes sense, as <em>C. elegans</em> has only 302 neurons at around an 8% connect rate (that is, each neuron is on average connected to around 8% of its fellow neurons).</li>
+</ul>
+<hr>
+<p><small><br>^I’ll note here that this simulation actually acts both as a <em>learning</em> simulator - that is, the organism tries to learn how to figure out how to achieve its goal - and as an <em>evolution</em> simulator, whereby the organism changes during each generation depending on the previous generation’s performance and an element of random mutation.<br></small></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://newms34.github.io/2017/06/23/brains/" data-id="cj4afwtis0002qkv2jl8cfc8a" class="article-share-link">Share</a>
+      
+        <a href="https://newms34.github.io/2017/06/23/brains/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/04/11/Beginning-Node/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Simple Server in Node and Express</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/06/23/brains/">Neural Networks and Unguided Machine Learning</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/11/Beginning-Node/">Simple Server in Node and Express</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/12/CSS-3d/">CSS in 3d</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/10/Exploring-JavaScript-Functions/">Exploring JavaScript Functions</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/Science-1/">Mad Science</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 David Newman<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'newms34-github-io';
+  
+  var disqus_url = 'https://newms34.github.io/2017/06/23/brains/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
